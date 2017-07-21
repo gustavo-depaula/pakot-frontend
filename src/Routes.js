@@ -5,6 +5,8 @@ import App from './App/App';
 import MyComponent from './App/Components/MyComponent';
 import { IndexRoute, Router, Route, Link, browserHistory } from 'react-router';
 
+require('./stylesheets/main.scss');
+
 class Routes extends React.Component {
 
   render() {
