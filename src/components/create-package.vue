@@ -21,46 +21,52 @@
 				</div>
 			</div>
 		</div>
-		<!-- form -->
+		<!-- form space -->
 		<div id="form-container" class="columns is-clearfix">
 			<!-- mobile tile --> 
 			<div class="tile is-ancestor column is-hidden-tablet">
 				<div class="tile is-vertical">
 					<article class="tile is-child notification is-info">
-						<p class="title">Middle tsile</p>
-						<p class="subtitle">With an image</p>
+						<p class="title">Informações</p>
+						<p class="subtitle">Sobre peso e tamanho</p>
 					</article>
 				</div>
 			</div>
 			<div class="column is-half">
 				<div class="field">
 					<label class="label">Apelido da encomenda</label>
-					<div class="control">
-						<input class="input" type="text" placeholder="e.g. Presente para mamãe">
-					</div>
+					<p class="control has-icons-left">
+						<input class="input" type="text" placeholder="e.g Presente para mamãe">
+						<span class="icon is-small is-left">
+							<i class="fa fa-bookmark"></i>
+						</span>
+					</p>
 				</div>
 				<div class="field">
 					<label class="label">Descrição</label>
-					<div class="control">
-						<textarea class="textarea" placeholder="e.g Ursinho de pelúcia para o dia das mães"></textarea>
-					</div>
+					<p class="control has-icons-left">
+						<textarea class="textarea" type="text" placeholder="e.g Ursinho de pelúcia para o dia das mães"></textarea>
+					</p>
 				</div>
 				<div class="field">
 					<label class="label">Prioridade</label>
-					<div class="control">
-						<div class="select">
+					<p class="control has-icons-left">
+						<span class="select">
 							<select>
 								<option>Entregue hoje ainda</option>
 								<option>Entregue até às 12h de amanhã</option>
 								<option>Entregue nos próximos 5 dias úteis</option>
 							</select>
-						</div>
-					</div>
+						</span>
+						<span class="icon is-small is-left">
+							<i class="fa fa-calendar-o"></i>
+						</span>
+					</p>
 				</div>
 				<div class="field">
 					<label class="label">Tamanho</label>
-					<div class="control">
-						<div class="select">
+					<p class="control has-icons-left">
+						<span class="select">
 							<select>
 								<option>C</option>
 								<option>PP</option>
@@ -69,13 +75,16 @@
 								<option>G</option>
 								<option>GG</option>
 							</select>
-						</div>
-					</div>
+						</span>
+						<span class="icon is-small is-left">
+							<i class="fa fa-archive"></i>
+						</span>
+					</p>
 				</div>
 				<div class="field">
-					<label class="label">Tamanho</label>
-					<div class="control">
-						<div class="select">
+					<label class="label">Peso</label>
+					<p class="control has-icons-left">
+						<span class="select">
 							<select>
 								<option>C</option>
 								<option>XL</option>
@@ -84,16 +93,26 @@
 								<option>G</option>
 								<option>GG</option>
 							</select>
-						</div>
-					</div>
+						</span>
+						<span class="icon is-small is-left">
+							<i class="fa fa-balance-scale"></i>
+						</span>
+					</p>
 				</div>
+				<hr>
+				<btn class="button is-success is-large">
+					<span class="icon is-medium">
+						<i class="fa fa-truck"></i>
+					</span>
+					<span>Solicitar entrega</span>
+					</btn>
 			</div>
 			<!-- info tile -->
 			<div id="info-tile" class="tile is-ancestor is-pulled-right column is-5 is-hidden-mobile">
 				<div class="tile is-vertical">
 					<article class="tile is-child notification is-info">
-						<p class="title">Middle tsile</p>
-						<p class="subtitle">With an image</p>
+						<p class="title">Informações</p>
+						<p class="subtitle">Sobre peso e tamanho</p>
 						<figure class="image is-4by3">
 							<img src="http://bulma.io/images/placeholders/640x480.png">
 						</figure>
