@@ -1,11 +1,31 @@
 <!-- home page -->
 <template lang="html">
-  <div id="home">
-    Home content will go here
-  </div>
+	<div id="home">
+		<ul v-for="i in packages">
+			<li>{{i}}</li>
+		</ul>
+	</div>
 </template>
 <script>
+import axios from 'axios';
+
 export default {
-  name: 'Home'
+	name: 'Home',
+	data() {
+		return {
+			packages: []
+		}
+	},
+	methods: {
+		loadPackages() {
+			axios.get('https://pakot-backend.herokuapp.com/public/package/getopen')
+				.then(response => {
+					this.packages = response.data
+				})
+		}
+	},
+	mounted (){
+		this.loadPackages()
+	}
 }
 </script>
