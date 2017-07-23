@@ -10,16 +10,17 @@ Vue.config.productionTip = false
 
 /* eslint-disable no-new */
 new Vue({
-  template: `
-  <div class="columns is-marginless">
-    <Navbar />
-    <div class="column is-10 is-paddingless">
-        <router-view></router-view>
-    </div>
-  </div>
-  `,
-  router,
-  components: {
-    Navbar
-  }
+	template: `
+	<div class="columns is-marginless">
+		<Navbar />
+		<div class="column is-10 is-paddingless">
+			<router-view></router-view>
+		</div>
+	</div>
+	`,
+	router,
+	components: {
+		Navbar
+	},
+	
 }).$mount('#app')
