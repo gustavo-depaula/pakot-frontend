@@ -13,7 +13,7 @@ new Vue({
   template: `
   <div class="columns is-marginless">
     <Navbar />
-    <div class="column is-10-desktop">
+    <div class="column is-10 is-paddingless">
         <router-view></router-view>
     </div>
   </div>

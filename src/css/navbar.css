@@ -1,3 +1,4 @@
+/* Navbar */
 .navbar {
 	background-color: #232B2D;
 }
@@ -8,17 +9,10 @@
 	color: white;
 }
 
-
-
+/* Side Menu */
 .aside {
-	background-color: #232B2D;
+	background-color: #363636;
 	margin-top: 0;
-}
-.aside .uploader {
-	background-color: #2EB398;
-	height: 95px;
-	margin:0 -10px;
-	padding: 25px 30px;
 }
 .aside .uploader .button {
 	background-color: transparent;
@@ -39,7 +33,7 @@
 .aside .main .item {
 	display: block;
 	padding: 10px 0;
-	color: #6F7B7E;
+	color: #c2c2c2;
 }
 .aside .main .item.active {
 	color: #F6F7F7;

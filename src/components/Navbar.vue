@@ -1,7 +1,7 @@
 <template lang="html">
 	<div>
 		<!-- Navbar for mobile -->
-		<nav class="navbar is-hidden-desktop">
+		<nav class="navbar is-hidden-tablet">
 			<div class="navbar-brand">
 				<a href="" class="navbar-item">
 					<img src="../assets/logo.svg" alt="">
@@ -18,7 +18,7 @@
 		</nav>
 		<!-- Side Menu -->
 		<div class="">
-			<aside class=" aside hero is-fullheight is-hidden-touch">
+			<aside class=" aside hero is-fullheight is-hidden-mobile">
 				<div>
 					<div class="main">
 

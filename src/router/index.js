@@ -4,9 +4,11 @@ import Router from 'vue-router'
 Vue.use(Router)
 
 import Home from '@/components/Home'
+import CreatePackage from '@/components/create-package'
 
 const routes = [
-	{ path: '/', component: Home }
+	{ path: '/', component: Home },
+	{ path: '/create-package', component: CreatePackage }
 ]
 
 export default new Router({
