@@ -24,9 +24,9 @@
 
 						<div class="title"><img src="../assets/logo.svg" alt=""></div>
 						<hr />
-						<a href="#" class="item active"><span class="icon"><i class="fa fa-truck"></i></span><span class="name">Minhas Entregas</span></a>
-						<a href="#" class="item"><span class="icon"><i class="fa fa-th-list"></i></span><span class="name">TODO</span></a>
-						<a href="#" class="item"><span class="icon"><i class="fa fa-folder-o"></i></span><span class="name">TODO</span></a>
+						<router-link :to="'/packages'" class="item"><span class="icon"><i class="fa fa-truck"></i></span><span class="name">Minhas Entregas</span></router-link>
+						<router-link :to="'/create-package'" class="item"><span class="icon"><i class="fa fa-plus"></i></span><span class="name">Nova Entrega</span></router-link>
+						<router-link :to="'/another'" class="item"><span class="icon"><i class="fa fa-folder-o"></i></span><span class="name">TODO</span></router-link>
 					</div>
 				</div>
 			</aside>
@@ -43,9 +43,7 @@ export default {
 		}
 	},
 	methods: {
-		switch() {
-			this.isMenuVisible = !this.isMenuVisible
-		}
+
 	}
 }
 

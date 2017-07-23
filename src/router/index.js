@@ -7,12 +7,12 @@ import Home from '@/components/Home'
 import CreatePackage from '@/components/create-package'
 
 const routes = [
-	{ path: '/', component: Home },
+	{ path: '/packages', component: Home },
 	{ path: '/create-package', component: CreatePackage }
 ]
 
 export default new Router({
 	mode: 'history',
 	routes,
-	linkActiveClass: 'is-active'
+	linkActiveClass: 'active'
 })
