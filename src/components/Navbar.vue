@@ -13,7 +13,9 @@
 				</div>
 			</div>
 			<div v-bind:class="{ 'is-active': isMenuVisible }" class="navbar-menu" id="navMenu">
-				<a href="#" class="navbar-link has-text-centered"><span class="icon"><i class="fa fa-truck"></i></span><span class="name">&nbsp;Minhas Entregas</span></a>
+				<router-link :to="'/packages'" class="navbar-link has-text-centered"><span class="icon"><i class="fa fa-truck"></i></span><span class="name">&nbsp;Minhas Entregas</span></router-link>
+				<router-link :to="'/create-package'" class="navbar-link has-text-centered"><span class="icon"><i class="fa fa-plus"></i></span><span class="name">&nbsp;Nova Entrega</span></router-link>
+				<router-link :to="'/another'" class="navbar-link has-text-centered"><span class="icon"><i class="fa fa-folder-o"></i></span><span class="name">&nbsp;TODO</span></router-link>
 			</div>
 		</nav>
 		<!-- Side Menu -->

@@ -12,7 +12,9 @@ Vue.config.productionTip = false
 new Vue({
 	template: `
 	<div class="columns is-marginless">
-		<Navbar />
+		<div style="background-color: #363636;">
+			<Navbar />
+		</div>
 		<div class="column is-10 is-paddingless">
 			<router-view></router-view>
 		</div>
