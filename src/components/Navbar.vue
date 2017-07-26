@@ -15,7 +15,10 @@
 			<div v-bind:class="{ 'is-active': isMenuVisible }" class="navbar-menu" id="navMenu">
 				<router-link :to="'/packages'" class="navbar-link has-text-centered"><span class="icon"><i class="fa fa-truck"></i></span><span class="name">&nbsp;Minhas Entregas</span></router-link>
 				<router-link :to="'/create-package'" class="navbar-link has-text-centered"><span class="icon"><i class="fa fa-plus"></i></span><span class="name">&nbsp;Nova Entrega</span></router-link>
+				<router-link :to="'/profile'" class="navbar-link has-text-centered"><span class="icon"><i class="fa fa-user"></i></span><span class="name">&nbsp;Perfil</span></router-link>
 				<router-link :to="'/another'" class="navbar-link has-text-centered"><span class="icon"><i class="fa fa-folder-o"></i></span><span class="name">&nbsp;TODO</span></router-link>
+				<hr>
+				<button class="navbar-link has-text-centered"><span class="icon"><i class="fa fa-sign-out"><span class="name">Sair</span></i></span></button>
 			</div>
 		</nav>
 		<!-- Side Menu -->
@@ -28,14 +31,17 @@
 						<hr />
 						<router-link :to="'/packages'" class="item"><span class="icon"><i class="fa fa-truck"></i></span><span class="name">Minhas Entregas</span></router-link>
 						<router-link :to="'/create-package'" class="item"><span class="icon"><i class="fa fa-plus"></i></span><span class="name">Nova Entrega</span></router-link>
+						<router-link :to="'/profile'" class="item"><span class="icon"><i class="fa fa-user"></i></span><span class="name">Profile</span></router-link>
 						<router-link :to="'/another'" class="item"><span class="icon"><i class="fa fa-folder-o"></i></span><span class="name">TODO</span></router-link>
+						<hr>
+						<a @click="signOut" class="item"><span class="icon"><i class="fa fa-sign-out"></i></span><span class="name">Sair</span></a>
 					</div>
 				</div>
 			</aside>
 		</div>
 
 	</div>
-</template>
+</template>		
 <script>
 export default {
 	name: 'navbar',
@@ -45,7 +51,11 @@ export default {
 		}
 	},
 	methods: {
-
+		signOut (){
+			firebase.auth().signOut().then(() => {
+				location.reload()
+			})
+		}
 	}
 }
 
