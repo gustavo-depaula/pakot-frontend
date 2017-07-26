@@ -26,6 +26,7 @@ export default {
 	},
 	mounted (){
 		this.loadPackages()
+		console.log(this.$store.state.user)
 	}
 }
 </script>

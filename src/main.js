@@ -4,25 +4,26 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 
-import Navbar from './components/Navbar'
+import { store } from './store'
 
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
 new Vue({
-	template: `
-	<div class="columns is-marginless">
-		<div style="background-color: #363636;">
-			<Navbar />
-		</div>
-		<div class="column is-10 is-paddingless">
-			<router-view></router-view>
-		</div>
-	</div>
-	`,
+	template: `<App />`,
 	router,
+	store,
+	created() {
+		firebase.initializeApp(config);
+		firebase.auth().onAuthStateChanged((user) => {
+			if(user) {
+				this.$store.commit('userLogIn', user)
+				this.$router.push('/packages')
+			}
+		});
+	},
 	components: {
-		Navbar
+		App
 	},
 	
 }).$mount('#app')
