@@ -1,6 +1,6 @@
 {
   "projects": {
-    "default": "pakot-18130"
+    "default": "pakot-frontend"
   },
   "hosting": {
     "public": "./dist",

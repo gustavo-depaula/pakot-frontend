@@ -18,7 +18,7 @@
 				<router-link :to="'/profile'" class="navbar-link has-text-centered"><span class="icon"><i class="fa fa-user"></i></span><span class="name">&nbsp;Perfil</span></router-link>
 				<router-link :to="'/another'" class="navbar-link has-text-centered"><span class="icon"><i class="fa fa-folder-o"></i></span><span class="name">&nbsp;TODO</span></router-link>
 				<hr>
-				<button class="navbar-link has-text-centered"><span class="icon"><i class="fa fa-sign-out"><span class="name">Sair</span></i></span></button>
+				<a @click="signOut" class="navbar-link has-text-centered"><span class="icon"><i class="fa fa-sign-out"></i></span><span class="name">&nbsp;Sair</span></a>
 			</div>
 		</nav>
 		<!-- Side Menu -->
