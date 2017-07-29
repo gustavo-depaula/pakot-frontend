@@ -1,16 +1,28 @@
 <!-- home page -->
 <template lang="html">
 	<div id="home">
-		<table>
-			<tbody v-for="i in packages">
-				<tr>
-					<td></td>
+		<!-- header -->
+		<div class="hero is-bold is-success	">
+			<div class="hero-body">
+				<div class="container">
+					<h1 class="title">
+						Minhas entregas
+					</h1>
+					<h2 class="subtitle">
+						Situação de todas as suas entregas
+					</h2>
+				</div>
+			</div>
+		</div>
+		<!-- table -->
+		<table class="table">
+			<tbody >
+				<tr v-for="i in packages">
+					<th></th>
+					<td>{{ i.nickname }}</td>
 				</tr>
 			</tbody>
 		</table>
-		<ul v-for="i in packages">
-			<li>{{i}}</li>
-		</ul>
 	</div>
 </template>
 <script>
@@ -25,8 +37,9 @@
 		},
 		methods: {
 			loadPackages() {
-				axios.get('https://pakot-backend.herokuapp.com/public/package/getopen')
+				axios.post('https://pakot-backend.herokuapp.com/public/package/getallpackages', {email: this.$store.getters.user.object.email})
 					.then(response => {
+						console.log(response.data)
 						this.packages = response.data
 					})
 			}
