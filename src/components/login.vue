@@ -29,7 +29,7 @@
 										<h3 class="title">Cliente</h3>
 										<h2 class="subtitle">Seja independente dos correios.</h2>
 										<p class="control login">
-											<button :class="{ 'is-loading': btnLoading }" @click="signIn" class="button is-info is-outlined is-large is-fullwidth"><span class="icon"><i class="fa fa-facebook"></i></span></button>
+											<button @click="signIn" class="button is-info is-large is-fullwidth" :class="{ 'is-loading': btnLoading, 'is-outlined': !btnLoading }"><span class="icon"><i class="fa fa-facebook"></i></span></button>
 										</p>
 										<hr>
 										<h3 class="title">Entregador</h3>
@@ -68,7 +68,7 @@ export default {
 		signIn (){
 			this.btnLoading = true
 			var user
-			firebase.auth().signInWithPopup(new firebase.auth.FacebookAuthProvider()).then(function(result) {
+			firebase.auth().signInWithRedirect(new firebase.auth.FacebookAuthProvider()).then(function(result) {
 				// This gives you a Facebook Access Token. You can use it to access the Facebook API.
 				var token = result.credential.accessToken;
 				// The signed-in user info.

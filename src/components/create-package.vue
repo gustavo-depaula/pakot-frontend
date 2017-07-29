@@ -123,36 +123,37 @@
 	</div>
 </template>
 <script>
-	import axios from 'axios';
+import axios from 'axios';
 
-	export default {
-		name: 'create-package',
-		data() {
-			return {
-				shipment: {
-					nickname: "",
-					description: "",
-					priority: "",
-					size: "",
-					weight: ""
-				}
-				
+export default {
+	name: 'create-package',
+	data() {
+		return {
+			shipment: {
+				nickname: "",
+				description: "",
+				priority: "",
+				size: "",
+				weight: "",
+				email: this.$store.getters.user.object.email
 			}
-		},
-		methods: {
-			createPackage() {
-				axios.post('https://pakot-backend.herokuapp.com/public/package/create', this.shipment)
-					.then(response => {
-						console.log(response)
-					})
-					.catch(e => {
-						console.log(e)
-					})
-			}
-		},
-		mounted (){
+			
 		}
+	},
+	methods: {
+		createPackage() {
+			axios.post('https://pakot-backend.herokuapp.com/public/package/create', this.shipment)
+				.then(response => {
+					console.log(response)
+				})
+				.catch(e => {
+					console.log(e)
+				})
+		}
+	},
+	mounted (){
 	}
+}
 </script>
 <style scoped>
 	#form-container {

@@ -30,29 +30,29 @@
 	</div>
 </template>
 <script>
-	import axios from 'axios';
+import axios from 'axios';
 
-	export default {
-		name: 'profile',
-		data() {
-			return {
-				user: {}
-				
-			}
-		},
-		computed: {
-			photoURL: function (){
-				return 'http://graph.facebook.com/' + this.$store.getters.user.object.providerData[0].uid + '/picture?height=19000'
-			}
-		},
-		methods: {
-
-		},
-		mounted (){
-			this.user = this.$store.getters.user
-			console.log(this.user)
+export default {
+	name: 'profile',
+	data() {
+		return {
+			user: {}
+			
 		}
+	},
+	computed: {
+		photoURL: function (){
+			return 'http://graph.facebook.com/' + this.$store.getters.user.object.providerData[0].uid + '/picture?height=19000'
+		}
+	},
+	methods: {
+
+	},
+	mounted (){
+		this.user = this.$store.getters.user
+		console.log(this.user)
 	}
+}
 </script>
 <style scoped>
 #profile-space {
