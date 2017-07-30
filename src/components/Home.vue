@@ -14,33 +14,45 @@
 				</div>
 			</div>
 		</div>
-		<!-- table -->
-		<div v-for="i in packages">
-			<table class="packages-table table">
-				<tbody  >
-					<tr @click="i.flag = !i.flag">
-						<th><span class="icon is-small"><i class="fa" :class="{ 'fa-chevron-right': !i.flag, 'fa-chevron-down': i.flag, 'blue': i.flag }"></i></span></th>
-						<td>{{ i.datecreate }}</td>
-						<td><b>{{ i.nickname }}</b></td>
-						<td>PRE,ÇO</td>
-					</tr>
-
-					<p></p>
-				</tbody>
-			</table>
-			<div v-if="i.flag == true">
-				<div class="card">
-					<div class="card-content">
+		<!-- shipments info -->
+		<div class="card" v-for="item in packages">
+			<div class="card-content">
+				<div class="columns">
+					<div class="column">
 						<p class="title">
-							{{ i.description }}
+							<b>{{ item.nickname }}</b>
 						</p>
 						<p class="subtitle">
-							{{ i.destination }}
+							{{ item.description }}
+						</p>
+						
+					</div>
+					<div class="column">
+						<p class="title">R$00,00</p>
+						<p class="subtitle">pago em BTC</p>
+					</div>
+					<div class="column">
+						<span v-if="item.arrived == 'true'">
+							<p class="title"><b class="has-text-success">Entregue</b></p>
+							<p class="subtitle">{{ item.datearrived }}</p>
+						</span>
+						<span v-else-if="item.assigned == 'true'">
+							<p class="title "><b class="has-text-warning">Despachado</b></p>
+							<p class="subtitle">{{ item.dateassigned }}</p>
+						</span>
+						<span v-else>
+							<p class="title"><b class="has-text-info">Solicitado</b></p>
+							<p class="subtitle">{{ item.datecreate }}</p>
+						</span>
+					</div>
+					<div class="column">
+						<p class="title">Tamanho {{ item.size }}, peso {{ item.weight }}</p>
+						<p class="subtitle">
+							endereço a <br>
+							endereço b
 						</p>
 					</div>
-
 				</div>
-				
 			</div>
 		</div>
 	</div>
@@ -81,7 +93,7 @@
 
 	.packages-table tr {
 		height: 57px;
-		border-bottom: 10px blue !important;
+		/*border-bottom: 10px blue !important;*/
 	}
 
 	.packages-table tr:hover {
