@@ -21,45 +21,17 @@
 							<img src="../assets/package.png" alt="Bulma logo" width="150px">
 						</div>
 					</div>
-					<div v-if="!this.requireSignUp" class="hero-body">
+					<div class="hero-body">
 						<div class="container">
 							<div class="columns">
 								<div class="column is-8 is-offset-2">
 									<div class="login-form">
-										<h3 class="title">Cliente</h3>
-										<h2 class="subtitle">Seja independente dos correios.</h2>
+										<h3 class="title">Primeira vez aqui? Seja bem vindo.</h3>
+										<h2 class="subtitle">Precisamos de algumas infromações suas.</h2>
 										<p class="control login">
 											<button @click="signIn" class="button is-info is-large is-fullwidth" :class="{ 'is-loading': btnLoading, 'is-outlined': !btnLoading }"><span class="icon"><i class="fa fa-facebook"></i></span></button>
 										</p>
-										<hr>
-										<h3 class="title">Entregador</h3>
-										<h2 class="subtitle">Ajude a carregar a disrupção.</h2>
-										<p class="control login">
-											<button class="button is-info is-outlined is-large is-fullwidth"><span class="icon"><i class="fa fa-facebook"></i></span></button>
-										</p>
-									</div>
-									<div class="section copyheart">
-										<p class="has-text-centered">
-											<span>&hearts;&nbsp;2017 Pakot Technologies Inc.</span>
-										</p>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div v-else class="hero-body">
-						<div class="container">
-							<div class="columns">
-								<div class="column is-8 is-offset-2">
-									<div class="login-form">
-										<h3 class="title">Clienasdfasdte</h3>
-										<h2 class="subtitle">Seja independente dos correios.</h2>
-										<p class="control login">
-											<button @click="signIn" class="button is-info is-large is-fullwidth" :class="{ 'is-loading': btnLoading, 'is-outlined': !btnLoading }"><span class="icon"><i class="fa fa-facebook"></i></span></button>
-										</p>
-										<hr>
-										<h3 class="title">Entregador</h3>
-										<h2 class="subtitle">Ajude a carregar a disrupção.</h2>
+
 										<p class="control login">
 											<button class="button is-info is-outlined is-large is-fullwidth"><span class="icon"><i class="fa fa-facebook"></i></span></button>
 										</p>
@@ -80,21 +52,21 @@
 	</div>
 </template>
 <script>
-	import router from '../router'
+import router from '../router'
 
-	export default {
-		name: 'Login',
-		data (){
-			return {
-				btnLoading: false,
-				requireSignUp: this.$store.getters.requireSignUp,
-			}
-		},
-		methods: {
-			signIn (){
-				this.btnLoading = true
-				var user
-				firebase.auth().signInWithRedirect(new firebase.auth.FacebookAuthProvider()).then(function(result) {
+export default {
+	name: 'Login',
+	data (){
+		return {
+			btnLoading: false
+			
+		}
+	},
+	methods: {
+		signIn (){
+			this.btnLoading = true
+			var user
+			firebase.auth().signInWithRedirect(new firebase.auth.FacebookAuthProvider()).then(function(result) {
 				// This gives you a Facebook Access Token. You can use it to access the Facebook API.
 				var token = result.credential.accessToken;
 				// The signed-in user info.
@@ -116,14 +88,13 @@
 			})
 		},
 
-		toTrue (){
-			this.$store.commit('userLogIn', {})
-		}
-	},
-	mounted (){
+	toTrue (){
+		this.$store.commit('userLogIn', {})
+	}
+},
+mounted (){
 		// auth.signIn()
 		// this.$store.state.user.logged = true
-
 	}
 }
 </script>

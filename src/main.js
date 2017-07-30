@@ -21,12 +21,18 @@ new Vue({
 				axios.post('https://pakot-backend.herokuapp.com/public/login/User', {email: user.email})
 					.then(response => {
 						console.log(response)
+						if (response.data == 'requireSignUp') {
+							this.$store.commit('requireSignUp', true)
+							//this.$router.push('/signup')
+							
+						} else {
+							this.$store.commit('userLogIn', user)
+							this.$router.push('/packages')
+						}
 					})
 					.catch(e => {
 						console.log(e)
 					})
-				this.$store.commit('userLogIn', user)
-				this.$router.push('/packages')
 			}
 		});
 	},

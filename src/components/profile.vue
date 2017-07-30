@@ -17,12 +17,14 @@
 		<!-- profile space -->
 		<div id="profile-space">
 			<section class="section">
-				<div class="container is-clearfix">
-					<img id="profile-pic" class="is-pulled-left" :src="this.photoURL" style="border-radius: 50%; ">
-					<div id="user-info" class="is-pulled-left">
-						<h1 class="title is-1">{{ this.user.object.displayName }}</h1>
-						<h2 class="subtitle is-3"><em>{{ this.user.object.email }}</em></h2>
-					</div>
+				<img id="profile-pic" class="center" :src="this.photoURL" style="border-radius: 50%; ">
+				<div id="info" class="has-text-centered">
+					<h1 class="title is-1">{{ this.user.object.displayName }}</h1>
+					<h2 class="subtitle is-3">
+						<em>{{ this.user.object.email }}</em><br>
+						<span class="icon"><i class="fa fa-phone"></i></span>+553198567553<br>
+						<span class="icon"><i class="fa fa-address-card"></i></span>12132228698
+					</h2>
 				</div>
 			</section>
 		</div>
@@ -55,18 +57,14 @@ export default {
 }
 </script>
 <style scoped>
-#profile-space {
-	margin-top: 2%;
-}
-#user-info {
-	margin-left: 25px;
-}
 #profile-pic {
+	display: block;
+	margin: auto !important;
 	height: 200px;
 	width: 200px;
-/*	display: block;
-	margin-left: auto;
-	margin-right: auto;*/
+}
+#info {
+	margin-top: 20px !important;
 }
 </style>
 

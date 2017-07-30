@@ -10,7 +10,8 @@ export const store = new Vuex.Store({
 			signed: false,
 			object: null
 		},
-		pageloader: false
+		pageloader: false,
+		requireSignUp: false,
 	},
 	getters: {
 		userLogged: state => {
@@ -21,7 +22,10 @@ export const store = new Vuex.Store({
 		},
 		pageloader: state => {
 			return state.pageloader
-		}
+		},
+		requireSignUp: state => {
+			return state.requireSignUp
+		},
 	},
 	mutations: {
 		userLogIn: (state, user) => {
@@ -30,6 +34,10 @@ export const store = new Vuex.Store({
 		},
 		pageloader: (state, condition) => {
 			state.pageloader = condition
+		},
+		requireSignUp: (state, condition) => {
+			state.requireSignUp = condition
 		}
 	}
+
 })

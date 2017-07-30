@@ -34,7 +34,7 @@
 			</div>
 			<div class="column is-half">
 				<div class="field">
-					<label class="label">Apelido da encomenda {{shipment}}</label>
+					<label class="label">Apelido da encomenda <!--{{shipment}}--></label>
 					<p class="control has-icons-left">
 						<input v-model="shipment.nickname" class="input" type="text" placeholder="e.g Presente para mamãe">
 						<span class="icon is-small is-left">
