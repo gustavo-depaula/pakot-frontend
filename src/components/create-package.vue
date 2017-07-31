@@ -105,12 +105,18 @@
 				<p>Origem: {{addresses.origin}}</p>
 				<p>Destino: {{addresses.destination}}</p>
 				<p>Distância: {{addresses.distance}} (metros)</p>				
-
+				<div class="field">
+					<label class="label">Origem</label>
+					<div class="control">
+						<input id="originInput" class="input" type="text" placeholder="...">
+					</div>
+					<label class="label">Destino</label>
+					<div class="control">
+						<input id="destinationInput" class="input" type="text" placeholder="...">
+					</div>
+				</div>
 				<button @click="resetMap()" class="button is-success is-large">
 					<span>Clean map</span>
-				</button>
-				<button @click="markPoints()" class="button is-success is-large">
-					<span>Marcar pontos</span>
 				</button>
 				<div id="myMap"></div>
 
@@ -147,9 +153,6 @@
 				itemsMap: {
 					markers:[]
 				},
-				itemsPag: {
-					markerCount : 0
-				},
 				addresses: {
 					origin: '',
 					destination: '',
@@ -178,7 +181,6 @@
 			},
 			//------------------------GOOGLE MAPS FUNCTIONS------------------------
 			resetMap(){
-				this.itemsPag.markerCount = 0;
 				for (var i=0;i<this.itemsMap.markers.length;i++)
 					this.itemsMap.markers[i].setMap(null);
 				this.addresses.origin='';
@@ -188,8 +190,6 @@
 				if(typeof this.itemsMap.line !== 'undefined')
 	        		this.itemsMap.line.setMap(null);
 			},	
-			markPoints(){
-			},
 			addMarker(itemsMap, location, infowindow){
 				var marker = new google.maps.Marker({
 					position: location,
@@ -251,14 +251,79 @@
 			// case of map click
 			this.itemsMap.map.addListener('click', mapClickEvent.bind(this), false);
 			function mapClickEvent(event){
-				if(this.itemsPag.markerCount<2){
-					if(this.itemsPag.markerCount == 0)
+				if(this.itemsMap.markers.length<2){
+					if(this.itemsMap.markers.length == 0)
 						this.latLngToAddress(this.itemsMap, this.itemsMap.originWin, event.latLng, this.addMarker, this.distanceLatLng, this.addresses, false);
-					else if(this.itemsPag.markerCount == 1){
+					else if(this.itemsMap.markers.length == 1){
 						this.latLngToAddress(this.itemsMap, this.itemsMap.destinationWin, event.latLng, this.addMarker, this.distanceLatLng, this.addresses, true);
 					}
-					this.itemsPag.markerCount++;
 				}
+			}
+
+			// case of texts inputs
+			var inputOrigin = document.getElementById('originInput');
+			var inputDestination = document.getElementById('destinationInput');
+		    
+        	var autocompleteOrigin = new google.maps.places.Autocomplete(inputOrigin);
+    	    autocompleteOrigin.bindTo('bounds',this.itemsMap.map);
+
+        	var autocompleteDestination = new google.maps.places.Autocomplete(inputDestination);
+    	    autocompleteDestination.bindTo('bounds',this.itemsMap.map);
+
+    	    autocompleteOrigin.addListener('place_changed', mapCompleteEventOrigin.bind(this),false);
+    	    autocompleteDestination.addListener('place_changed', mapCompleteEventDestination.bind(this),false);
+
+    	    function mapCompleteEventOrigin() {
+    	    	var place = autocompleteOrigin.getPlace();
+    	    	if (!place.geometry || this.itemsMap.markers.length>1) return;
+
+          		// If the place has a geometry, then present it on a map.
+          		if (place.geometry.viewport) this.itemsMap.map.fitBounds(place.geometry.viewport);
+          		else this.itemsMap.map.setCenter(place.geometry.location);
+
+				var marker = this.addMarker(this.itemsMap, place.geometry.location, this.itemsMap.originWin);
+
+				this.itemsMap.originWin.setContent(place.formatted_address);
+				this.addresses.origin = place.formatted_address;
+				this.itemsMap.originWin.open(this.itemsMap.map, marker);
+				if(this.itemsMap.markers.length==2){
+					this.addresses.distance = this.distanceLatLng(this.itemsMap.markers);
+
+					this.itemsMap.line = new google.maps.Polyline({
+						path: [this.itemsMap.markers[0].position,this.itemsMap.markers[1].position],
+						geodesic: true,
+						strokeColor: '#FF0000',
+						strokeOpacity: 1.0,
+						strokeWeight: 2
+					});
+					this.itemsMap.line.setMap(this.itemsMap.map);
+				}				
+			}
+			function mapCompleteEventDestination() {
+    	    	var place = autocompleteDestination.getPlace();
+    	    	if (!place.geometry || this.itemsMap.markers.length>1) return;
+
+          		// If the place has a geometry, then present it on a map.
+          		if (place.geometry.viewport) this.itemsMap.map.fitBounds(place.geometry.viewport);
+          		else this.itemsMap.map.setCenter(place.geometry.location);
+
+				var marker = this.addMarker(this.itemsMap, place.geometry.location, this.itemsMap.destinationWin);
+
+				this.itemsMap.destinationWin.setContent(place.formatted_address);
+				this.addresses.destination = place.formatted_address;
+				this.itemsMap.destinationWin.open(this.itemsMap.map, marker);
+				if(this.itemsMap.markers.length==2){
+					this.addresses.distance = this.distanceLatLng(this.itemsMap.markers);
+
+					this.itemsMap.line = new google.maps.Polyline({
+						path: [this.itemsMap.markers[0].position,this.itemsMap.markers[1].position],
+						geodesic: true,
+						strokeColor: '#FF0000',
+						strokeOpacity: 1.0,
+						strokeWeight: 2
+					});
+					this.itemsMap.line.setMap(this.itemsMap.map);
+				}				
 			}
 
 		}
