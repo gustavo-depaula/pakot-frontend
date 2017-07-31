@@ -99,6 +99,21 @@
 						</span>
 					</p>
 				</div>
+
+				<hr>
+
+				<p>Origem: {{addresses.origin}}</p>
+				<p>Destino: {{addresses.destination}}</p>
+				<p>Distância: {{addresses.distance}} (metros)</p>				
+
+				<button @click="resetMap()" class="button is-success is-large">
+					<span>Clean map</span>
+				</button>
+				<button @click="markPoints()" class="button is-success is-large">
+					<span>Marcar pontos</span>
+				</button>
+				<div id="myMap"></div>
+
 				<hr>
 				<button @click="createPackage()" class="button is-success is-large">
 					<span class="icon is-medium">
@@ -123,37 +138,131 @@
 	</div>
 </template>
 <script>
-import axios from 'axios';
+	import axios from 'axios';
 
-export default {
-	name: 'create-package',
-	data() {
-		return {
-			shipment: {
-				nickname: "",
-				description: "",
-				priority: "",
-				size: "",
-				weight: "",
-				email: this.$store.getters.user.object.email
+	export default {
+		name: 'create-package',
+		data() {
+			return {
+				itemsMap: {
+					markers:[]
+				},
+				itemsPag: {
+					markerCount : 0
+				},
+				addresses: {
+					origin: '',
+					destination: '',
+					distance:''
+				},
+				shipment: {
+					nickname: "",
+					description: "",
+					priority: "",
+					size: "",
+					weight: "",
+					email: this.$store.getters.user.object.email
+				}
+
 			}
-			
-		}
-	},
-	methods: {
-		createPackage() {
-			axios.post('https://pakot-backend.herokuapp.com/public/package/create', this.shipment)
+		},
+		methods: {
+			createPackage() {
+				axios.post('https://pakot-backend.herokuapp.com/public/package/create', this.shipment)
 				.then(response => {
 					console.log(response)
 				})
 				.catch(e => {
 					console.log(e)
 				})
+			},
+			//------------------------GOOGLE MAPS FUNCTIONS------------------------
+			resetMap(){
+				this.itemsPag.markerCount = 0;
+				for (var i=0;i<this.itemsMap.markers.length;i++)
+					this.itemsMap.markers[i].setMap(null);
+				this.addresses.origin='';
+				this.addresses.destination='';	
+				this.addresses.distance='';	
+				this.itemsMap.markers = [];
+				if(typeof this.itemsMap.line !== 'undefined')
+	        		this.itemsMap.line.setMap(null);
+			},	
+			markPoints(){
+			},
+			addMarker(itemsMap, location, infowindow){
+				var marker = new google.maps.Marker({
+					position: location,
+					map: itemsMap.map
+				});
+				itemsMap.markers.push(marker);
+				marker.addListener('click', function() {
+					infowindow.open(itemsMap.map, marker);
+				});
+				return marker;
+			},
+			latLngToAddress(itemsMap, infowindow, latlng, addMarker, distanceLatLng, addr, flag){
+				itemsMap.geocoder.geocode({'location': latlng}, function(results, status){
+					if(status === 'OK'){
+						if(results[1]){
+							var marker = addMarker(itemsMap, latlng, infowindow);
+							infowindow.setContent(results[1].formatted_address);
+							infowindow.open(itemsMap.map, marker);
+							
+							if(!flag) addr.origin = results[1].formatted_address;
+							else{
+								addr.destination = results[1].formatted_address;
+								addr.distance = distanceLatLng(itemsMap.markers);
+
+								itemsMap.line = new google.maps.Polyline({
+									path: [itemsMap.markers[0].position,itemsMap.markers[1].position],
+									geodesic: true,
+									strokeColor: '#FF0000',
+									strokeOpacity: 1.0,
+									strokeWeight: 2
+								});
+								itemsMap.line.setMap(itemsMap.map);
+							}	
+								
+						} 
+						else
+							console.log('No results found');
+					} 
+					else
+						console.log('Geocoder failed due to: ' + status);
+				});
+			},
+			distanceLatLng(markers){
+				var A = markers[0].position;
+				var B = markers[1].position;
+				return google.maps.geometry.spherical.computeDistanceBetween(A,B);
+			}
+		},
+		mounted: function() {
+			this.itemsMap.geocoder = new google.maps.Geocoder;
+			this.itemsMap.originWin = new google.maps.InfoWindow;
+			this.itemsMap.destinationWin = new google.maps.InfoWindow;
+			this.itemsMap.map = new google.maps.Map(document.getElementById('myMap'), {
+				zoom: 11,
+				center: {lat: -19.918667, lng: -43.936729},
+				mapTypeId: 'terrain'	
+			});
+
+			// case of map click
+			this.itemsMap.map.addListener('click', mapClickEvent.bind(this), false);
+			function mapClickEvent(event){
+				if(this.itemsPag.markerCount<2){
+					if(this.itemsPag.markerCount == 0)
+						this.latLngToAddress(this.itemsMap, this.itemsMap.originWin, event.latLng, this.addMarker, this.distanceLatLng, this.addresses, false);
+					else if(this.itemsPag.markerCount == 1){
+						this.latLngToAddress(this.itemsMap, this.itemsMap.destinationWin, event.latLng, this.addMarker, this.distanceLatLng, this.addresses, true);
+					}
+					this.itemsPag.markerCount++;
+				}
+			}
+
 		}
-	},
-	mounted (){
 	}
-}
 </script>
 <style scoped>
 	#form-container {
@@ -161,6 +270,10 @@ export default {
 	}
 	#info-tile {
 		margin-left: 8% !important;
+	}
+	#myMap {
+		height:300px;
+		width: 100%;
 	}
 </style>
 
