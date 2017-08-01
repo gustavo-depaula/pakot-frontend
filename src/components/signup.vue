@@ -105,4 +105,4 @@
 }
 </script>
 
-<style scoped src="../css/login.css"/>
+<style scoped src="../css/signup.css"/>
