@@ -22,8 +22,8 @@
 					<h1 class="title is-1">{{ this.user.object.displayName }}</h1>
 					<h2 class="subtitle is-3">
 						<em>{{ this.user.object.email }}</em><br>
-						<span class="icon"><i class="fa fa-phone"></i></span>+553198567553<br>
-						<span class="icon"><i class="fa fa-address-card"></i></span>12132228698
+						<span class="icon"><i class="fa fa-phone"></i></span>{{this.user.cpf}}<br>
+						<span class="icon"><i class="fa fa-address-card"></i></span>{{this.user.phone}}
 					</h2>
 				</div>
 			</section>
@@ -38,20 +38,21 @@ export default {
 	name: 'profile',
 	data() {
 		return {
-			user: {}
+
 			
 		}
 	},
 	computed: {
 		photoURL: function (){
 			return 'http://graph.facebook.com/' + this.$store.getters.user.object.providerData[0].uid + '/picture?height=19000'
+		},
+		user: function(){
+			return this.$store.getters.user
 		}
 	},
 	methods: {
-
 	},
 	mounted (){
-		this.user = this.$store.getters.user
 		console.log(this.user)
 	}
 }

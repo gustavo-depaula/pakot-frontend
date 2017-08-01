@@ -24,16 +24,24 @@
 					<div class="hero-body">
 						<div class="container">
 							<div class="columns">
-								<div class="column is-8 is-offset-2">
+								<div class="column is-10 is-offset-1">
 									<div class="login-form">
 										<h3 class="title">Primeira vez aqui? Seja bem vindo.</h3>
 										<h2 class="subtitle">Precisamos de algumas infromações suas.</h2>
-										<p class="control login">
-											<button @click="signIn" class="button is-info is-large is-fullwidth" :class="{ 'is-loading': btnLoading, 'is-outlined': !btnLoading }"><span class="icon"><i class="fa fa-facebook"></i></span></button>
+										<p class="field">
+											<div class="control"><input type="text" class="input is-large" :placeholder="this.$store.getters.user.object.displayName" disabled></div>
 										</p>
-
+										<p class="field">
+											<div class="control"><input type="text" class="input is-large" :placeholder="this.$store.getters.user.object.email" disabled></div>
+										</p>
+										<p class="field">
+											<div class="control"><input v-model="user.cpf" type="number" class="input is-large" :class="{ 'is-danger': danger }" placeholder="Seu CPF"></div>
+										</p>
+										<p class="field">
+											<div class="control"><input v-model="user.phone" type="tel" class="input is-large" :class="{ 'is-danger': danger }" placeholder="Seu telefone"></div>
+										</p>
 										<p class="control login">
-											<button class="button is-info is-outlined is-large is-fullwidth"><span class="icon"><i class="fa fa-facebook"></i></span></button>
+											<button @click="signUp" class="button is-success is-large is-fullwidth" :class="{ 'is-loading': btnLoading, 'is-outlined': !btnLoading }"><span class="icon"><i class="fa fa-sign-in"></i></span></button>
 										</p>
 									</div>
 									<div class="section copyheart">
@@ -52,47 +60,45 @@
 	</div>
 </template>
 <script>
-import router from '../router'
+	import axios from 'axios'
 
-export default {
-	name: 'Login',
-	data (){
-		return {
-			btnLoading: false
-			
-		}
-	},
-	methods: {
-		signIn (){
-			this.btnLoading = true
-			var user
-			firebase.auth().signInWithRedirect(new firebase.auth.FacebookAuthProvider()).then(function(result) {
-				// This gives you a Facebook Access Token. You can use it to access the Facebook API.
-				var token = result.credential.accessToken;
-				// The signed-in user info.
-				// console.log('acerto')
-				user = result.user;
-				// console.log()
-				// ...
-				// localStorage.setItem('user', 's')
-			}).catch(function(error) {
-				// Handle Errors here.
-				console.log(error)
-				var errorCode = error.code;
-				var errorMessage = error.message;
-				// The email of the user's account used.
-				var email = error.email;
-				// The firebase.auth.AuthCredential type that was used.
-				var credential = error.credential;
-				// ...
-			})
+	export default {
+		name: 'SignUp',
+		data (){
+			return {
+				btnLoading: false,
+				user: {
+					name: this.$store.getters.user.object.displayName,
+					email: this.$store.getters.user.object.email,
+					cpf: '',
+					phone: '',
+					payment: 'BTC'
+				},
+				danger: false
+			}
 		},
-
-	toTrue (){
-		this.$store.commit('userLogIn', {})
-	}
-},
-mounted (){
+		methods: {
+			signUp (){
+				this.btnLoading = true
+				axios.post('https://pakot-backend.herokuapp.com/public/login/SignUp', this.user)
+				.then(response => {
+					if (response.data == 'SignUpSuccess') {
+						axios.post('https://pakot-backend.herokuapp.com/public/User/getData', {email: this.$store.getters.user.object.email})
+						.then(response => {
+							this.$store.commit('cpf', response.data.cpf) 
+							this.$store.commit('phone', response.data.phone)
+						})
+						this.$store.commit('userDontRequireSignUp')							
+					} else {
+						this.danger = true		
+					}
+				})
+				.catch(e => {
+					console.log(e)
+				})
+			}
+		},
+		mounted (){
 		// auth.signIn()
 		// this.$store.state.user.logged = true
 	}

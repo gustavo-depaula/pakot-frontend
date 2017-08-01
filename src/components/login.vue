@@ -18,7 +18,7 @@
 				<section class="hero is-fullheight">
 					<div class="hero-heading">
 						<div class="section has-text-centered">
-							<img src="../assets/package.png" alt="Bulma logo" width="150px">
+							<img src="../assets/package.png" alt="Pakot logo" width="150px">
 						</div>
 					</div>
 					<div v-if="!this.requireSignUp" class="hero-body">

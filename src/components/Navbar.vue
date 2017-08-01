@@ -55,6 +55,7 @@ export default {
 			firebase.auth().signOut().then(() => {
 				location.reload()
 			})
+			this.$store.commit('userSignOut')
 		}
 	}
 }

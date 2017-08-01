@@ -8,7 +8,9 @@ export const store = new Vuex.Store({
 		user: {
 			logged: false,
 			signed: false,
-			object: null
+			object: null,
+			cpf: null,
+			phone: null
 		},
 		pageloader: false,
 		requireSignUp: false,
@@ -23,20 +25,40 @@ export const store = new Vuex.Store({
 		pageloader: state => {
 			return state.pageloader
 		},
-		requireSignUp: state => {
-			return state.requireSignUp
+		userSigned: state => {
+			return state.user.signed
 		},
+		cpf: state => {
+			return state.user.cpf
+		},
+		phone: state => {
+			return state.user.phone
+		}
 	},
 	mutations: {
-		userLogIn: (state, user) => {
-			state.user.logged = true
+		userLogIn: (state, user, signed) => {
 			state.user.object = user
+			state.user.logged = true
+		},
+		userRequireSignUp: (state) => {
+			state.user.signed = false
+		},
+		userDontRequireSignUp: (state) => {
+			state.user.signed = true
 		},
 		pageloader: (state, condition) => {
 			state.pageloader = condition
 		},
-		requireSignUp: (state, condition) => {
-			state.requireSignUp = condition
+		userSignOut: (state) => {
+			state.user.object = null
+			state.user.logged = false
+			state.user.signed = false	
+		},
+		cpf: (state, cpf) => {
+			state.user.cpf = cpf
+		},
+		phone: (state, phone) => {
+			state.user.phone = phone
 		}
 	}
 
