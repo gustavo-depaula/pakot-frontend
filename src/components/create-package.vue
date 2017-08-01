@@ -183,36 +183,36 @@
 			resetMap(){
 				for (var i=0;i<this.itemsMap.markers.length;i++)
 					this.itemsMap.markers[i].setMap(null);
-				this.addresses.origin='';
-				this.addresses.destination='';	
-				this.addresses.distance='';	
-				this.itemsMap.markers = [];
+				this.addresses.origin=''
+				this.addresses.destination=''	
+				this.addresses.distance=''	
+				this.itemsMap.markers = []
 				if(typeof this.itemsMap.line !== 'undefined')
-	        		this.itemsMap.line.setMap(null);
+	        		this.itemsMap.line.setMap(null)
 			},	
 			addMarker(itemsMap, location, infowindow){
 				var marker = new google.maps.Marker({
 					position: location,
 					map: itemsMap.map
 				});
-				itemsMap.markers.push(marker);
+				itemsMap.markers.push(marker)
 				marker.addListener('click', function() {
-					infowindow.open(itemsMap.map, marker);
+					infowindow.open(itemsMap.map, marker)
 				});
-				return marker;
+				return marker
 			},
 			latLngToAddress(itemsMap, infowindow, latlng, addMarker, distanceLatLng, addr, flag){
 				itemsMap.geocoder.geocode({'location': latlng}, function(results, status){
 					if(status === 'OK'){
 						if(results[1]){
-							var marker = addMarker(itemsMap, latlng, infowindow);
-							infowindow.setContent(results[1].formatted_address);
-							infowindow.open(itemsMap.map, marker);
+							var marker = addMarker(itemsMap, latlng, infowindow)
+							infowindow.setContent(results[1].formatted_address)
+							infowindow.open(itemsMap.map, marker)
 							
-							if(!flag) addr.origin = results[1].formatted_address;
+							if(!flag) addr.origin = results[1].formatted_address
 							else{
-								addr.destination = results[1].formatted_address;
-								addr.distance = distanceLatLng(itemsMap.markers);
+								addr.destination = results[1].formatted_address
+								addr.distance = distanceLatLng(itemsMap.markers)
 
 								itemsMap.line = new google.maps.Polyline({
 									path: [itemsMap.markers[0].position,itemsMap.markers[1].position],
@@ -221,27 +221,27 @@
 									strokeOpacity: 1.0,
 									strokeWeight: 2
 								});
-								itemsMap.line.setMap(itemsMap.map);
+								itemsMap.line.setMap(itemsMap.map)
 							}	
 								
 						} 
 						else
-							console.log('No results found');
+							console.log('No results found')
 					} 
 					else
-						console.log('Geocoder failed due to: ' + status);
+						console.log('Geocoder failed due to: ' + status)
 				});
 			},
 			distanceLatLng(markers){
-				var A = markers[0].position;
-				var B = markers[1].position;
-				return google.maps.geometry.spherical.computeDistanceBetween(A,B);
+				var A = markers[0].position
+				var B = markers[1].position
+				return google.maps.geometry.spherical.computeDistanceBetween(A,B)
 			}
 		},
 		mounted: function() {
-			this.itemsMap.geocoder = new google.maps.Geocoder;
-			this.itemsMap.originWin = new google.maps.InfoWindow;
-			this.itemsMap.destinationWin = new google.maps.InfoWindow;
+			this.itemsMap.geocoder = new google.maps.Geocoder
+			this.itemsMap.originWin = new google.maps.InfoWindow
+			this.itemsMap.destinationWin = new google.maps.InfoWindow
 			this.itemsMap.map = new google.maps.Map(document.getElementById('myMap'), {
 				zoom: 11,
 				center: {lat: -19.918667, lng: -43.936729},
@@ -249,7 +249,7 @@
 			});
 
 			// case of map click
-			this.itemsMap.map.addListener('click', mapClickEvent.bind(this), false);
+			this.itemsMap.map.addListener('click', mapClickEvent.bind(this), false)
 			function mapClickEvent(event){
 				if(this.itemsMap.markers.length<2){
 					if(this.itemsMap.markers.length == 0)
@@ -261,33 +261,33 @@
 			}
 
 			// case of texts inputs
-			var inputOrigin = document.getElementById('originInput');
-			var inputDestination = document.getElementById('destinationInput');
+			var inputOrigin = document.getElementById('originInput')
+			var inputDestination = document.getElementById('destinationInput')
 		    
-        	var autocompleteOrigin = new google.maps.places.Autocomplete(inputOrigin);
-    	    autocompleteOrigin.bindTo('bounds',this.itemsMap.map);
+        	var autocompleteOrigin = new google.maps.places.Autocomplete(inputOrigin)
+    	    autocompleteOrigin.bindTo('bounds',this.itemsMap.map)
 
-        	var autocompleteDestination = new google.maps.places.Autocomplete(inputDestination);
-    	    autocompleteDestination.bindTo('bounds',this.itemsMap.map);
+        	var autocompleteDestination = new google.maps.places.Autocomplete(inputDestination)
+    	    autocompleteDestination.bindTo('bounds',this.itemsMap.map)
 
-    	    autocompleteOrigin.addListener('place_changed', mapCompleteEventOrigin.bind(this),false);
-    	    autocompleteDestination.addListener('place_changed', mapCompleteEventDestination.bind(this),false);
+    	    autocompleteOrigin.addListener('place_changed', mapCompleteEventOrigin.bind(this),false)
+    	    autocompleteDestination.addListener('place_changed', mapCompleteEventDestination.bind(this),false)
 
     	    function mapCompleteEventOrigin() {
-    	    	var place = autocompleteOrigin.getPlace();
-    	    	if (!place.geometry || this.itemsMap.markers.length>1) return;
+    	    	var place = autocompleteOrigin.getPlace()
+    	    	if (!place.geometry || this.itemsMap.markers.length>1) return null
 
           		// If the place has a geometry, then present it on a map.
-          		if (place.geometry.viewport) this.itemsMap.map.fitBounds(place.geometry.viewport);
-          		else this.itemsMap.map.setCenter(place.geometry.location);
+          		if (place.geometry.viewport) this.itemsMap.map.fitBounds(place.geometry.viewport)
+          		else this.itemsMap.map.setCenter(place.geometry.location)
 
-				var marker = this.addMarker(this.itemsMap, place.geometry.location, this.itemsMap.originWin);
+				var marker = this.addMarker(this.itemsMap, place.geometry.location, this.itemsMap.originWin)
 
-				this.itemsMap.originWin.setContent(place.formatted_address);
-				this.addresses.origin = place.formatted_address;
-				this.itemsMap.originWin.open(this.itemsMap.map, marker);
+				this.itemsMap.originWin.setContent(place.formatted_address)
+				this.addresses.origin = place.formatted_address
+				this.itemsMap.originWin.open(this.itemsMap.map, marker)
 				if(this.itemsMap.markers.length==2){
-					this.addresses.distance = this.distanceLatLng(this.itemsMap.markers);
+					this.addresses.distance = this.distanceLatLng(this.itemsMap.markers)
 
 					this.itemsMap.line = new google.maps.Polyline({
 						path: [this.itemsMap.markers[0].position,this.itemsMap.markers[1].position],
@@ -295,25 +295,25 @@
 						strokeColor: '#FF0000',
 						strokeOpacity: 1.0,
 						strokeWeight: 2
-					});
-					this.itemsMap.line.setMap(this.itemsMap.map);
+					})
+					this.itemsMap.line.setMap(this.itemsMap.map)
 				}				
 			}
 			function mapCompleteEventDestination() {
-    	    	var place = autocompleteDestination.getPlace();
-    	    	if (!place.geometry || this.itemsMap.markers.length>1) return;
+    	    	var place = autocompleteDestination.getPlace()
+    	    	if (!place.geometry || this.itemsMap.markers.length>1) return null
 
           		// If the place has a geometry, then present it on a map.
-          		if (place.geometry.viewport) this.itemsMap.map.fitBounds(place.geometry.viewport);
-          		else this.itemsMap.map.setCenter(place.geometry.location);
+          		if (place.geometry.viewport) this.itemsMap.map.fitBounds(place.geometry.viewport)
+          		else this.itemsMap.map.setCenter(place.geometry.location)
 
-				var marker = this.addMarker(this.itemsMap, place.geometry.location, this.itemsMap.destinationWin);
+				var marker = this.addMarker(this.itemsMap, place.geometry.location, this.itemsMap.destinationWin)
 
-				this.itemsMap.destinationWin.setContent(place.formatted_address);
-				this.addresses.destination = place.formatted_address;
-				this.itemsMap.destinationWin.open(this.itemsMap.map, marker);
+				this.itemsMap.destinationWin.setContent(place.formatted_address)
+				this.addresses.destination = place.formatted_address
+				this.itemsMap.destinationWin.open(this.itemsMap.map, marker)
 				if(this.itemsMap.markers.length==2){
-					this.addresses.distance = this.distanceLatLng(this.itemsMap.markers);
+					this.addresses.distance = this.distanceLatLng(this.itemsMap.markers)
 
 					this.itemsMap.line = new google.maps.Polyline({
 						path: [this.itemsMap.markers[0].position,this.itemsMap.markers[1].position],
@@ -321,8 +321,8 @@
 						strokeColor: '#FF0000',
 						strokeOpacity: 1.0,
 						strokeWeight: 2
-					});
-					this.itemsMap.line.setMap(this.itemsMap.map);
+					})
+					this.itemsMap.line.setMap(this.itemsMap.map)
 				}				
 			}
 
