@@ -147,11 +147,12 @@
 				</p>
 			</div>
 
-			<hr>
-
-			<p>Origem: {{addresses.origin}}</p>
-			<p>Destino: {{addresses.destination}}</p>
-			<p>Distância: {{addresses.distance}} (metros)</p>				
+			<div class="is-hidden">
+				<p>Origem: {{addresses.origin}}</p>
+				<p>Destino: {{addresses.destination}}</p>
+				<p>Distância: {{addresses.distance}} (metros)</p>				
+				
+			</div>
 			<div class="field">
 				<label class="label">Origem</label>
 				<div class="control">
