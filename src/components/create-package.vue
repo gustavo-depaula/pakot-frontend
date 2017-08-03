@@ -147,7 +147,7 @@
 				</p>
 			</div>
 
-			<div class="is-hidden">
+			<div class="">
 				<p>Origem: {{addresses.origin}}</p>
 				<p>Destino: {{addresses.destination}}</p>
 				<p>Distância: {{addresses.distance}} (metros)</p>				
@@ -163,7 +163,7 @@
 					<input id="destinationInput" class="input" type="text" placeholder="...">
 				</div>
 			</div>
-			<button @click="resetMap()" class="button is-success is-large is-hidden">
+			<button @click="resetMap()" class="button is-success is-large">
 				<span>Clean map</span>
 			</button>
 			<div id="myMap"></div>
@@ -247,6 +247,7 @@
 				this.itemsMap.markers = []
 				if(typeof this.itemsMap.line !== 'undefined')
 					this.itemsMap.line.setMap(null)
+				this.itemsMap.directionsDisplay.setMap(null);
 			},	
 			addMarker(itemsMap, location, infowindow){
 				var marker = new google.maps.Marker({
@@ -259,7 +260,7 @@
 				});
 				return marker
 			},
-			latLngToAddress(itemsMap, infowindow, latlng, addMarker, distanceLatLng, addr, flag){
+			latLngToAddress(itemsMap, infowindow, latlng, addMarker, distanceLatLng, routeCalc, addr, flag){
 				itemsMap.geocoder.geocode({'location': latlng}, function(results, status){
 					if(status === 'OK'){
 						if(results[1]){
@@ -271,15 +272,8 @@
 								else{
 									addr.destination = results[1].formatted_address
 									addr.distance = distanceLatLng(itemsMap.markers)
-
-									itemsMap.line = new google.maps.Polyline({
-										path: [itemsMap.markers[0].position,itemsMap.markers[1].position],
-										geodesic: true,
-										strokeColor: '#FF0000',
-										strokeOpacity: 1.0,
-										strokeWeight: 2
-									});
-									itemsMap.line.setMap(itemsMap.map)
+									routeCalc(itemsMap.directionsService,itemsMap.directionsDisplay);
+									itemsMap.directionsDisplay.setMap(itemsMap.map);
 								}	
 								
 							} 
@@ -294,12 +288,28 @@
 				var A = markers[0].position
 				var B = markers[1].position
 				return google.maps.geometry.spherical.computeDistanceBetween(A,B)
+			},
+			calculateAndDisplayRoute(directionsService, directionsDisplay){
+				directionsService.route({
+					origin: this.addresses.origin,
+					destination: this.addresses.destination,
+					travelMode: 'DRIVING'
+				}, function(response, status) {
+					if (status === 'OK') {
+						directionsDisplay.setDirections(response);
+					} else {
+						window.alert('Directions request failed due to ' + status);
+					}
+				})
 			}
 		},
 		mounted: function() {
 			this.itemsMap.geocoder = new google.maps.Geocoder
 			this.itemsMap.originWin = new google.maps.InfoWindow
 			this.itemsMap.destinationWin = new google.maps.InfoWindow
+			this.itemsMap.directionsService = new google.maps.DirectionsService;
+			this.itemsMap.directionsDisplay = new google.maps.DirectionsRenderer({suppressMarkers: true});
+
 			this.itemsMap.map = new google.maps.Map(document.getElementById('myMap'), {
 				zoom: 11,
 				center: {lat: -19.918667, lng: -43.936729},
@@ -311,9 +321,9 @@
 			function mapClickEvent(event){
 				if(this.itemsMap.markers.length<2){
 					if(this.itemsMap.markers.length == 0)
-						this.latLngToAddress(this.itemsMap, this.itemsMap.originWin, event.latLng, this.addMarker, this.distanceLatLng, this.addresses, false);
+						this.latLngToAddress(this.itemsMap, this.itemsMap.originWin, event.latLng, this.addMarker, this.distanceLatLng, this.calculateAndDisplayRoute, this.addresses, false);
 					else if(this.itemsMap.markers.length == 1){
-						this.latLngToAddress(this.itemsMap, this.itemsMap.destinationWin, event.latLng, this.addMarker, this.distanceLatLng, this.addresses, true);
+						this.latLngToAddress(this.itemsMap, this.itemsMap.destinationWin, event.latLng, this.addMarker, this.distanceLatLng, this.calculateAndDisplayRoute, this.addresses, true);
 					}
 				}
 			}
@@ -333,76 +343,65 @@
 
 			function mapCompleteEventOrigin() {
 				var place = autocompleteOrigin.getPlace()
-				if (!place.geometry || this.itemsMap.markers.length>1) return null
+				if (!place.geometry || this.itemsMap.markers.length>1) 
+					return null
 
-          		// If the place has a geometry, then present it on a map.
-          	if (place.geometry.viewport) this.itemsMap.map.fitBounds(place.geometry.viewport)
-          		else this.itemsMap.map.setCenter(place.geometry.location)
+				if (place.geometry.viewport) 
+					this.itemsMap.map.fitBounds(place.geometry.viewport)
+				else 
+					this.itemsMap.map.setCenter(place.geometry.location)
 
-          			var marker = this.addMarker(this.itemsMap, place.geometry.location, this.itemsMap.originWin)
+				var marker = this.addMarker(this.itemsMap, place.geometry.location, this.itemsMap.originWin)
 
-          		this.itemsMap.originWin.setContent(place.formatted_address)
-          		this.addresses.origin = place.formatted_address
-          		this.itemsMap.originWin.open(this.itemsMap.map, marker)
-          		if(this.itemsMap.markers.length==2){
-          			this.addresses.distance = this.distanceLatLng(this.itemsMap.markers)
+				this.itemsMap.originWin.setContent(place.formatted_address)
+				this.addresses.origin = place.formatted_address
+				this.itemsMap.originWin.open(this.itemsMap.map, marker)
+				if(this.itemsMap.markers.length==2){
+					this.addresses.distance = this.distanceLatLng(this.itemsMap.markers)
+					this.calculateAndDisplayRoute(this.itemsMap.directionsService,this.itemsMap.directionsDisplay);
+					this.itemsMap.directionsDisplay.setMap(this.itemsMap.map)
+				}				
+			}
+			function mapCompleteEventDestination() {
+				var place = autocompleteDestination.getPlace()
+				if (!place.geometry || this.itemsMap.markers.length>1) 
+					return null
 
-          			this.itemsMap.line = new google.maps.Polyline({
-          				path: [this.itemsMap.markers[0].position,this.itemsMap.markers[1].position],
-          				geodesic: true,
-          				strokeColor: '#FF0000',
-          				strokeOpacity: 1.0,
-          				strokeWeight: 2
-          			})
-          			this.itemsMap.line.setMap(this.itemsMap.map)
-          		}				
-          	}
-          	function mapCompleteEventDestination() {
-          		var place = autocompleteDestination.getPlace()
-          		if (!place.geometry || this.itemsMap.markers.length>1) return null
+				if (place.geometry.viewport) 
+					this.itemsMap.map.fitBounds(place.geometry.viewport)
+				else 
+					this.itemsMap.map.setCenter(place.geometry.location)
 
-          		// If the place has a geometry, then present it on a map.
-          	if (place.geometry.viewport) this.itemsMap.map.fitBounds(place.geometry.viewport)
-          		else this.itemsMap.map.setCenter(place.geometry.location)
+				var marker = this.addMarker(this.itemsMap, place.geometry.location, this.itemsMap.destinationWin)
 
-          			var marker = this.addMarker(this.itemsMap, place.geometry.location, this.itemsMap.destinationWin)
-
-          		this.itemsMap.destinationWin.setContent(place.formatted_address)
-          		this.addresses.destination = place.formatted_address
-          		this.itemsMap.destinationWin.open(this.itemsMap.map, marker)
-          		if(this.itemsMap.markers.length==2){
-          			this.addresses.distance = this.distanceLatLng(this.itemsMap.markers)
-
-          			this.itemsMap.line = new google.maps.Polyline({
-          				path: [this.itemsMap.markers[0].position,this.itemsMap.markers[1].position],
-          				geodesic: true,
-          				strokeColor: '#FF0000',
-          				strokeOpacity: 1.0,
-          				strokeWeight: 2
-          			})
-          			this.itemsMap.line.setMap(this.itemsMap.map)
-          		}				
-          	}
-
-          }
-      }
-  </script>
-  <style scoped>
-  	#form-container {
-  		margin: 10px !important;
-  	}
-  	#info-tile {
-  		margin-left: 8% !important;
-  	}
-  	#myMap {
-  		height:300px;
-  		width: 100%;
-  	}
-  	#confirmation-container {
-  		margin: 10px !important;
-  	}
-  	#confirmation-tile {
-  		padding-right: 0 !important;
-  	}
-  </style>
+				this.itemsMap.destinationWin.setContent(place.formatted_address)
+				this.addresses.destination = place.formatted_address
+				this.itemsMap.destinationWin.open(this.itemsMap.map, marker)
+				if(this.itemsMap.markers.length==2){
+					this.addresses.distance = this.distanceLatLng(this.itemsMap.markers)
+					this.calculateAndDisplayRoute(this.itemsMap.directionsService,this.itemsMap.directionsDisplay);
+					this.itemsMap.directionsDisplay.setMap(this.itemsMap.map)
+				}				
+			}
+		}
+	}
+	</script>
+	<style scoped>
+		#form-container {
+			margin: 10px !important;
+		}
+		#info-tile {
+			margin-left: 8% !important;
+		}
+		#myMap {
+			height:300px;
+			width: 100%;
+		}
+		#confirmation-container {
+			margin: 10px !important;
+		}
+		#confirmation-tile {
+			padding-right: 0 !important;
+		}
+	</style>
 
