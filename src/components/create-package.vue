@@ -133,12 +133,12 @@
 						<select v-model="shipment.weight">
 							<option value="" disabled selected>Peso</option>
 							<option value="P">P - Cartas e Envelopes</option>
-							<option value="LL">LL - Até 150g</option>
-							<option value="L">L - Até 600g</option>
-							<option value="M">M - Até 1kg</option>
-							<option value="H">H - Até 2kg</option>
-							<option value="HH">HH - Até 5kg</option>
-							<option value="XH">XH - Até 15kg</option>
+							<option value="LL">LL - Até 600g</option>
+							<option value="L">L - Até 1kg</option>
+							<option value="M">M - Até 2kg</option>
+							<option value="H">H - Até 5kg</option>
+							<option value="HH">HH - Até 15kg</option>
+							<option value="XH">XH - Até 50kg</option>
 						</select>
 					</span>
 					<span class="icon is-small is-left">
