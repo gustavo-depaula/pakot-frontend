@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import Navbar from './components/navbar'
+import Navbar from './components/Navbar'
 import Login from './components/login'
 import SignUp from './components/signup'
 
