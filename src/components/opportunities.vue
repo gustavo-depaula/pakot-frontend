@@ -2,7 +2,7 @@
 <template lang="html">
 	<div id="home">
 		<!-- header -->
-		<div class="hero is-bold is-danger	">
+		<div class="hero is-bold is-primary	">
 			<div class="hero-body">
 				<div class="container">
 					<h1 class="title">
