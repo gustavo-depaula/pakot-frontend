@@ -91,7 +91,7 @@ export default {
 	data() {
 		return {
 			packages: [],
-			isModalVisible: true,
+			isModalVisible: false,
 			shipmentModal: {
 				nickname: "",
 				description: "",

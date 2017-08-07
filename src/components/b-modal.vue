@@ -18,7 +18,7 @@
 					Tamanho <b>{{size}}</b><br>
 					Peso <b>{{weight}}</b>
 				</p>
-
+				<button id="acceptBtn" class="button is-warning is-medium"><span class="icon"><i class="fa fa-check"></i></span>&nbsp;&nbsp;Aceito esta oportunidade.</button>
 			</div>
 		</div>
 		<button class="modal-close is-large" @click="$emit('close')"></button>
@@ -42,5 +42,7 @@
 	}
 </script>
 <style scoped>
-	
+#acceptBtn {
+	width: 100%;
+}
 </style>
