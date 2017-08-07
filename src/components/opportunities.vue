@@ -33,17 +33,14 @@
 							<p class="subtitle">pago em BTC</p>
 						</div>
 						<div class="column">
-							<span v-if="item.arrived == 'true'">
-								<p class="title"><b class="has-text-success">Entregue</b></p>
-								<p class="subtitle">{{ item.datearrived }}</p>
+							<span v-if="item.priority == 1">
+								<p class="title"><b class="has-text-danger">Hoje ainda.</b></p>
 							</span>
-							<span v-else-if="item.assigned == 'true'">
-								<p class="title "><b class="has-text-warning">Despachado</b></p>
-								<p class="subtitle">{{ item.dateassigned }}</p>
+							<span v-else-if="item.priority == 2">
+								<p class="title "><b class="has-text-warning">Até amanhã às 12h.</b></p>
 							</span>
 							<span v-else>
-								<p class="title"><b class="has-text-info">Solicitado</b></p>
-								<p class="subtitle">{{ item.datecreate }}</p>
+								<p class="title"><b class="has-text-info">Em cinco dias.</b></p>
 							</span>
 						</div>
 						<div class="column">
