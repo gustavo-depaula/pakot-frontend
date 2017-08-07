@@ -48,8 +48,8 @@
 					<div class="column">
 						<p class="title">Tamanho {{ item.size }}, peso {{ item.weight }}</p>
 						<p class="subtitle">
-							endereço a <br>
-							endereço b
+							<strong>Origem:</strong>  {{item.origin}}<br>
+							<strong>Destino:</strong> {{item.destination}}
 						</p>
 					</div>
 				</div>
