@@ -219,7 +219,7 @@
 		},
 		methods: {
 			toConfirmation (){
-				if (this.shipment.nickname == "" || this.shipment.description == "" || this.shipment.priority == "" || this.shipment.size == "" || this.shipment.weight == "") {
+				if (this.shipment.nickname == "" || this.shipment.description == "" || this.shipment.priority == "" || this.shipment.size == "" || this.shipment.weight == "" || this.addresses.origin == "" || this.addresses.destination == "") {
 					this.warningMessage = "Você precisa preencher todos os campos para solicitar uma entrega"
 				} else {
 					this.warningMessage = ''
@@ -227,6 +227,9 @@
 				}
 			},
 			createPackage (){
+				this.shipment.origin = this.addresses.origin
+				this.shipment.destination = this.addresses.destination
+
 				axios.post('https://pakot-backend.herokuapp.com/public/package/create', this.shipment)
 				.then(response => {
 					console.log(response)
@@ -272,7 +275,7 @@
 								else{
 									addr.destination = results[1].formatted_address
 									addr.distance = distanceLatLng(itemsMap.markers)
-									routeCalc(itemsMap.directionsService,itemsMap.directionsDisplay);
+									routeCalc(itemsMap.directionsService,itemsMap.directionsDisplay,addr);
 									itemsMap.directionsDisplay.setMap(itemsMap.map);
 								}	
 								
@@ -289,16 +292,16 @@
 				var B = markers[1].position
 				return google.maps.geometry.spherical.computeDistanceBetween(A,B)
 			},
-			calculateAndDisplayRoute(directionsService, directionsDisplay){
+			calculateAndDisplayRoute(directionsService, directionsDisplay, addr){
 				directionsService.route({
-					origin: this.addresses.origin,
-					destination: this.addresses.destination,
+					origin: addr.origin,
+					destination: addr.destination,
 					travelMode: 'DRIVING'
 				}, function(response, status) {
 					if (status === 'OK') {
 						directionsDisplay.setDirections(response);
 					} else {
-						window.alert('Directions request failed due to ' + status);
+						console.log('Directions request failed due to ' + status);
 					}
 				})
 			}
@@ -358,7 +361,7 @@
 				this.itemsMap.originWin.open(this.itemsMap.map, marker)
 				if(this.itemsMap.markers.length==2){
 					this.addresses.distance = this.distanceLatLng(this.itemsMap.markers)
-					this.calculateAndDisplayRoute(this.itemsMap.directionsService,this.itemsMap.directionsDisplay);
+					this.calculateAndDisplayRoute(this.itemsMap.directionsService,this.itemsMap.directionsDisplay, this.addresses);
 					this.itemsMap.directionsDisplay.setMap(this.itemsMap.map)
 				}				
 			}
@@ -379,7 +382,7 @@
 				this.itemsMap.destinationWin.open(this.itemsMap.map, marker)
 				if(this.itemsMap.markers.length==2){
 					this.addresses.distance = this.distanceLatLng(this.itemsMap.markers)
-					this.calculateAndDisplayRoute(this.itemsMap.directionsService,this.itemsMap.directionsDisplay);
+					this.calculateAndDisplayRoute(this.itemsMap.directionsService,this.itemsMap.directionsDisplay, this.addresses);
 					this.itemsMap.directionsDisplay.setMap(this.itemsMap.map)
 				}				
 			}
