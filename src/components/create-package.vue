@@ -72,7 +72,7 @@
 	<transition
 	enter-active-class="animated fadeIn"
 	>
-	<div id="form-container" v-if="!confirmation" class="columns is-clearfix">
+	<div id="form-container" class="columns is-clearfix" :class="{ 'is-hidden': confirmation }">
 
 		<div class="column is-11">
 			<div class="field">
@@ -175,9 +175,10 @@
 				</span>
 				<span>Solicitar entrega</span>
 			</button>
+			
 		</div>
 	</div>
-</transition>
+	</transition>
 
 </div>
 </template>
