@@ -53,7 +53,7 @@
 								<div class="column is-8 is-offset-2">
 									<div class="login-form">
 										<h3 class="title">Entre agora</h3>
-										<h2 class="subtitle">Faça parte do Pakot.</h2>
+										<h2 class="subtitle">Faça parte dessa mudança.</h2>
 										<p class="control login">
 											<button @click="signIn" class="button is-info is-large is-fullwidth" :class="{ 'is-loading': authBtnLoading, 'is-outlined': !authBtnLoading }"><span class="icon"><i class="fa fa-facebook"></i></span></button>
 										</p>
@@ -105,7 +105,7 @@
 						} else {
 							this.$store.commit('userLogIn', user.object)
 							this.$store.commit('userDontRequireSignUp')
-							axios.post('https://pakot-backend.herokuapp.com/public/User/getData', {email: this.$store.getters.user.object.email})
+							axios.post('https://pakot-backend.herokuapp.com/public/DeliveryMan/getData', {email: this.$store.getters.user.object.email})
 							.then(response => {
 								console.log(response)
 								this.$store.commit('cpf', response.data.cpf) 
