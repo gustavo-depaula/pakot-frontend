@@ -8,7 +8,7 @@ import { store } from './store'
 import axios from 'axios';
 
 Vue.config.productionTip = false
-
+Vue.component('b-modal', require('./components/b-modal.vue'))
 /* eslint-disable no-new */
 new Vue({
 	template: `<App/>`,

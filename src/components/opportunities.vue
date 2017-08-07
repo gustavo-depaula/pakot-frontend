@@ -16,7 +16,7 @@
 		</div>
 		<!-- opportunities info -->
 		<div>
-			<div class="card" v-for="item in packages">
+			<div class="card shipments" v-for="item in packages" @click="showModal(item)">
 				<div class="card-content">
 					<div class="columns">
 						<div class="column">
@@ -57,35 +57,79 @@
 				</div>
 			</div>
 		</div>
+		<b-modal v-if="isModalVisible" @close="isModalVisible = !isModalVisible" :nickname="shipmentModal.nickname" :description="shipmentModal.description" :size="shipmentModal.size" :weight="shipmentModal.weight"/>
+		<!-- <div v-if="isModalVisible" class="modal is-active">
+			<div class="modal-background"></div>
+			<div class="modal-content">
+				<div class="box">
+					<div class="columns">
+						<div class="column">
+							<h1 class="title is-2"><b>Pacote</b></h1>
+							<h2 class="subtitle is-4">Descrição</h2>
+						</div>
+						<div class="column">
+							<p class="title is-2 is-pulled-right">R$<b>00,00</b></p>
+						</div>
+					</div>
+					<hr>
+					<p class="title is-3">Deve ser entregue <b>hoje ainda</b><br>
+						Tamanho <b>P</b><br>
+						Peso <b>M</b>
+					</p>
+
+				</div>
+			</div>
+			<button class="modal-close is-large" @click="hideModal"></button>
+		</div> -->
 	</div>
 </template>
 <script>
-	import axios from 'axios';
+import axios from 'axios';
 
-	export default {
-		name: 'Opportunities',
-		data() {
-			return {
-				packages: []
+export default {
+	name: 'Opportunities',
+	data() {
+		return {
+			packages: [],
+			isModalVisible: true,
+			shipmentModal: {
+				nickname: "",
+				description: "",
+				size: "",
+				weight: ""
 			}
-		},
-		methods: {
-			loadPackages() {
-				axios.get('https://pakot-backend.herokuapp.com/public/package/getopen')
-					.then(response => {
-						console.log('resposta')
-						console.log(response.data)
-						this.packages = response.data
-					})
-			}
-		},
-		mounted (){
-			this.loadPackages()
-			console.log(this.$store.state.user)
 		}
+	},
+	methods: {
+		loadPackages() {
+			axios.get('https://pakot-backend.herokuapp.com/public/package/getopen')
+				.then(response => {
+					console.log('resposta')
+					console.log(response.data)
+					this.packages = response.data
+				})
+		},
+		showModal: function(item) {
+			this.shipmentModal.nickname = item.nickname
+			this.shipmentModal.description = item.description
+			this.shipmentModal.size = item.size
+			this.shipmentModal.weight = item.weight
+
+			this.isModalVisible = true
+		},
+		hideModal: function() {
+			this.isModalVisible = false
+		}
+	},
+	mounted (){
+		this.loadPackages()
+		console.log(this.$store.state.user)
 	}
+}
 </script>
 <style scoped>
-
+.shipments {
+	cursor: pointer;
+}
 
 </style>
