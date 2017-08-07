@@ -14,28 +14,23 @@ export const store = new Vuex.Store({
 		},
 		pageloader: false,
 		requireSignUp: false,
+		isUser: false,
+		isDeliveryMan: false
 	},
 	getters: {
-		userLogged: state => {
-			return state.user.logged
-		},
-		user: state => {
-			return state.user
-		},
-		pageloader: state => {
-			return state.pageloader
-		},
-		userSigned: state => {
-			return state.user.signed
-		},
-		cpf: state => {
-			return state.user.cpf
-		},
-		phone: state => {
-			return state.user.phone
-		}
+		userLogged: state => state.user.logged,
+		user: state => state.user,
+		pageloader: state => state.pageloader,
+		userSigned: state => state.user.signed,
+		cpf: state => state.user.cpf,
+		phone: state => state.user.phone,
+		isUser: state => state.isUser,
+		isDeliveryMan: state => state.isDeliveryMan
 	},
 	mutations: {
+		user: (state, user) => {
+			state.user.object = user
+		},
 		userLogIn: (state, user, signed) => {
 			state.user.object = user
 			state.user.logged = true
@@ -59,6 +54,14 @@ export const store = new Vuex.Store({
 		},
 		phone: (state, phone) => {
 			state.user.phone = phone
+		},
+		isUser: (state) => {
+			state.isUser = true
+			state.isDeliveryMan = false
+		},
+		isDeliveryMan: (state) => {
+			state.isUser = false
+			state.isDeliveryMan = true
 		}
 	}
 

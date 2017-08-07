@@ -15,31 +15,10 @@ new Vue({
 	router,
 	store,
 	created() {
-		firebase.initializeApp(config);
+		firebase.initializeApp(config)
+
 		firebase.auth().onAuthStateChanged((user) => {
-			if(user) {
-				axios.post('https://pakot-backend.herokuapp.com/public/login/User', {email: user.email})
-				.then(response => {
-					console.log(response.data)
-					if (response.data == 'requireSignUp') {
-						this.$store.commit('userLogIn', user)
-						this.$store.commit('userRequireSignUp')
-					} else {
-						this.$store.commit('userLogIn', user)
-						this.$store.commit('userDontRequireSignUp')
-						axios.post('https://pakot-backend.herokuapp.com/public/User/getData', {email: this.$store.getters.user.object.email})
-						.then(response => {
-							console.log(response)
-							this.$store.commit('cpf', response.data.cpf) 
-							this.$store.commit('phone', response.data.phone)
-						})
-						this.$router.push('/packages')
-					}
-				})
-				.catch(e => {
-					console.log(e)
-				})
-			}
+			this.$store.commit('user', user)
 		});
 	},
 	components: {

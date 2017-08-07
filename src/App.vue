@@ -4,7 +4,7 @@
 			<SignUp />
 		</div>
 		<div v-else class="columns is-marginless">
-			<div style="background-color: #363636;">
+			<div style="background-color: #151515;">
 				<Navbar />
 			</div>
 			<div class="column is-10 is-paddingless">

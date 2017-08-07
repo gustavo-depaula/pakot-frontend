@@ -80,22 +80,41 @@
 		methods: {
 			signUp (){
 				this.btnLoading = true
-				axios.post('https://pakot-backend.herokuapp.com/public/login/SignUp', this.user)
-				.then(response => {
-					if (response.data == 'SignUpSuccess') {
-						axios.post('https://pakot-backend.herokuapp.com/public/User/getData', {email: this.$store.getters.user.object.email})
+				if (this.$store.getters.isUser) {
+					axios.post('https://pakot-backend.herokuapp.com/public/login/SignUp', this.user)
 						.then(response => {
-							this.$store.commit('cpf', response.data.cpf) 
-							this.$store.commit('phone', response.data.phone)
+							if (response.data == 'SignUpSuccess') {
+								axios.post('https://pakot-backend.herokuapp.com/public/User/getData', {email: this.$store.getters.user.object.email})
+								.then(response => {
+									this.$store.commit('cpf', response.data.cpf) 
+									this.$store.commit('phone', response.data.phone)
+								})
+								this.$store.commit('userDontRequireSignUp')							
+							} else {
+								this.danger = true		
+							}
 						})
-						this.$store.commit('userDontRequireSignUp')							
-					} else {
-						this.danger = true		
-					}
-				})
-				.catch(e => {
-					console.log(e)
-				})
+						// .catch(e => {
+						// 	console.log(e)
+						// })
+				} else {
+					axios.post('https://pakot-backend.herokuapp.com/public/login/SignUpDeliveryMan', this.user)
+						.then(response => {
+							if (response.data == 'SignUpSuccess') {
+								axios.post('https://pakot-backend.herokuapp.com/public/DeliveryMan/getData', {email: this.$store.getters.user.object.email})
+									.then(response => {
+										this.$store.commit('cpf', response.data.cpf) 
+										this.$store.commit('phone', response.data.phone)
+									})
+								this.$store.commit('userDontRequireSignUp')							
+							} else {
+								this.danger = true		
+							}
+						})
+						// .catch(e => {
+						// 	console.log(e)
+						// })
+				}
 			}
 		},
 		mounted (){
