@@ -54,7 +54,7 @@
 				</div>
 			</div>
 		</div>
-		<b-modal v-if="isModalVisible" @close="isModalVisible = !isModalVisible" :nickname="shipmentModal.nickname" :description="shipmentModal.description" :size="shipmentModal.size" :weight="shipmentModal.weight"/>
+		<b-modal v-if="isModalVisible" @close="isModalVisible = !isModalVisible" @accept="acceptOpportunity" :nickname="shipmentModal.nickname" :priority="shipmentModal.priority" :description="shipmentModal.description" :size="shipmentModal.size" :weight="shipmentModal.weight"/>
 		<!-- <div v-if="isModalVisible" class="modal is-active">
 			<div class="modal-background"></div>
 			<div class="modal-content">
@@ -93,7 +93,9 @@ export default {
 				nickname: "",
 				description: "",
 				size: "",
-				weight: ""
+				weight: "",
+				id: "",
+				priority: null
 			}
 		}
 	},
@@ -111,11 +113,22 @@ export default {
 			this.shipmentModal.description = item.description
 			this.shipmentModal.size = item.size
 			this.shipmentModal.weight = item.weight
-
+			this.shipmentModal.priority = item.priority
+			this.shipmentModal.id = item.id
 			this.isModalVisible = true
 		},
 		hideModal: function() {
 			this.isModalVisible = false
+		},
+		acceptOpportunity (){
+			console.log(this.shipmentModal.id)
+			axios.post('https://pakot-backend.herokuapp.com/public/DeliveryMan/assignPackage', {
+				email: this.$store.getters.user.object.email,
+				id: this.shipmentModal.id
+			})
+				.then(response => {
+					console.log(response)
+				})
 		}
 	},
 	mounted (){

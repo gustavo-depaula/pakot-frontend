@@ -14,11 +14,22 @@
 					</div>
 				</div>
 				<hr>
-				<p class="title is-3">Deve ser entregue <b>{{priority}}</b><br>
+				<p class="title is-3">
+					Deve ser entregue
+					<span v-if="priority == 1">
+						<b class="has-text-danger">hoje ainda.</b>
+					</span>
+					<span v-else-if="priority == 2">
+						<b class="has-text-warning">até amanhã às 12h.</b>
+					</span>
+					<span v-else>
+						<b class="has-text-info">em cinco dias.</b>
+					</span>
+					<br>
 					Tamanho <b>{{size}}</b><br>
 					Peso <b>{{weight}}</b>
 				</p>
-				<button id="acceptBtn" class="button is-warning is-medium"><span class="icon"><i class="fa fa-check"></i></span>&nbsp;&nbsp;Aceito esta oportunidade.</button>
+				<button id="acceptBtn" @click="$emit('accept')" class="button is-warning is-medium"><span class="icon"><i class="fa fa-check"></i></span>&nbsp;&nbsp;Aceito esta oportunidade.</button>
 			</div>
 		</div>
 		<button class="modal-close is-large" @click="$emit('close')"></button>
@@ -37,7 +48,7 @@
 
 		},
 		mounted (){
-
+			console.log(this.priority)
 		}
 	}
 </script>
