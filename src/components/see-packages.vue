@@ -36,8 +36,12 @@
 							<p class="title"><b class="has-text-success">Entregue</b></p>
 							<p class="subtitle">{{ item.datearrived }}</p>
 						</span>
+						<span v-else-if="item.dispatched == 'true'">
+							<p class="title "><b class="has-text-primary">Despachado</b></p>
+							<p class="subtitle">{{ item.datedispatched }}</p>
+						</span>
 						<span v-else-if="item.assigned == 'true'">
-							<p class="title "><b class="has-text-warning">Despachado</b></p>
+							<p class="title "><b class="has-text-warning">Atribuído</b></p>
 							<p class="subtitle">{{ item.dateassigned }}</p>
 						</span>
 						<span v-else>

@@ -54,8 +54,8 @@
 				</div>
 			</div>
 		</div>
-		<b-modal v-if="isModalVisible" @close="isModalVisible = !isModalVisible" :nickname="shipmentModal.nickname" :description="shipmentModal.description" :size="shipmentModal.size" :weight="shipmentModal.weight" :origin="shipmentModal.origin" :destination="shipmentModal.destination"/>
-		<b-modal v-if="isModalVisible" @close="isModalVisible = !isModalVisible" @accept="acceptOpportunity" :nickname="shipmentModal.nickname" :priority="shipmentModal.priority" :description="shipmentModal.description" :size="shipmentModal.size" :weight="shipmentModal.weight"/>
+		<!-- <b-modal v-if="isModalVisible" @close="isModalVisible = !isModalVisible" :nickname="shipmentModal.nickname" :description="shipmentModal.description" :size="shipmentModal.size" :weight="shipmentModal.weight" /> -->
+		<b-modal v-if="isModalVisible" @close="isModalVisible = !isModalVisible" @accept="acceptOpportunity" :nickname="shipmentModal.nickname" :priority="shipmentModal.priority" :description="shipmentModal.description" :size="shipmentModal.size" :weight="shipmentModal.weight" :origin="shipmentModal.origin" :destination="shipmentModal.destination"/>
 		<!-- <div v-if="isModalVisible" class="modal is-active">
 			<div class="modal-background"></div>
 			<div class="modal-content">
@@ -96,7 +96,7 @@ export default {
 				size: "",
 				weight: "",
 				id: "",
-				priority: null
+				priority: null,
 				origin:"",
 				destination:"",
 				distance:""
@@ -134,6 +134,8 @@ export default {
 				id: this.shipmentModal.id
 			})
 				.then(response => {
+					this.loadPackages()
+					this.hideModal()
 					console.log(response)
 				})
 		}
