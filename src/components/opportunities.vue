@@ -46,15 +46,15 @@
 						<div class="column">
 							<p class="title">Tamanho {{ item.size }}, peso {{ item.weight }}</p>
 							<p class="subtitle">
-								endereço a <br>
-								endereço b
+								{{item.origin}} <br>
+								{{item.destination}}
 							</p>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		<b-modal v-if="isModalVisible" @close="isModalVisible = !isModalVisible" :nickname="shipmentModal.nickname" :description="shipmentModal.description" :size="shipmentModal.size" :weight="shipmentModal.weight"/>
+		<b-modal v-if="isModalVisible" @close="isModalVisible = !isModalVisible" :nickname="shipmentModal.nickname" :description="shipmentModal.description" :size="shipmentModal.size" :weight="shipmentModal.weight" :origin="shipmentModal.origin" :destination="shipmentModal.destination"/>
 		<!-- <div v-if="isModalVisible" class="modal is-active">
 			<div class="modal-background"></div>
 			<div class="modal-content">
@@ -93,7 +93,10 @@ export default {
 				nickname: "",
 				description: "",
 				size: "",
-				weight: ""
+				weight: "",
+				origin:"",
+				destination:"",
+				distance:""
 			}
 		}
 	},
@@ -111,6 +114,8 @@ export default {
 			this.shipmentModal.description = item.description
 			this.shipmentModal.size = item.size
 			this.shipmentModal.weight = item.weight
+			this.shipmentModal.origin = item.origin;
+			this.shipmentModal.destination = item.destination;
 
 			this.isModalVisible = true
 		},
