@@ -40,6 +40,10 @@
 										<p class="field">
 											<div class="control"><input v-model="user.phone" type="tel" class="input is-large" :class="{ 'is-danger': danger }" placeholder="Seu telefone"></div>
 										</p>
+										<p>
+											<div id="recaptchacontainer"></div>
+											
+										</p>
 										<p class="control login">
 											<button @click="signUp" class="button is-success is-large is-fullwidth" :class="{ 'is-loading': btnLoading, 'is-outlined': !btnLoading }"><span class="icon"><i class="fa fa-sign-in"></i></span></button>
 										</p>
@@ -74,53 +78,88 @@
 					phone: '',
 					payment: 'BTC'
 				},
-				danger: false
+				danger: false,
+				captchaResponse: null
 			}
 		},
 		methods: {
 			signUp (){
 				this.btnLoading = true
-				if (this.$store.getters.isUser) {
-					axios.post('https://pakot-backend.herokuapp.com/public/login/SignUp', this.user)
-						.then(response => {
-							if (response.data == 'SignUpSuccess') {
-								axios.post('https://pakot-backend.herokuapp.com/public/User/getData', {email: this.$store.getters.user.object.email})
-								.then(response => {
-									this.$store.commit('cpf', response.data.cpf) 
-									this.$store.commit('phone', response.data.phone)
-								})
-								this.$store.commit('userDontRequireSignUp')							
-							} else {
-								this.danger = true		
-							}
-						})
-						// .catch(e => {
-						// 	console.log(e)
-						// })
-				} else {
-					axios.post('https://pakot-backend.herokuapp.com/public/login/SignUpDeliveryMan', this.user)
-						.then(response => {
-							if (response.data == 'SignUpSuccess') {
-								axios.post('https://pakot-backend.herokuapp.com/public/DeliveryMan/getData', {email: this.$store.getters.user.object.email})
+				if (this.user.cpf != '' && this.user.phone != '') {
+					if (this.$store.getters.isUser) {
+						axios.post('https://pakot-backend.herokuapp.com/public/login/SignUp', this.user)
+							.then(response => {
+								console.log(response.data)
+								if (response.data == 'SignUpSuccess') {
+									axios.post('https://pakot-backend.herokuapp.com/public/User/getData', {email: this.$store.getters.user.object.email})
 									.then(response => {
 										this.$store.commit('cpf', response.data.cpf) 
 										this.$store.commit('phone', response.data.phone)
 									})
-								this.$store.commit('userDontRequireSignUp')							
-							} else {
-								this.danger = true		
-							}
-						})
-						// .catch(e => {
-						// 	console.log(e)
-						// })
+									this.$store.commit('userDontRequireSignUp')							
+								} else {
+									this.btnLoading = false
+									this.danger = true		
+								}
+							})
+							// .catch(e => {
+							// 	console.log(e)
+							// })
+					} else {
+						axios.post('https://pakot-backend.herokuapp.com/public/login/SignUpDeliveryMan', this.user)
+							.then(response => {
+								if (response.data == 'SignUpSuccess') {
+									axios.post('https://pakot-backend.herokuapp.com/public/DeliveryMan/getData', {email: this.$store.getters.user.object.email})
+										.then(response => {
+											this.$store.commit('cpf', response.data.cpf) 
+											this.$store.commit('phone', response.data.phone)
+										})
+									this.$store.commit('userDontRequireSignUp')							
+								} else {
+									this.btnLoading = false
+									this.danger = true		
+								}
+							})
+							// .catch(e => {
+							// 	console.log(e)
+							// })
+					}	
+				} else {
+					this.btnLoading = false
+					this.danger = true	
 				}
 			}
 		},
 		mounted (){
-		// auth.signIn()
-		// this.$store.state.user.logged = true
-	}
+			// auth.signIn()
+			// this.$store.state.user.logged = true
+
+			/* ReCaptcha API */
+			window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptchacontainer', {
+				'hl': 'pt-BR',
+				'size': 'normal',
+				'callback': (response) => {
+					this.captchaResponse = response
+					firebase.auth().signInWithPhoneNumber('+5531984567553', window.recaptchaVerifier)
+						.then(function (confirmationResult) {
+							console.log(confirmationResult)
+							// SMS sent. Prompt user to type the code from the message, then sign the
+							// user in with confirmationResult.confirm(code).
+							window.confirmationResult = confirmationResult;
+						}).catch(function (error) {
+							// Error; SMS not sent
+							// ...
+						});
+				}
+			})
+			// recaptchaVerifier.hl('pt-BR')
+			console.log(recaptchaVerifier)
+			recaptchaVerifier.render().then(function(widgetId) {
+				window.recaptchaWidgetId = widgetId
+			});
+			// var recaptchaResponse = grecaptcha.getResponse(window.recaptchaWidgetId);
+			// console.log(recaptchaResponse)
+		}
 }
 </script>
 
