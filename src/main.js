@@ -15,10 +15,15 @@ new Vue({
 	router,
 	store,
 	created() {
+
 		firebase.initializeApp(config)
 
 		firebase.auth().onAuthStateChanged((user) => {
-			this.$store.commit('user', user)
+			if (this.$store.getters.user.object == null) {
+				this.$store.commit('user', user)
+			} else {
+				this.$store.commit('phoneObject', user)
+			}
 		});
 	},
 	components: {

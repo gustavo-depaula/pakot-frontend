@@ -9,6 +9,7 @@ export const store = new Vuex.Store({
 			logged: false,
 			signed: false,
 			object: null,
+			phoneObject: null,
 			cpf: null,
 			phone: null
 		},
@@ -30,6 +31,9 @@ export const store = new Vuex.Store({
 	mutations: {
 		user: (state, user) => {
 			state.user.object = user
+		},
+		phoneObject: (state, user) => {
+			state.user.phoneObject = user
 		},
 		userLogIn: (state, user, signed) => {
 			state.user.object = user
