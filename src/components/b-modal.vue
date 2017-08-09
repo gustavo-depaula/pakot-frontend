@@ -30,8 +30,8 @@
 					Peso <b>{{weight}}</b>
 				</p>
 				<div id="mapModal"></div>
-				<button v-if="isDeliveryMan" id="acceptBtn" @click="$emit('accept')" class="button is-warning is-medium"><span class="icon"><i class="fa fa-check"></i></span>&nbsp;&nbsp;Aceito esta oportunidade.</button>
-				<button v-if="!isDeliveryMan" id="acceptBtn" @click="$emit('accept')" class="button is-danger is-medium"><span class="icon"><i class="fa fa-times"></i></span>&nbsp;&nbsp;Cancelar esta entrega.</button>
+				<button v-if="isDeliveryMan" @click="$emit('accept')" class="actionBtn button is-warning is-medium"><span class="icon"><i class="fa fa-check"></i></span>&nbsp;&nbsp;Aceito esta oportunidade.</button>
+				<button v-if="!isDeliveryMan" @click="$emit('cancel')" class="actionBtn button is-danger is-medium"><span class="icon"><i class="fa fa-times"></i></span>&nbsp;&nbsp;Cancelar esta entrega.</button>
 			</div>
 		</div>
 		<button class="modal-close is-large" @click="$emit('close')"></button>
@@ -123,7 +123,7 @@
 	}
 </script>
 <style scoped>
-	#acceptBtn {
+	.actionBtn {
 		width: 100%;
 	}
 	#mapModal {

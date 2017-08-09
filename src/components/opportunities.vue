@@ -56,29 +56,6 @@
 		</div>
 		<!-- <b-modal v-if="isModalVisible" @close="isModalVisible = !isModalVisible" :nickname="shipmentModal.nickname" :description="shipmentModal.description" :size="shipmentModal.size" :weight="shipmentModal.weight" /> -->
 		<b-modal v-if="isModalVisible" @close="isModalVisible = !isModalVisible" @accept="acceptOpportunity" :nickname="shipmentModal.nickname" :priority="shipmentModal.priority" :price="shipmentModal.price" :description="shipmentModal.description" :size="shipmentModal.size" :weight="shipmentModal.weight" :origin="shipmentModal.origin" :destination="shipmentModal.destination" user="deliveryMan"/>
-		<!-- <div v-if="isModalVisible" class="modal is-active">
-			<div class="modal-background"></div>
-			<div class="modal-content">
-				<div class="box">
-					<div class="columns">
-						<div class="column">
-							<h1 class="title is-2"><b>Pacote</b></h1>
-							<h2 class="subtitle is-4">Descrição</h2>
-						</div>
-						<div class="column">
-							<p class="title is-2 is-pulled-right">R$<b>00,00</b></p>
-						</div>
-					</div>
-					<hr>
-					<p class="title is-3">Deve ser entregue <b>hoje ainda</b><br>
-						Tamanho <b>P</b><br>
-						Peso <b>M</b>
-					</p>
-
-				</div>
-			</div>
-			<button class="modal-close is-large" @click="hideModal"></button>
-		</div> -->
 	</div>
 </template>
 <script>
@@ -109,8 +86,8 @@ export default {
 			this.packages.forEach((item) => {
 				axios.post('https://pakot-backend.herokuapp.com/public/package/price', {"id": item.id})
 					.then(response => {
-						console.log('oi')
-						console.log(response.data.price)
+						// console.log('oi')
+						// console.log(response.data.price)
 						item.price = response.data.price
 					})
 			})	
@@ -118,8 +95,8 @@ export default {
 		loadPackages() {
 			axios.get('https://pakot-backend.herokuapp.com/public/package/getopen')
 				.then(response => {
-					console.log('resposta')
-					console.log(response.data)
+					// console.log('resposta')
+					// console.log(response.data)
 					this.packages = response.data
 					this.getPrices()
 				})
@@ -141,7 +118,7 @@ export default {
 			this.isModalVisible = false
 		},
 		acceptOpportunity (){
-			console.log(this.shipmentModal.id)
+			// console.log(this.shipmentModal.id)
 			axios.post('https://pakot-backend.herokuapp.com/public/DeliveryMan/assignPackage', {
 				email: this.$store.getters.user.object.email,
 				id: this.shipmentModal.id
@@ -155,7 +132,7 @@ export default {
 	},
 	mounted (){
 		this.loadPackages()
-		console.log(this.$store.state.user)
+		// console.log(this.$store.state.user)
 	}
 }
 </script>
