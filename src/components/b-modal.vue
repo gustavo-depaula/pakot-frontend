@@ -16,10 +16,10 @@
 				<hr>
 				<p class="title is-3">
 					Deve ser entregue
-					<span v-if="priority == 1">
+					<span v-if="priority == 2">
 						<b class="has-text-danger">hoje ainda.</b>
 					</span>
-					<span v-else-if="priority == 2">
+					<span v-else-if="priority == 1">
 						<b class="has-text-warning">até amanhã às 12h.</b>
 					</span>
 					<span v-else>

@@ -6,9 +6,11 @@ import router from './router'
 
 import { store } from './store'
 import axios from 'axios';
+import VueTheMask from 'vue-the-mask'
 
 Vue.config.productionTip = false
 Vue.component('b-modal', require('./components/b-modal.vue'))
+Vue.use(VueTheMask)
 /* eslint-disable no-new */
 new Vue({
 	template: `<App/>`,

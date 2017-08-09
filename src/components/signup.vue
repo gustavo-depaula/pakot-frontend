@@ -27,7 +27,7 @@
 								<div class="column is-10 is-offset-1">
 									<div v-if="!phoneConfirmation" class="login-form">
 										<h3 class="title">Primeira vez aqui? Seja bem vindo.</h3>
-										<h2 class="subtitle">Precisamos de algumas infromações suas.</h2>
+										<h2 class="subtitle">Precisamos de algumas informações suas.</h2>
 										<p class="field">
 											<div class="control"><input type="text" class="input is-large" :placeholder="this.$store.getters.user.object.displayName" disabled></div>
 										</p>
@@ -35,10 +35,10 @@
 											<div class="control"><input type="text" class="input is-large" :placeholder="this.$store.getters.user.object.email" disabled></div>
 										</p>
 										<p class="field">
-											<div class="control"><input v-model="user.cpf" type="number" class="input is-large" :class="{ 'is-danger': cpfDanger }" placeholder="Seu CPF"></div>
+											<div class="control"><input v-model="user.cpf" type="" v-mask="'###.###.###-##'" class="input is-large" :class="{ 'is-danger': cpfDanger }" placeholder="Seu CPF"></div>
 										</p>
 										<p class="field">
-											<div class="control"><input v-model="user.phone" type="tel" class="input is-large" placeholder="Seu telefone"></div>
+											<div class="control"><input v-model="user.phone" type="tel" v-mask="'+## ## ###.###.###'" class="input is-large" :class="{ 'is-danger': phoneDanger }" placeholder="Seu telefone"></div>
 										</p>
 										<p>
 											<div id="recaptchacontainer"></div>
@@ -52,13 +52,21 @@
 										<h3 class="title">Só mais uma coisa.</h3>
 										<h2 class="subtitle">Confirme o código que foi enviado para seu telefone.</h2>
 										<p class="field">
-											<div class="control"><input v-model="user.phone" type="tel" class="input is-large" placeholder="Seu telefone" disabled></div>
+											<div class="control"><input v-model="user.phone" v-mask="'+## ## ###.###.###'" type="tel" class="input is-large" placeholder="Seu telefone" disabled></div>
 										</p>
 										<p class="field">
 											<div class="control"><input v-model="user.smscode" type="number" class="input is-large" :class="{ 'is-danger': phoneDanger }" placeholder="Código de Confirmação"></div>
 										</p>
 										<p class="control login">
-											<button @click="confirmCode" class="button is-success is-large is-fullwidth" :disabled="btnDisable" :class="{ 'is-loading': btnLoading, 'is-outlined': !btnLoading }"><span class="icon"><i class="fa fa-sign-in"></i></span></button>
+											<div class="columns">
+												<div class="column is-one-quarter">
+													<button @click="this.location.reload()" class="button is-danger is-large is-fullwidth"><span class="icon"><i class="fa fa-arrow-left"></i></span></button>
+												</div>
+												<div class="column">
+													<button @click="confirmCode" class="button is-success is-large is-fullwidth" :disabled="btnDisable" :class="{ 'is-loading': btnLoading, 'is-outlined': !btnLoading }"><span class="icon"><i class="fa fa-sign-in"></i></span></button>
+													
+												</div>
+											</div>
 										</p>
 									</div>
 									<div class="section copyheart">
@@ -101,6 +109,10 @@
 			}
 		},
 		methods: {
+			parseCpfAndPhone (item){
+				console.log(item.replace(/,/g, '').replace(/-/g, '').replace(/\s+/g, '').split('.').join(""))
+				return item.replace(/,/g, '').replace(/-/g, '').replace(/\s+/g, '').split('.').join("")
+			},
 			cpfValidation(strCPF) {
 				var Sum
 				var Rest
@@ -123,14 +135,17 @@
 				return true
 			},
 			sendSMSCode (){
-				if (this.cpfValidation(this.user.cpf)) {
-					firebase.auth().signInWithPhoneNumber(this.user.phone, window.recaptchaVerifier)
+				if (this.cpfValidation(this.parseCpfAndPhone(this.user.cpf))) {
+					firebase.auth().signInWithPhoneNumber(this.parseCpfAndPhone(this.user.phone), window.recaptchaVerifier)
 						.then((confirmationResult) => {
+							this.phoneDanger = false
 							this.phoneConfirmation = true
 							console.log(confirmationResult)
 							// SMS sent. Prompt user to type the code from the message, then sign the
 							// user in with confirmationResult.confirm(code).
 							window.confirmationResult = confirmationResult;
+						}).catch((error) => {
+							this.phoneDanger = true
 						})
 				} else {
 					this.cpfDanger = true
@@ -143,7 +158,7 @@
 					console.log(result)
 					this.signUp()
 					// ...
-				}).catch( (error) => {
+				}).catch((error) => {
 					// User couldn't sign in (bad verification code?)
 					// ...
 					this.phoneDanger = true
