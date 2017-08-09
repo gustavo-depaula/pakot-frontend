@@ -115,9 +115,9 @@
 							<option value="P">P - Cartas e Envelopes</option>
 							<option value="SS">SS - Até 10cm x 10cm x 10cm</option>
 							<option value="S">S - Até 20cm x 20cm x 20cm</option>
-							<option value="M">M - Até 20cm x 20cm x 20cm</option>
-							<option value="L">L - Até 35cm x 35cm x 35cm</option>
-							<option value="LL">LL - Até 50cm x 50cm x 50cm</option>
+							<option value="M">M - Até 35cm x 35cm x 35cm</option>
+							<option value="L">L - Até 50cm x 50cm x 50cm</option>
+							<option value="LL">LL - Até 80cm x 80cm x 80cm</option>
 							<option value="XL">XL - Até 200cm x 200cm x 200cm</option>
 						</select>
 					</span>
