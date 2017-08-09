@@ -4,7 +4,7 @@
 		<div class="modal-background"></div>
 		<div class="modal-content">
 			<div class="box">
-				<div class="columns">
+				<div class="columns is-hidden-touch">
 					<div class="column">
 						<h1 class="title is-2"><b>{{nickname}}</b></h1>
 						<h2 class="subtitle is-4">{{description}}</h2>
@@ -12,6 +12,11 @@
 					<div class="column">
 						<p class="title is-2 is-pulled-right">R$<b>{{price}},00</b></p>
 					</div>
+				</div>
+				<div class="is-hidden-desktop has-text-centered">
+					<h1 class="title is-2"><b>{{nickname}}</b></h1>
+					<h2 class="subtitle is-4">{{description}}</h2>
+					<p class="title is-2">R$<b>{{price}},00</b></p>
 				</div>
 				<hr>
 				<p class="title is-3">
