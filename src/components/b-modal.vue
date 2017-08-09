@@ -10,7 +10,7 @@
 						<h2 class="subtitle is-4">{{description}}</h2>
 					</div>
 					<div class="column">
-						<p class="title is-2 is-pulled-right">R$<b>00,00</b></p>
+						<p class="title is-2 is-pulled-right">R$<b>{{price}},00</b></p>
 					</div>
 				</div>
 				<hr>
@@ -29,8 +29,9 @@
 					Tamanho <b>{{size}}</b><br>
 					Peso <b>{{weight}}</b>
 				</p>
-				<button id="acceptBtn" @click="$emit('accept')" class="button is-warning is-medium"><span class="icon"><i class="fa fa-check"></i></span>&nbsp;&nbsp;Aceito esta oportunidade.</button>
 				<div id="mapModal"></div>
+				<button v-if="isDeliveryMan" id="acceptBtn" @click="$emit('accept')" class="button is-warning is-medium"><span class="icon"><i class="fa fa-check"></i></span>&nbsp;&nbsp;Aceito esta oportunidade.</button>
+				<button v-if="!isDeliveryMan" id="acceptBtn" @click="$emit('accept')" class="button is-danger is-medium"><span class="icon"><i class="fa fa-times"></i></span>&nbsp;&nbsp;Cancelar esta entrega.</button>
 			</div>
 		</div>
 		<button class="modal-close is-large" @click="$emit('close')"></button>
@@ -39,7 +40,7 @@
 <script>
 	export default {
 		name: 'b-modal',
-		props: ['nickname', 'description', 'priority', 'size', 'weight','origin','destination'],
+		props: ['nickname', 'description', 'price', 'priority', 'size', 'weight','origin','destination', 'user'],
 		data() {
 			return {
 				itemsMap: {
@@ -96,6 +97,13 @@
 						console.log('Directions request failed due to ' + status);
 					}
 				})
+			}
+		},
+		computed: {
+			isDeliveryMan (){
+				if (this.user == 'deliveryMan') {
+					return true
+				}
 			}
 		},
 		mounted: function() {

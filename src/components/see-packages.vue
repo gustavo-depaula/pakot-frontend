@@ -28,7 +28,7 @@
 						
 					</div>
 					<div class="column">
-						<p class="title">R$00,00</p>
+						<p class="title">R${{item.price}},00</p>
 						<p class="subtitle">pago em BTC</p>
 					</div>
 					<div class="column">
@@ -51,12 +51,12 @@
 					</div>
 					<div class="column">
 						<p class="title">Tamanho {{ item.size }}, peso {{ item.weight }}</p>
-						<p class="subtitle">
-							<strong>Origem:</strong>  {{item.origin}}<br>
-							<strong>Destino:</strong> {{item.destination}}
-						</p>
 					</div>
 				</div>
+				<p class="subtitle">
+					<strong>Origem:</strong>  {{item.origin}}
+					<strong>Destino:</strong> {{item.destination}}
+				</p>
 			</div>
 		</div>
 	</div>
@@ -72,13 +72,25 @@
 			}
 		},
 		methods: {
+			getPrices (){
+				this.packages.forEach((item) => {
+					axios.post('https://pakot-backend.herokuapp.com/public/package/price', {"id": item.id})
+						.then(response => {
+							console.log('oi')
+							console.log(response.data.price)
+							item.price = response.data.price
+						})
+				})	
+			},
 			loadPackages() {
-				axios.post('https://pakot-backend.herokuapp.com/public/package/getallpackages', {email: this.$store.getters.user.object.email})
-				.then(response => {
-					console.log(response.data)
-					this.packages = response.data
-				})
-			}
+				axios.get('https://pakot-backend.herokuapp.com/public/package/getopen')
+					.then(response => {
+						console.log('resposta')
+						console.log(response.data)
+						this.packages = response.data
+						this.getPrices()
+					})
+			},
 		},
 		mounted (){
 			this.loadPackages()

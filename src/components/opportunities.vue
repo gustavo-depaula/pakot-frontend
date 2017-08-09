@@ -29,14 +29,14 @@
 							
 						</div>
 						<div class="column">
-							<p class="title">R$00,00</p>
+							<p class="title">R${{item.price}},00</p>
 							<p class="subtitle">pago em BTC</p>
 						</div>
 						<div class="column">
-							<span v-if="item.priority == 1">
+							<span v-if="item.priority == 2">
 								<p class="title"><b class="has-text-danger">Hoje ainda.</b></p>
 							</span>
-							<span v-else-if="item.priority == 2">
+							<span v-else-if="item.priority == 1">
 								<p class="title "><b class="has-text-warning">Até amanhã às 12h.</b></p>
 							</span>
 							<span v-else>
@@ -45,17 +45,17 @@
 						</div>
 						<div class="column">
 							<p class="title">Tamanho {{ item.size }}, peso {{ item.weight }}</p>
-							<p class="subtitle">
-								{{item.origin}} <br>
-								{{item.destination}}
-							</p>
 						</div>
 					</div>
+					<p class="subtitle">
+						<strong>Origem:</strong>  {{item.origin}}
+						<strong>Destino:</strong> {{item.destination}}
+					</p>
 				</div>
 			</div>
 		</div>
 		<!-- <b-modal v-if="isModalVisible" @close="isModalVisible = !isModalVisible" :nickname="shipmentModal.nickname" :description="shipmentModal.description" :size="shipmentModal.size" :weight="shipmentModal.weight" /> -->
-		<b-modal v-if="isModalVisible" @close="isModalVisible = !isModalVisible" @accept="acceptOpportunity" :nickname="shipmentModal.nickname" :priority="shipmentModal.priority" :description="shipmentModal.description" :size="shipmentModal.size" :weight="shipmentModal.weight" :origin="shipmentModal.origin" :destination="shipmentModal.destination"/>
+		<b-modal v-if="isModalVisible" @close="isModalVisible = !isModalVisible" @accept="acceptOpportunity" :nickname="shipmentModal.nickname" :priority="shipmentModal.priority" :price="shipmentModal.price" :description="shipmentModal.description" :size="shipmentModal.size" :weight="shipmentModal.weight" :origin="shipmentModal.origin" :destination="shipmentModal.destination" user="deliveryMan"/>
 		<!-- <div v-if="isModalVisible" class="modal is-active">
 			<div class="modal-background"></div>
 			<div class="modal-content">
@@ -96,6 +96,7 @@ export default {
 				size: "",
 				weight: "",
 				id: "",
+				price: "",
 				priority: null,
 				origin:"",
 				destination:"",
@@ -104,12 +105,23 @@ export default {
 		}
 	},
 	methods: {
+		getPrices (){
+			this.packages.forEach((item) => {
+				axios.post('https://pakot-backend.herokuapp.com/public/package/price', {"id": item.id})
+					.then(response => {
+						console.log('oi')
+						console.log(response.data.price)
+						item.price = response.data.price
+					})
+			})	
+		},
 		loadPackages() {
 			axios.get('https://pakot-backend.herokuapp.com/public/package/getopen')
 				.then(response => {
 					console.log('resposta')
 					console.log(response.data)
 					this.packages = response.data
+					this.getPrices()
 				})
 		},
 		showModal: function(item) {
@@ -121,6 +133,7 @@ export default {
 			this.shipmentModal.id = item.id
 			this.shipmentModal.origin = item.origin;
 			this.shipmentModal.destination = item.destination;
+			this.shipmentModal.price = item.price
 
 			this.isModalVisible = true
 		},
