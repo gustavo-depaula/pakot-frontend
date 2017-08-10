@@ -21,6 +21,7 @@ export const store = new Vuex.Store({
 	getters: {
 		userLogged: state => state.user.logged,
 		user: state => state.user,
+		email: state => state.user.object.email,
 		pageloader: state => state.pageloader,
 		userSigned: state => state.user.signed,
 		cpf: state => state.user.cpf,
