@@ -152,6 +152,7 @@
 		computed: {
 		},
 		mounted (){
+			this.$store.commit('userSignOut')
 		// auth.signIn()
 		// this.$store.state.user.logged = true
 

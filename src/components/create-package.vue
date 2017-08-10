@@ -147,25 +147,37 @@
 				</p>
 			</div>
 
-			<div class="">
+<!-- 			<div class="">
 				<p>Origem: {{addresses.origin}}</p>
 				<p>Destino: {{addresses.destination}}</p>
 				<p>Distância: {{addresses.distance}} (metros)</p>				
 				
-			</div>
-			<div class="field">
-				<label class="label">Origem</label>
-				<div class="control">
-					<input id="originInput" class="input" type="text" placeholder="...">
+			</div> -->
+			<label class="label">Origem</label>
+			<div class="field has-addons">
+				<div class="control is-expanded">
+					<input id="originInput" class="input" type="text" placeholder="e.g Las Vegas Strip">
 				</div>
-				<label class="label">Destino</label>
 				<div class="control">
-					<input id="destinationInput" class="input" type="text" placeholder="...">
+					<a class="button is-danger" @click="removeOrigin">
+						<span class="icon"><i class="fa fa-times"></i></span>
+					</a>
 				</div>
 			</div>
-			<button @click="resetMap()" class="button is-success is-large">
+			<label class="label">Destino</label>
+			<div class="field has-addons">
+				<div class="control is-expanded">
+					<input id="destinationInput" class="input" type="text" placeholder="e.g Hollywood Boulevard" :disabled="!isOriginFilled">
+				</div>
+				<div class="control">
+					<a class="button is-danger" @click="removeDestiny" :disabled="!isOriginFilled">
+						<span class="icon"><i class="fa fa-times"></i></span>
+					</a>
+				</div>
+			</div>
+<!-- 			<button @click="resetMap()" class="button is-success is-large">
 				<span>Clean map</span>
-			</button>
+			</button> -->
 			<div id="myMap"></div>
 
 			<hr>
@@ -242,6 +254,23 @@
 				})
 			},
 			//------------------------GOOGLE MAPS FUNCTIONS------------------------
+			removeOrigin (){
+				this.resetMap()
+				document.getElementById('originInput').value = ""
+				document.getElementById('destinationInput').value = ""
+			},
+			removeDestiny (){
+				document.getElementById('destinationInput').value = ""
+
+				this.itemsMap.markers[1].setMap(null);
+				this.addresses.destination = ""
+				this.itemsMap.markers.pop()
+				this.itemsMap.directionsDisplay.setMap(null);
+								if(typeof this.itemsMap.line !== 'undefined')
+					this.itemsMap.line.setMap(null)
+				this.itemsMap.directionsDisplay.setMap(null);
+
+			},
 			resetMap(){
 				for (var i=0;i<this.itemsMap.markers.length;i++)
 					this.itemsMap.markers[i].setMap(null);
@@ -307,6 +336,11 @@
 				})
 			}
 		},
+		computed: {
+			isOriginFilled (){
+				return this.addresses.origin == "" ? false : true 
+			}
+		},
 		mounted: function() {
 			this.itemsMap.geocoder = new google.maps.Geocoder
 			this.itemsMap.originWin = new google.maps.InfoWindow
@@ -321,16 +355,16 @@
 			});
 
 			// case of map click
-			this.itemsMap.map.addListener('click', mapClickEvent.bind(this), false)
-			function mapClickEvent(event){
-				if(this.itemsMap.markers.length<2){
-					if(this.itemsMap.markers.length == 0)
-						this.latLngToAddress(this.itemsMap, this.itemsMap.originWin, event.latLng, this.addMarker, this.distanceLatLng, this.calculateAndDisplayRoute, this.addresses, false);
-					else if(this.itemsMap.markers.length == 1){
-						this.latLngToAddress(this.itemsMap, this.itemsMap.destinationWin, event.latLng, this.addMarker, this.distanceLatLng, this.calculateAndDisplayRoute, this.addresses, true);
-					}
-				}
-			}
+			// this.itemsMap.map.addListener('click', mapClickEvent.bind(this), false)
+			// function mapClickEvent(event){
+			// 	if(this.itemsMap.markers.length<2){
+			// 		if(this.itemsMap.markers.length == 0)
+			// 			this.latLngToAddress(this.itemsMap, this.itemsMap.originWin, event.latLng, this.addMarker, this.distanceLatLng, this.calculateAndDisplayRoute, this.addresses, false);
+			// 		else if(this.itemsMap.markers.length == 1){
+			// 			this.latLngToAddress(this.itemsMap, this.itemsMap.destinationWin, event.latLng, this.addMarker, this.distanceLatLng, this.calculateAndDisplayRoute, this.addresses, true);
+			// 		}
+			// 	}
+			// }
 
 			// case of texts inputs
 			var inputOrigin = document.getElementById('originInput')

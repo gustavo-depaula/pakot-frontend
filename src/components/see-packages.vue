@@ -99,8 +99,8 @@
 			loadPackages() {
 				axios.get('https://pakot-backend.herokuapp.com/public/package/getopen')
 					.then(response => {
-						// console.log('resposta')
-						// console.log(response.data)
+						console.log('resposta')
+						console.log(response)
 						this.packages = response.data
 						this.getPrices()
 					})

@@ -50,6 +50,7 @@ export const store = new Vuex.Store({
 		},
 		userSignOut: (state) => {
 			state.user.object = null
+			state.user.phoneObject = null
 			state.user.logged = false
 			state.user.signed = false	
 		},

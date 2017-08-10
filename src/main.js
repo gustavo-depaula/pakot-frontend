@@ -17,7 +17,7 @@ new Vue({
 	router,
 	store,
 	created() {
-
+		
 		firebase.initializeApp(config)
 
 		firebase.auth().onAuthStateChanged((user) => {

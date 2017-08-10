@@ -22,8 +22,8 @@
 					<h1 class="title is-1">{{ this.user.object.displayName }}</h1>
 					<h2 class="subtitle is-3">
 						<em>{{ this.user.object.email }}</em><br>
-						<span class="icon"><i class="fa fa-phone"></i></span>{{this.user.cpf}}<br>
-						<span class="icon"><i class="fa fa-address-card"></i></span>{{this.user.phone}}
+						<span class="icon"><i class="fa fa-address-card"></i></span>&nbsp;{{this.user.cpf}}<br>
+						<span class="icon"><i class="fa fa-phone"></i></span>&nbsp;{{this.user.phone}}
 					</h2>
 				</div>
 			</section>
