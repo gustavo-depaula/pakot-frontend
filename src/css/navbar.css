@@ -1,6 +1,6 @@
 /* Navbar */
 .navbar {
-	background-color: #232B2D;
+	background-color: #151515;
 }
 .navbar-item:hover > img{
 	 content: url("../assets/package.png") 
