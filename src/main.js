@@ -21,10 +21,10 @@ new Vue({
 		firebase.initializeApp(config)
 
 		firebase.auth().onAuthStateChanged((user) => {
-			if (this.$store.getters.user.object == null) {
-				this.$store.commit('user', user)
-			} else {
+			if (user.displayName == null) {
 				this.$store.commit('phoneObject', user)
+			} else {
+				this.$store.commit('user', user)	
 			}
 		});
 	},

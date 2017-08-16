@@ -27,7 +27,8 @@ export const store = new Vuex.Store({
 		cpf: state => state.user.cpf,
 		phone: state => state.user.phone,
 		isUser: state => state.isUser,
-		isDeliveryMan: state => state.isDeliveryMan
+		isDeliveryMan: state => state.isDeliveryMan,
+		isAny: state => !(state.isUser && isDeliveryMan)
 	},
 	mutations: {
 		user: (state, user) => {
