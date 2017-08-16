@@ -41,22 +41,23 @@
 		<div v-if="confirmation" id="confirmation-container" >
 			<div id="confirmation-tile" class="tile is-vertical">
 				<article class="tile is-child notification is-info">
-					<p class="title">{{shipment.nickname}}</p>
+					<p class="title"><b>{{shipment.nickname}}</b></p>
 					<p class="subtitle">
-						{{shipment.description}} <br>
-						<span v-if="shipment.priority == 0">Entregue nos próximos 5 dias úteis</span>
-						<span v-if="shipment.priority == 1">Entregue até às 12h de amanhã</span>
-						<span v-if="shipment.priority == 2">Entregue hoje ainda</span>
+						<b>{{shipment.description}}</b> <br>
+						<span v-if="shipment.priority == 0">Entregue nos <b>próximos 5 dias úteis</b></span>
+						<span v-if="shipment.priority == 1">Entregue até <b>às 12h de amanhã</b></span>
+						<span v-if="shipment.priority == 2">Entregue <b>hoje ainda</b></span>
 						<br>
-						Tamanho: {{shipment.size}}, Peso {{shipment.weight}} <br>
+						Tamanho: <b>{{shipment.size}}</b>, Peso <b>{{shipment.weight}}</b> <br>
+						R$<b>{{shipmentPrice}},00</b>
 					</p>
-					<button @click="createPackage" class="button is-success is-large">
+					<button style="width = 	100% !important;" @click="createPackage" class="button is-success is-large">
 						<span class="icon is-medium">
 							<i class="fa fa-check"></i>
 						</span>
 						<span>Confirmar solicitação.</span>
 					</button>
-					<button @click="confirmation = !confirmation" class="button is-danger is-large">
+					<button style="width =	100% !important;" @click="confirmation = !confirmation" class="button is-danger is-large">
 						<span class="icon is-medium">
 							<i class="fa fa-times"></i>
 						</span>
@@ -181,7 +182,7 @@
 			<div id="myMap"></div>
 
 			<hr>
-			<button @click="toConfirmation" class="button is-success is-large">
+			<button @click="toConfirmation" style="width: 100%;" class="button is-success is-large" :class="{ 'is-loading': requestBtnLoading, 'is-outlined': !requestBtnLoading }">
 				<span class="icon is-medium">
 					<i class="fa fa-truck"></i>
 				</span>
@@ -217,6 +218,7 @@
 					weight: "",
 					email: this.$store.getters.user.object.email
 				},
+				shipmentPrice: null,
 				blankShipment: {
 					nickname: "",
 					description: "",
@@ -226,17 +228,27 @@
 					email: this.$store.getters.user.object.email
 				},
 				confirmation: false,
-				warningMessage: ""
+				warningMessage: "",
+				requestBtnLoading: false
 
 			}
 		},
 		methods: {
 			toConfirmation (){
+				this.requestBtnLoading = true
 				if (this.shipment.nickname == "" || this.shipment.description == "" || this.shipment.priority == "" || this.shipment.size == "" || this.shipment.weight == "" || this.addresses.origin == "" || this.addresses.destination == "") {
 					this.warningMessage = "Você precisa preencher todos os campos para solicitar uma entrega"
+					this.requestBtnLoading = true
 				} else {
 					this.warningMessage = ''
-					this.confirmation = !this.confirmation
+					axios.post('https://pakot-backend.herokuapp.com/public/package/price', this.shipment)
+						.then(response => {
+							this.shipmentPrice = response.data.price
+							this.confirmation = !this.confirmation
+						}).catch(e => {
+							console.log(e)
+						})
+
 				}
 			},
 			createPackage (){
@@ -266,7 +278,7 @@
 				this.addresses.destination = ""
 				this.itemsMap.markers.pop()
 				this.itemsMap.directionsDisplay.setMap(null);
-								if(typeof this.itemsMap.line !== 'undefined')
+				if(typeof this.itemsMap.line !== 'undefined')
 					this.itemsMap.line.setMap(null)
 				this.itemsMap.directionsDisplay.setMap(null);
 
