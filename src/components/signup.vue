@@ -38,7 +38,7 @@
 											<div class="control"><input v-model="user.cpf" type="" v-mask="'###.###.###-##'" class="input is-large" :class="{ 'is-danger': cpfDanger }" placeholder="Seu CPF"></div>
 										</p>
 										<p class="field">
-											<div class="control"><input v-model="user.phone" type="tel" v-mask="'+## ## ###.###.###'" class="input is-large" :class="{ 'is-danger': phoneDanger }" placeholder="Seu telefone"></div>
+											<div class="control"><input v-model="user.phone" type="tel" v-mask="'+## ## ###.###.###'" class="input is-large" :class="{ 'is-danger': phoneDanger }" placeholder="Seu telefone internacional"></div>
 										</p>
 										<p>
 											<div id="recaptchacontainer"></div>

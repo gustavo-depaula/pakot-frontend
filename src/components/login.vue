@@ -24,7 +24,7 @@
 					<div v-if="user.object != null" class="hero-body">
 						<div class="container">
 							<div class="columns">
-								<div class="column is-8 is-offset-2">
+								<div class="column is-12">
 									<div class="login-form">
 										<h3 class="title">Cliente</h3>
 										<h2 class="subtitle">Seja independente dos correios.</h2>
@@ -50,7 +50,7 @@
 					<div v-else class="hero-body">
 						<div class="container">
 							<div class="columns">
-								<div class="column is-8 is-offset-2">
+								<div class="column is-12">
 									<div class="login-form">
 										<h3 class="title">Entre agora</h3>
 										<h2 class="subtitle">Faça parte dessa mudança.</h2>

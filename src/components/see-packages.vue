@@ -123,7 +123,7 @@
 			},
 			cancelShipment (){
 				// console.log(this.shipmentModal.id)
-				// axios.post('https://pakot-backend.herokuapp.com/public/DeliveryMan/assignPackage', {
+				// axios.post('https://pakot-backend.herokuapp.com/public/package/cancel', {
 				// 	email: this.$store.getters.user.object.email,
 				// 	id: this.shipmentModal.id
 				// })

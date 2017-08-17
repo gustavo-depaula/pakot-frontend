@@ -20,7 +20,7 @@
 					<!-- <router-link :to="'/another'" class="navbar-link has-text-centered"><span class="icon"><i class="fa fa-folder-o"></i></span><span class="name">&nbsp;TODO</span></router-link> -->
 				</div>
 				<div v-else>
-					<router-link :to="'/packages'" class="navbar-link has-text-centered"><span class="icon"><i class="fa fa-tasks"></i></span><span class="name">&nbsp;Entregas em aberto</span></router-link>
+					<router-link :to="'/packages'" class="navbar-link has-text-centered"><span class="icon"><i class="fa fa-tasks"></i></span><span class="name">&nbsp;Minhas entregas</span></router-link>
 					<router-link :to="'/opportunities'" class="navbar-link has-text-centered"><span class="icon"><i class="fa fa-road"></i></span><span class="name">&nbsp;Oportunidades de entregas</span></router-link>
 					<router-link :to="'/packages'" class="navbar-link has-text-centered"><span class="icon"><i class="fa fa-usd"></i></span><span class="name">&nbsp;Ganhos de parceiro</span></router-link>
 				</div>
@@ -43,7 +43,7 @@
 							<!-- <router-link :to="'/another'" class="item"><span class="icon"><i class="fa fa-folder-o"></i></span><span class="name">TODO</span></router-link> -->
 						</div>
 						<div v-else>
-							<router-link :to="'/packages'" class="item"><span class="icon"><i class="fa fa-tasks"></i></span><span class="name">Entregas em aberto</span></router-link>
+							<router-link :to="'/packages'" class="item"><span class="icon"><i class="fa fa-tasks"></i></span><span class="name">Minhas entregas</span></router-link>
 							<router-link :to="'/opportunities'" class="item"><span class="icon"><i class="fa fa-road"></i></span><span class="name">Oportunidades de entregas</span></router-link>
 							<router-link :to="'/packages'" class="item"><span class="icon"><i class="fa fa-usd"></i></span><span class="name">Ganhos de parceiro</span></router-link>
 						</div>

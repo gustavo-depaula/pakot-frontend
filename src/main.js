@@ -21,8 +21,12 @@ new Vue({
 		firebase.initializeApp(config)
 
 		firebase.auth().onAuthStateChanged((user) => {
-			if (user.displayName == null) {
-				this.$store.commit('phoneObject', user)
+			if (typeof user.displayName != undefined) {
+				if (user.displayName == null) {
+					this.$store.commit('phoneObject', user)
+				} else {
+					this.$store.commit('user', user)	
+				}
 			} else {
 				this.$store.commit('user', user)	
 			}
