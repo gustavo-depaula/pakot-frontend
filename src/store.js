@@ -16,7 +16,8 @@ export const store = new Vuex.Store({
 		pageloader: false,
 		requireSignUp: false,
 		isUser: false,
-		isDeliveryMan: false
+		isDeliveryMan: false,
+		wantToLogIn: false
 	},
 	getters: {
 		userLogged: state => state.user.logged,
@@ -28,7 +29,8 @@ export const store = new Vuex.Store({
 		phone: state => state.user.phone,
 		isUser: state => state.isUser,
 		isDeliveryMan: state => state.isDeliveryMan,
-		isAny: state => !(state.isUser && isDeliveryMan)
+		isAny: state => !(state.isUser && isDeliveryMan),
+		wantToLogIn: state => state.wantToLogIn,
 	},
 	mutations: {
 		user: (state, user) => {
@@ -69,7 +71,10 @@ export const store = new Vuex.Store({
 		isDeliveryMan: (state) => {
 			state.isUser = false
 			state.isDeliveryMan = true
-		}
+		},
+		wantToLogIn: (state) => {
+			state.wantToLogIn = true
+		},
 	}
 
 })

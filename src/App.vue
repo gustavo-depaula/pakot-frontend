@@ -13,7 +13,12 @@
 		</div>
 	</div>
 	<div v-else>
-		<Login />
+		<div v-if="this.$store.getters.wantToLogIn">
+			<Login />
+		</div>
+		<div v-else>
+			<Landing />
+		</div>
 	</div>
 </template>
 
@@ -21,11 +26,12 @@
 import Navbar from './components/Navbar'
 import Login from './components/login'
 import SignUp from './components/signup'
+import Landing from './components/landing'
 
 export default {
 	name: 'app',
 	components: {
-		Navbar, Login, SignUp
+		Navbar, Login, SignUp, Landing
 	},
 }
 </script>
