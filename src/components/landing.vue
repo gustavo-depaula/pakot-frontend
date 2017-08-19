@@ -271,7 +271,4 @@
 		}
 	}
 </script>
-<style scoped>
-	@import url('../css/landing.css');
-	/*@import url('../css/landing/font-awesome.min.css');*/
-</style>
+<style scoped src="../css/landing.css"></style>

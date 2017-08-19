@@ -5,7 +5,7 @@ body {
 }
 .is-dark {
 	background-color: #F62459;
-	background-image: linear-gradient(rgba(25, 181, 254, 0.6),rgba(246, 36, 89, 0.6)),linear-gradient(rgba(0, 0, 0, 0.6),rgba(0, 0, 0, 0.6)), url('http://img.pixady.com/2017/08/449813_fotofundo.jpg');
+	background-image: linear-gradient(rgba(25, 181, 254, 0.6),rgba(246, 36, 89, 0.6)),linear-gradient(rgba(0, 0, 0, 0.6),rgba(0, 0, 0, 0.6)), url('https://img.pixady.com/2017/08/449813_fotofundo.jpg');
 }
 .nav {
 	padding-top: 2%;
