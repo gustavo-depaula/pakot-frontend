@@ -22,9 +22,9 @@
 						<p class="title">
 							<b>{{ item.nickname }}</b>
 						</p>
-						<p class="subtitle">
+<!-- 						<p class="subtitle">
 							{{ item.description }}
-						</p>
+						</p> -->
 						
 					</div>
 					<div class="column">
@@ -44,6 +44,10 @@
 							<p class="title "><b class="has-text-warning">Atribuído</b></p>
 							<p class="subtitle">{{ item.dateassigned }}</p>
 						</span>
+						<span v-else-if="item.canceled == 'true'">
+							<p class="title "><b class="has-text-danger">Cancelado</b></p>
+							<p class="subtitle">{{ item.dateassigned }}</p>
+						</span>
 						<span v-else>
 							<p class="title"><b class="has-text-info">Solicitado</b></p>
 							<p class="subtitle">{{ item.datecreate }}</p>
@@ -54,8 +58,8 @@
 					</div>
 				</div>
 				<p class="subtitle">
-					<strong>Origem:</strong>  {{item.origin}} <br>
-					<strong>Destino:</strong> {{item.destination}}
+					<b>Origem:</b>  {{item.origin}} <br>
+					<b>Destino:</b> {{item.destination}}
 				</p>
 			</div>
 		</div>
@@ -91,23 +95,12 @@
 			}
 		},
 		methods: {
-			getPrices (){
-				this.packages.forEach((item) => {
-					axios.post('https://pakot-backend.herokuapp.com/public/package/price', {"id": item.id})
-						.then(response => {
-							// console.log('oi')
-							// console.log(response.data.price)
-							item.price = response.data.price
-						})
-				})	
-			},
 			loadPackages() {
 				axios.post('https://pakot-backend.herokuapp.com/public/package/getallpackages', {email: this.$store.getters.email})
 					.then(response => {
 						console.log('resposta')
 						console.log(response)
 						this.packages = response.data
-						this.getPrices()
 					})
 			},
 			showModal: function(item) {
@@ -127,16 +120,17 @@
 				this.isModalVisible = false
 			},
 			cancelShipment (){
-				// console.log(this.shipmentModal.id)
-				// axios.post('https://pakot-backend.herokuapp.com/public/package/cancel', {
-				// 	email: this.$store.getters.user.object.email,
-				// 	id: this.shipmentModal.id
-				// })
-				// 	.then(response => {
-				// 		this.loadPackages()
-				// 		this.hideModal()
-				// 		console.log(response)
-				// 	})
+				console.log(this.shipmentModal.id)
+				axios.post('https://pakot-backend.herokuapp.com/public/package/update', {
+					status: 'canceled',
+					value: 'true',
+					id: this.shipmentModal.id
+				})
+					.then(response => {
+						this.loadPackages()
+						this.hideModal()
+						console.log(response)
+					})
 			}
 		},
 		mounted (){

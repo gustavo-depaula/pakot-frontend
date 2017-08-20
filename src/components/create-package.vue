@@ -57,7 +57,7 @@
 						</span>
 						<span>Confirmar solicitação.</span>
 					</button>
-					<button style="width =	100% !important;" @click="confirmation = !confirmation" class="button is-danger is-large">
+					<button style="width =	100% !important;" @click="confirmation = !confirmation; requestBtnLoading = false" class="button is-danger is-large">
 						<span class="icon is-medium">
 							<i class="fa fa-times"></i>
 						</span>
@@ -216,7 +216,8 @@
 					priority: "",
 					size: "",
 					weight: "",
-					email: this.$store.getters.user.object.email
+					email: this.$store.getters.user.object.email,
+					distance: 0
 				},
 				shipmentPrice: null,
 				blankShipment: {
@@ -241,6 +242,8 @@
 					this.requestBtnLoading = true
 				} else {
 					this.warningMessage = ''
+					this.shipment.distance = this.addresses.distance
+
 					axios.post('https://pakot-backend.herokuapp.com/public/package/price', this.shipment)
 						.then(response => {
 							this.shipmentPrice = response.data.price
@@ -254,6 +257,7 @@
 			createPackage (){
 				this.shipment.origin = this.addresses.origin
 				this.shipment.destination = this.addresses.destination
+				this.shipment.distance = this.addresses.distance
 
 				axios.post('https://pakot-backend.herokuapp.com/public/package/create', this.shipment)
 				.then(response => {

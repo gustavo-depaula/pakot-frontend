@@ -41,27 +41,30 @@
 			<div class="hero-body">
 				<div v-if="view == 0" class="container has-text-centered">
 					<div class="columns is-vcentered">
-						<div class="column is-5">
+<!-- 						<div class="column is-5">
 							<figure class="image is-4by3">
 								<img src="../assets/landing-page/foto_inicio.png" class="promo-img" alt="Description">
 							</figure>
-						</div>
-						<div class="column is-6 is-offset-1">
-							<h1 class="title is-2">
-								Bem-vindo ao Pakot!
+						</div> -->
+						<div class="column is-offset-1">
+							<h1 class="title is-1">
+								<b>Bem-vindo ao Pakot!</b>
 							</h1>
-							<h2 class="subtitle is-4">
+							<h2 class="subtitle is-3">
 								Insira seu e-mail abaixo para receber atualizações sobre a plataforma
 							</h2>
 							<br>
-							<p class="control has-addons has-text-centered">
-								<a class="button is-large is-danger is-outlined">
-									Registrar
-								</a>
-								<div class="textbox">
-									<input class="input is-expanded is-large" type="text" placeholder="Seu e-mail">
-								</div>
-							</p>
+							<div class="column is-8 is-offset-2">
+								<p class="control has-addons has-text-centered">
+									<a class="button is-large is-danger is-outlined">
+										Registrar
+									</a>
+									<div class="textbox">
+										<input class="input is-expanded is-large" type="text" placeholder="Seu e-mail">
+									</div>
+								</p>
+								
+							</div>
 						</div>
 					</div>
 				</div>
