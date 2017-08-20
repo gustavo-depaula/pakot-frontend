@@ -23,10 +23,10 @@
 							<p class="title">
 								<b>{{ item.nickname }}</b>
 							</p>
-							<p class="subtitle">
+<!-- 							<p class="subtitle">
 								{{ item.description }}
 							</p>
-							
+							 -->
 						</div>
 						<div class="column">
 							<p class="title">R${{item.price}},00</p>
@@ -86,23 +86,12 @@ export default {
 		}
 	},
 	methods: {
-		getPrices (){
-			this.packages.forEach((item) => {
-				axios.post('https://pakot-backend.herokuapp.com/public/package/price', {"id": item.id})
-					.then(response => {
-						// console.log('oi')
-						// console.log(response.data.price)
-						item.price = response.data.price
-					})
-			})	
-		},
 		loadPackages() {
 			axios.get('https://pakot-backend.herokuapp.com/public/package/getopen')
 				.then(response => {
 					// console.log('resposta')
 					// console.log(response.data)
 					this.packages = response.data
-					this.getPrices()
 				})
 		},
 		showModal: function(item) {

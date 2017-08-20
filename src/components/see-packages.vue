@@ -2,7 +2,7 @@
 <template lang="html">
 	<div id="packages">
 		<!-- header -->
-		<div class="hero is-bold is-success	">
+		<div class="hero is-bold is-primary	">
 			<div class="hero-body">
 				<div class="container">
 					<h1 class="title">
@@ -15,6 +15,20 @@
 			</div>
 		</div>
 		<!-- shipments info -->
+		<div v-if="packages.length == 0">
+			<div class="hero is-bold is-info">
+				<div class="hero-body">
+					<div class="container">
+						<h1 class="title">
+							Você ainda não possui nenhuma entrega :(
+						</h1>
+						<h2 class="subtitle">
+							Você pode solicitar uma nova entrega clicando em "Nova Entrega" no menu ao lado
+						</h2>
+					</div>
+				</div>
+			</div>
+		</div>
 		<div id="shipments" class="card" v-for="item in packages" @click="showModal(item)">
 			<div class="card-content">
 				<div class="columns">

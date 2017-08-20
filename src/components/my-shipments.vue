@@ -2,7 +2,7 @@
 <template lang="html">
 	<div id="packages">
 		<!-- header -->
-		<div class="hero is-bold is-success	">
+		<div class="hero is-bold is-primary	">
 			<div class="hero-body">
 				<div class="container">
 					<h1 class="title">
@@ -15,6 +15,20 @@
 			</div>
 		</div>
 		<!-- shipments info -->
+		<div v-if="packages.length == 0">
+			<div class="hero is-bold is-info">
+				<div class="hero-body">
+					<div class="container">
+						<h1 class="title">
+							Você ainda não possui nenhuma entrega no seu histórico :(
+						</h1>
+						<h2 class="subtitle">
+							Você pode aceitar uma oportunidade clicando em "Oportunidades de Entregas" no menu ao lado
+						</h2>
+					</div>
+				</div>
+			</div>
+		</div>
 		<div id="shipments" class="card" v-for="item in packages" @click="showModal(item)">
 			<div class="card-content">
 				<div class="columns">
@@ -91,23 +105,12 @@
 			}
 		},
 		methods: {
-			getPrices (){
-				this.packages.forEach((item) => {
-					axios.post('https://pakot-backend.herokuapp.com/public/package/price', {"id": item.id})
-						.then(response => {
-							// console.log('oi')
-							// console.log(response.data.price)
-							item.price = response.data.price
-						})
-				})	
-			},
 			loadPackages() {
-				axios.post('https://pakot-backend.herokuapp.com/public/package/getAssigned', {email: this.$store.getters.email})
+				axios.post('https://pakot-backend.herokuapp.com/public/DeliveryMan/getAll', {email: this.$store.getters.email})
 					.then(response => {
 						console.log('resposta')
 						console.log(response)
 						this.packages = response.data
-						this.getPrices()
 					})
 			},
 			showModal: function(item) {

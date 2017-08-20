@@ -195,7 +195,8 @@
 										this.$store.commit('cpf', response.data.cpf) 
 										this.$store.commit('phone', response.data.phone)
 									})
-								this.$store.commit('userDontRequireSignUp')							
+								this.$store.commit('userDontRequireSignUp')
+								this.$router.push('/shipments')				
 							} else {
 								this.btnLoading = false
 								this.danger = true		

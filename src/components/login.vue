@@ -145,7 +145,7 @@
 								this.$store.commit('cpf', response.data.cpf) 
 								this.$store.commit('phone', response.data.phone)
 							})
-							this.$router.push('/packages')
+							this.$router.push('/shipments')
 						}
 					})
 					// .catch(e => {
