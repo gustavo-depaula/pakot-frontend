@@ -263,6 +263,7 @@
 				.then(response => {
 					console.log(response)
 					this.confirmation = !this.confirmation
+					this.requestBtnLoading = false
 					this.shipment = this.blankShipment
 				})
 				.catch(e => {
