@@ -70,6 +70,7 @@ export default {
 				location.reload()
 			})
 			this.$store.commit('userSignOut')
+			this.$store.commit('toLanding')
 		}
 	}
 }

@@ -1,24 +1,25 @@
 <template>
-	<div v-if="this.$store.getters.userLogged">
-		<div v-if="this.$store.getters.userSigned == false">
-			<SignUp />
-		</div>
-		<div v-else class="columns is-marginless">
-			<div style="background-color: #151515;">
-				<Navbar />
+	<div>
+		<div v-if="this.$store.getters.userLogged">
+			<div v-if="this.$store.getters.userSigned == false">
+				<SignUp />
 			</div>
-			<div class="column is-10 is-paddingless">
-				<router-view></router-view>
+			<div v-else class="columns is-marginless">
+				<div style="background-color: #151515;">
+					<Navbar />
+				</div>
+				<div class="column is-10 is-paddingless">
+					<router-view></router-view>
+				</div>
 			</div>
 		</div>
-	</div>
-	<div v-else>
-		<div v-if="this.$store.getters.wantToLogIn">
+		<!-- <div v-if="wantToLogIn || this.$store.getters.wantToLogIn">
+			<Landing @toLogin="wantToLogIn = true"/>	
+		</div> -->
+		<div v-else>
 			<Login />
 		</div>
-		<div v-else>
-			<Landing />
-		</div>
+
 	</div>
 </template>
 
@@ -30,9 +31,18 @@ import Landing from './components/landing'
 
 export default {
 	name: 'app',
+	data (){
+		return {
+			wantToLogIn: false
+		}
+	},
 	components: {
 		Navbar, Login, SignUp, Landing
 	},
+	created() {
+		console.log(this.$store.getters.wantToLogIn)
+		
+	}
 }
 </script>
 

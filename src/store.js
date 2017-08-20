@@ -43,6 +43,9 @@ export const store = new Vuex.Store({
 			state.user.object = user
 			state.user.logged = true
 		},
+		logIn: (state) => {
+			state.user.logged = true
+		},
 		userRequireSignUp: (state) => {
 			state.user.signed = false
 		},
@@ -57,6 +60,7 @@ export const store = new Vuex.Store({
 			state.user.phoneObject = null
 			state.user.logged = false
 			state.user.signed = false	
+			state.wantToLogIn = false	
 		},
 		cpf: (state, cpf) => {
 			state.user.cpf = cpf
@@ -75,6 +79,9 @@ export const store = new Vuex.Store({
 		wantToLogIn: (state) => {
 			state.wantToLogIn = true
 		},
+		toLanding: (state) => {
+			state.wantToLogIn = false
+		}
 	}
 
 })

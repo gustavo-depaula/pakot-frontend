@@ -27,7 +27,7 @@
 										Contato
 									</a>
 								</span>
-								<span class="nav-item" @click="toLogin">
+								<span class="nav-item" @click="$emit('toLogin')">
 									<a class="button is-default">
 										Fazer login
 									</a>
@@ -258,10 +258,12 @@
 		},
 		methods: {
 			toLogin(){
+				
 				this.$store.commit('wantToLogIn')
 			}
 		},
 		mounted (){
+			this.$store.commit('userSignOut')
 			var burger = document.querySelector('.nav-toggle');
 			var menu = document.querySelector('.nav-menu');
 			burger.addEventListener('click', function() {
