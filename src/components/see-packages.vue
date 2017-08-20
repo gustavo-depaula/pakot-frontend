@@ -50,16 +50,21 @@
 						</span>
 					</div>
 					<div class="column">
-						<p class="title">Tamanho {{ item.size }}, peso {{ item.weight }}</p>
+						<p class="title">Tamanho <b>{{ item.size }}</b><br> Peso <b>{{ item.weight }}</b></p>
 					</div>
 				</div>
 				<p class="subtitle">
-					<strong>Origem:</strong>  {{item.origin}}
+					<strong>Origem:</strong>  {{item.origin}} <br>
 					<strong>Destino:</strong> {{item.destination}}
 				</p>
 			</div>
 		</div>
-		<b-modal v-if="isModalVisible" @close="isModalVisible = !isModalVisible" @cancel="cancelShipment" :nickname="shipmentModal.nickname" :priority="shipmentModal.priority" :price="shipmentModal.price" :description="shipmentModal.description" :size="shipmentModal.size" :weight="shipmentModal.weight" :origin="shipmentModal.origin" :destination="shipmentModal.destination" user="user"/>
+		<transition
+		enter-active-class="animated fadeIn"
+		leave-active-class="animated fadeOut"
+		>
+			<b-modal v-if="isModalVisible" @close="isModalVisible = !isModalVisible" @cancel="cancelShipment" :nickname="shipmentModal.nickname" :priority="shipmentModal.priority" :price="shipmentModal.price" :description="shipmentModal.description" :size="shipmentModal.size" :weight="shipmentModal.weight" :origin="shipmentModal.origin" :destination="shipmentModal.destination" user="user"/>
+		</transition>
 	</div>
 </template>
 <script>
