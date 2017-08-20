@@ -54,8 +54,12 @@
 				</div>
 			</div>
 		</div>
-		<!-- <b-modal v-if="isModalVisible" @close="isModalVisible = !isModalVisible" :nickname="shipmentModal.nickname" :description="shipmentModal.description" :size="shipmentModal.size" :weight="shipmentModal.weight" /> -->
-		<b-modal v-if="isModalVisible" @close="isModalVisible = !isModalVisible" @accept="acceptOpportunity" :nickname="shipmentModal.nickname" :priority="shipmentModal.priority" :price="shipmentModal.price" :description="shipmentModal.description" :size="shipmentModal.size" :weight="shipmentModal.weight" :origin="shipmentModal.origin" :destination="shipmentModal.destination" user="deliveryMan"/>
+		<transition
+		enter-active-class="animated fadeIn"
+		leave-active-class="animated fadeOut"
+		>
+			<b-modal v-if="isModalVisible" @close="isModalVisible = !isModalVisible" @accept="acceptOpportunity" :nickname="shipmentModal.nickname" :priority="shipmentModal.priority" :price="shipmentModal.price" :description="shipmentModal.description" :size="shipmentModal.size" :weight="shipmentModal.weight" :origin="shipmentModal.origin" :destination="shipmentModal.destination" user="deliveryMan"/>
+		</transition>
 	</div>
 </template>
 <script>
@@ -140,5 +144,16 @@ export default {
 .shipments {
 	cursor: pointer;
 }
-
+.fadeIn {
+	-webkit-animation: fadeIn .3s; /* Safari 4+ */
+	-moz-animation:    fadeIn .3s; /* Fx 5+ */
+	-o-animation:      fadeIn .3s; /* Opera 12+ */
+	animation:         fadeIn .3s; /* IE 10+, Fx 29+ */
+}
+.fadeOut {
+	-webkit-animation: fadeOut .3s; /* Safari 4+ */
+	-moz-animation:    fadeOut .3s; /* Fx 5+ */
+	-o-animation:      fadeOut .3s; /* Opera 12+ */
+	animation:         fadeOut .3s; /* IE 10+, Fx 29+ */
+}
 </style>

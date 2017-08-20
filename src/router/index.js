@@ -11,6 +11,7 @@ import Profile from '@/components/profile'
 import Packages from '@/components/see-packages'
 import Opportunities from '@/components/opportunities'
 import Landing from '@/components/landing'
+import Shipments from '@/components/my-shipments'
 
 const routes = [
 	{ path: '/login', component: Login },
@@ -19,7 +20,8 @@ const routes = [
 	{ path: '/create-package', component: CreatePackage },
 	{ path: '/profile', component: Profile },
 	{ path: '/opportunities', component: Opportunities },
-	{ path: '/landing', component: Landing }
+	{ path: '/landing', component: Landing },
+	{ path: '/shipments', component: Shipments }
 ]
 
 export default new Router({

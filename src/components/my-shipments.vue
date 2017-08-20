@@ -102,7 +102,7 @@
 				})	
 			},
 			loadPackages() {
-				axios.post('https://pakot-backend.herokuapp.com/public/package/getallpackages', {email: this.$store.getters.email})
+				axios.post('https://pakot-backend.herokuapp.com/public/package/getAssigned', {email: this.$store.getters.email})
 					.then(response => {
 						console.log('resposta')
 						console.log(response)
