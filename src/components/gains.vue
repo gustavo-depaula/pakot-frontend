@@ -46,7 +46,7 @@
 									Ganho por entrega
 								</p>
 								<div class="panel-block">
-									<div id="chart-gains" style="height: 250px;"></div>
+									<div id="chart-gains" style="height: 250px; width: 100%;"></div>
 								</div>
 								<!-- <div class="panel-block">
 									<button class="button is-default is-outlined is-fullwidth">
@@ -61,7 +61,7 @@
 									Status da suas entregas
 								</p>
 								<div class="panel-block">
-									<div id="chart-shipments" style="height: 280px;"></div>
+									<div id="chart-shipments" style="height: 280px; width: 100%;"></div>
 								</div>
 								<!-- <div class="panel-block">
 									<button class="button is-default is-outlined is-fullwidth">
@@ -116,7 +116,7 @@
 					})
 			},
 			createCharts(){
-				new Morris.Line({
+				window.c1 = new Morris.Line({
 					// ID of the element in which to draw the chart.
 					element: 'chart-gains',
 					// Chart data records -- each entry in this array corresponds to a point on
@@ -135,17 +135,19 @@
 					ykeys: ['value'],
 					// Labels for the ykeys -- will be displayed when you hover over the
 					// chart.
-					labels: ['Ganho']
+					labels: ['Ganho'],
+					resize: true
 				});
 
-				Morris.Donut({
+				window.c2 = Morris.Donut({
 					element: 'chart-shipments',
 					data: [
 					{label: "Entregues", value: this.info.qtPerStatus.arrived},
 					{label: "Despachados", value: this.info.qtPerStatus.dispatched},
 					{label: "Atribuídos", value: this.info.qtPerStatus.assigned},
 					{label: "Cancelados", value: this.info.qtPerStatus.canceled}
-					]
+					],
+					resize: true
 				});
 				
 			}
@@ -153,6 +155,10 @@
 		mounted (){
 			this.loadInfo()
 			console.log(this.data)
+			// $(window).on("resize", function(){
+			// 	c1.redraw();
+			// 	c2.redraw();
+			// });
 		}
 	}
 </script>
