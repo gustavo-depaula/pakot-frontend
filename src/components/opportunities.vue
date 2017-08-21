@@ -15,6 +15,20 @@
 			</div>
 		</div>
 		<!-- opportunities info -->
+		<div v-if="packages.length == 0">
+			<div class="hero is-bold is-warning">
+				<div class="hero-body">
+					<div class="container">
+						<h1 class="title">
+							Nenhum usuário está precisando de entregador no momento
+						</h1>
+						<h2 class="subtitle">
+							Fique atento! :)
+						</h2>
+					</div>
+				</div>
+			</div>
+		</div>
 		<div>
 			<div class="card shipments" v-for="item in packages" @click="showModal(item)">
 				<div class="card-content">
@@ -29,7 +43,7 @@
 							 -->
 						</div>
 						<div class="column">
-							<p class="title">R${{item.price}},00</p>
+							<p class="title">R${{item.deliveryCut}},00</p>
 							<p class="subtitle">pago em BTC</p>
 						</div>
 						<div class="column">

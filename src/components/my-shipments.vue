@@ -42,7 +42,7 @@
 						
 					</div>
 					<div class="column">
-						<p class="title">R${{item.price}},00</p>
+						<p class="title">R${{item.deliveryCut}},00</p>
 						<p class="subtitle">pago em BTC</p>
 					</div>
 					<div class="column">
