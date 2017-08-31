@@ -182,11 +182,11 @@
 			<div id="myMap"></div>
 
 			<hr>
-			<button @click="toConfirmation" style="width: 100%;" class="button is-success is-large" :class="{ 'is-loading': requestBtnLoading, 'is-outlined': !requestBtnLoading }">
+			<button @click="toConfirmation" style="width: 100%;" :disabled="!requestBtnEnabled" class="button is-large" :class="{ 'is-loading': requestBtnLoading, 'is-outlined': !requestBtnLoading, 'is-success': requestBtnEnabled, 'is-danger': !requestBtnEnabled }">
 				<span class="icon is-medium">
 					<i class="fa fa-truck"></i>
 				</span>
-				<span>Solicitar entrega</span>
+				<span>{{requestBtnMessage}}</span>
 			</button>
 			
 		</div>
@@ -239,7 +239,7 @@
 				this.requestBtnLoading = true
 				if (this.shipment.nickname == "" || this.shipment.description == "" || this.shipment.priority == "" || this.shipment.size == "" || this.shipment.weight == "" || this.addresses.origin == "" || this.addresses.destination == "") {
 					this.warningMessage = "Você precisa preencher todos os campos para solicitar uma entrega"
-					this.requestBtnLoading = true
+					this.requestBtnLoading = false
 				} else {
 					this.warningMessage = ''
 					this.shipment.distance = this.addresses.distance
@@ -260,15 +260,15 @@
 				this.shipment.distance = this.addresses.distance
 
 				axios.post('https://pakot-backend.herokuapp.com/public/package/create', this.shipment)
-				.then(response => {
-					console.log(response)
-					this.confirmation = !this.confirmation
-					this.requestBtnLoading = false
-					this.shipment = this.blankShipment
-				})
-				.catch(e => {
-					console.log(e)
-				})
+					.then(response => {
+						console.log(response)
+						this.confirmation = !this.confirmation
+						this.requestBtnLoading = false
+						this.shipment = this.blankShipment
+					})
+					.catch(e => {
+						console.log(e)
+					})
 			},
 			//------------------------GOOGLE MAPS FUNCTIONS------------------------
 			removeOrigin (){
@@ -356,6 +356,20 @@
 		computed: {
 			isOriginFilled (){
 				return this.addresses.origin == "" ? false : true 
+			},
+			requestBtnEnabled: function(){
+				if (this.shipment.nickname == "" || this.shipment.description == "" || this.shipment.priority == "" || this.shipment.size == "" || this.shipment.weight == "" || this.addresses.origin == "" || this.addresses.destination == "") {
+					return false
+				} else {
+					return true
+				}
+			},
+			requestBtnMessage: function(){
+				if (this.shipment.nickname == "" || this.shipment.description == "" || this.shipment.priority == "" || this.shipment.size == "" || this.shipment.weight == "" || this.addresses.origin == "" || this.addresses.destination == "") {
+					return "Preencha todos os campos"
+				} else {
+					return "Solicitar entrega"
+				}
 			}
 		},
 		mounted: function() {

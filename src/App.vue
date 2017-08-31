@@ -40,7 +40,16 @@ export default {
 		Navbar, Login, SignUp, Landing
 	},
 	created() {
-		console.log(this.$store.getters.wantToLogIn)
+
+		// for production
+		// window.onerror = function(message, url, lineNumber) {  
+		// // code to execute on an error  
+		// 	return true; // prevents browser error messages  
+		// };
+		// console.log = function() {}
+		// console.error = function() {}
+
+		// console.log(this.$store.getters.wantToLogIn)
 		
 	}
 }
