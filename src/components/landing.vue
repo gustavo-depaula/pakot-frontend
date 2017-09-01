@@ -46,7 +46,7 @@
 								<img src="../assets/landing-page/foto_inicio.png" class="promo-img" alt="Description">
 							</figure>
 						</div> -->
-						<div class="column is-offset-1">
+						<div class="column">
 							<h1 class="title is-1">
 								<b>Bem-vindo ao Pakot!</b>
 							</h1>
@@ -54,7 +54,7 @@
 								Insira seu e-mail abaixo para receber atualizações sobre a plataforma
 							</h2>
 							<br>
-							<div class="column is-8 is-offset-2">
+							<!-- <div class="column is-8 is-offset-2">
 								<p class="control has-addons has-text-centered">
 									<a class="button is-large is-danger is-outlined">
 										Registrar
@@ -64,6 +64,11 @@
 									</div>
 								</p>
 								
+							</div> -->
+							<div class="is-5 is-offset-2 has-text-centered">
+								<button style="width: 100%; margin: auto;" class="button is-large is-primary is-outlined">
+									Entre agora
+								</button>
 							</div>
 						</div>
 					</div>
