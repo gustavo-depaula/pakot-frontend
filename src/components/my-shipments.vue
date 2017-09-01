@@ -77,7 +77,7 @@
 		enter-active-class="animated fadeIn"
 		leave-active-class="animated fadeOut"
 		>
-			<b-modal v-if="isModalVisible" @close="isModalVisible = !isModalVisible" @cancel="cancelShipment" :nickname="shipmentModal.nickname" :priority="shipmentModal.priority" :price="shipmentModal.price" :description="shipmentModal.description" :size="shipmentModal.size" :weight="shipmentModal.weight" :origin="shipmentModal.origin" :destination="shipmentModal.destination" user="deliveryMan" :btnMessage="modalBtnMessage" :state="shipmentState"/>
+			<b-modal v-if="isModalVisible" @close="isModalVisible = !isModalVisible" @cancel="cancelShipment" @dispatch="dispatchShipment" @arrived="shipmentArrived" :nickname="shipmentModal.nickname" :priority="shipmentModal.priority" :price="shipmentModal.price" :description="shipmentModal.description" :size="shipmentModal.size" :weight="shipmentModal.weight" :origin="shipmentModal.origin" :destination="shipmentModal.destination" user="deliveryMan" :btnMessage="modalBtnMessage" :state="shipmentState"/>
 		</transition>
 	</div>
 </template>
@@ -144,6 +144,31 @@
 				// 		this.hideModal()
 				// 		console.log(response)
 				// 	})
+			},
+			dispatchShipment (){
+				axios.post('https://pakot-backend.herokuapp.com/public/package/update', {
+					status: 'dispatched',
+					value: 'true',
+					id: this.shipmentModal.id, 
+					unhackable: "true"
+				})
+					.then(response => {
+						this.loadPackages()
+						this.hideModal()
+						console.log(response)
+					})
+			},
+			shipmentArrived (){
+				axios.post('https://pakot-backend.herokuapp.com/public/DeliveryMan/done', {
+					email: this.$store.getters.user.object.email,
+					id: this.shipmentModal.id, 
+					unhackable: "true"
+				})
+					.then(response => {
+						this.loadPackages()
+						this.hideModal()
+						console.log(response)
+					})
 			}
 		},
 		computed: {
