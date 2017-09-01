@@ -66,7 +66,7 @@
 								
 							</div> -->
 							<div class="is-5 is-offset-2 has-text-centered">
-								<button style="width: 100%; margin: auto;" class="button is-large is-primary is-outlined">
+								<button style="width: 100%; margin: auto;" @click="$emit('toLogin')" class="button is-large is-primary is-outlined">
 									Entre agora
 								</button>
 							</div>
