@@ -77,7 +77,7 @@
 		enter-active-class="animated fadeIn"
 		leave-active-class="animated fadeOut"
 		>
-			<b-modal v-if="isModalVisible" @close="isModalVisible = !isModalVisible" @cancel="cancelShipment" :nickname="shipmentModal.nickname" :priority="shipmentModal.priority" :price="shipmentModal.price" :description="shipmentModal.description" :size="shipmentModal.size" :weight="shipmentModal.weight" :origin="shipmentModal.origin" :destination="shipmentModal.destination" user="user"/>
+			<b-modal v-if="isModalVisible" @close="isModalVisible = !isModalVisible" @cancel="cancelShipment" :nickname="shipmentModal.nickname" :priority="shipmentModal.priority" :price="shipmentModal.price" :description="shipmentModal.description" :size="shipmentModal.size" :weight="shipmentModal.weight" :origin="shipmentModal.origin" :destination="shipmentModal.destination" user="deliveryMan" :btnMessage="modalBtnMessage" :state="shipmentState"/>
 		</transition>
 	</div>
 </template>
@@ -124,6 +124,10 @@
 				this.shipmentModal.destination = item.destination;
 				this.shipmentModal.price = item.price
 
+				this.shipmentModal.arrived = item.arrived
+				this.shipmentModal.dispatched = item.dispatched
+				this.shipmentModal.assigned = item.assigned
+
 				this.isModalVisible = true
 			},
 			hideModal: function() {
@@ -140,6 +144,30 @@
 				// 		this.hideModal()
 				// 		console.log(response)
 				// 	})
+			}
+		},
+		computed: {
+			modalBtnMessage (){
+				if (this.shipmentModal.arrived == 'true'){
+					return 'Entrega feita'
+				} else if (this.shipmentModal.dispatched == 'true'){
+					return 'Entrega feita'
+				} else if (this.shipmentModal.assigned == 'true'){
+					return 'Item despachado'
+				} else {
+					return 'Aceito esta oportunidade.'
+				}
+			},
+			shipmentState (){
+				if (this.shipmentModal.arrived == 'true'){
+					return 0
+				} else if (this.shipmentModal.dispatched == 'true'){
+					return 1
+				} else if (this.shipmentModal.assigned == 'true'){
+					return 2
+				} else {
+					return 3
+				}	
 			}
 		},
 		mounted (){

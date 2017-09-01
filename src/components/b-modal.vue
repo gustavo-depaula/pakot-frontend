@@ -35,7 +35,13 @@
 					Peso <b>{{weight}}</b>
 				</p>
 				<div id="mapModal"></div>
-				<button v-if="isDeliveryMan" @click="$emit('accept')" class="actionBtn button is-warning is-medium"><span class="icon"><i class="fa fa-check"></i></span>&nbsp;&nbsp;Aceito esta oportunidade.</button>
+				<div v-if="isDeliveryMan">
+					<button v-if="state == 0" @click="$emit('accept')" class="actionBtn button is-warning is-medium"><span class="icon"><i class="fa fa-check"></i></span>&nbsp;&nbsp;{{btnMessage}}</button>
+					<button v-if="state == 1" @click="$emit('accept')" class="actionBtn button is-warning is-medium"><span class="icon"><i class="fa fa-check"></i></span>&nbsp;&nbsp;{{btnMessage}}</button>
+					<button v-if="state == 2" @click="$emit('accept')" class="actionBtn button is-warning is-medium"><span class="icon"><i class="fa fa-check"></i></span>&nbsp;&nbsp;{{btnMessage}}</button>
+					<button v-if="state == 3" @click="$emit('accept')" class="actionBtn button is-warning is-medium"><span class="icon"><i class="fa fa-check"></i></span>&nbsp;&nbsp;{{btnMessage}}</button>
+					
+				</div>
 				<button v-if="!isDeliveryMan" @click="$emit('cancel')" class="actionBtn button is-danger is-medium"><span class="icon"><i class="fa fa-times"></i></span>&nbsp;&nbsp;Cancelar esta entrega.</button>
 			</div>
 		</div>
@@ -45,7 +51,7 @@
 <script>
 	export default {
 		name: 'b-modal',
-		props: ['nickname', 'description', 'price', 'priority', 'size', 'weight','origin','destination', 'user'],
+		props: ['nickname', 'description', 'price', 'priority', 'size', 'weight','origin','destination', 'user', 'state', 'btnMessage'],
 		data() {
 			return {
 				itemsMap: {
@@ -78,8 +84,8 @@
 								else{
 									addr.destination = results[1].formatted_address
 									addr.distance = distanceLatLng(itemsMap.markers)
-									routeCalc(itemsMap.directionsService,itemsMap.directionsDisplay,addr);
-									itemsMap.directionsDisplay.setMap(itemsMap.map);
+									routeCalc(itemsMap.directionsService,itemsMap.directionsDisplay,addr)
+									itemsMap.directionsDisplay.setMap(itemsMap.map)
 								}	
 								
 							} 
@@ -88,7 +94,7 @@
 						} 
 						else
 							console.log('Geocoder failed due to: ' + status)
-					});
+					})
 			},
 			calculateAndDisplayRoute(directionsService, directionsDisplay, addr){
 				directionsService.route({
@@ -109,6 +115,9 @@
 				if (this.user == 'deliveryMan') {
 					return true
 				}
+			},
+			modalBtnMessage (){
+
 			}
 		},
 		mounted: function() {

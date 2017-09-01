@@ -247,6 +247,7 @@
 					this.warningMessage = ''
 					this.shipment.distance = this.addresses.distance
 
+					console.log(this.shipment)
 					axios.post('https://pakot-backend.herokuapp.com/public/package/price', this.shipment)
 						.then(response => {
 							console.log(response)

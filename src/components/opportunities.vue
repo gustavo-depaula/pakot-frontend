@@ -43,7 +43,7 @@
 							 -->
 						</div>
 						<div class="column">
-							<p class="title">R${{item.deliveryCut}},00</p>
+							<p class="title">R${{item.price}},00</p>
 							<p class="subtitle">pago em BTC</p>
 						</div>
 						<div class="column">
@@ -72,7 +72,7 @@
 		enter-active-class="animated fadeIn"
 		leave-active-class="animated fadeOut"
 		>
-			<b-modal v-if="isModalVisible" @close="isModalVisible = !isModalVisible" @accept="acceptOpportunity" :nickname="shipmentModal.nickname" :priority="shipmentModal.priority" :price="shipmentModal.price" :description="shipmentModal.description" :size="shipmentModal.size" :weight="shipmentModal.weight" :origin="shipmentModal.origin" :destination="shipmentModal.destination" user="deliveryMan"/>
+			<b-modal v-if="isModalVisible" @close="isModalVisible = !isModalVisible" @accept="acceptOpportunity" :nickname="shipmentModal.nickname" :priority="shipmentModal.priority" :price="shipmentModal.price" :description="shipmentModal.description" :size="shipmentModal.size" :weight="shipmentModal.weight" :origin="shipmentModal.origin" :destination="shipmentModal.destination" user="deliveryMan" :btnMessage="modalBtnMessage" :state="shipmentState"/>
 		</transition>
 	</div>
 </template>
@@ -103,8 +103,8 @@ export default {
 		loadPackages() {
 			axios.get('https://pakot-backend.herokuapp.com/public/package/getopen')
 				.then(response => {
-					// console.log('resposta')
-					// console.log(response.data)
+					console.log('resposta')
+					console.log(response.data)
 					this.packages = response.data
 				})
 		},
@@ -119,6 +119,11 @@ export default {
 			this.shipmentModal.destination = item.destination;
 			this.shipmentModal.price = item.price
 
+			this.shipmentModal.arrived = item.arrived
+			this.shipmentModal.dispatched = item.dispatched
+			this.shipmentModal.assigned = item.assigned
+
+			// console.log(this.shipmentState)
 			this.isModalVisible = true
 		},
 		hideModal: function() {
@@ -136,6 +141,30 @@ export default {
 					this.hideModal()
 					console.log(response)
 				})
+		}
+	},
+	computed: {
+		modalBtnMessage (){
+			if (this.shipmentModal.arrived == 'true'){
+				return 'Entrega feita'
+			} else if (this.shipmentModal.dispatched == 'true'){
+				return 'Entrega feita'
+			} else if (this.shipmentModal.assigned == 'true'){
+				return 'Item despachado'
+			} else {
+				return 'Aceito esta oportunidade.'
+			}
+		},
+		shipmentState (){
+			if (this.shipmentModal.arrived == 'true'){
+				return 0
+			} else if (this.shipmentModal.dispatched == 'true'){
+				return 1
+			} else if (this.shipmentModal.assigned == 'true'){
+				return 2
+			} else {
+				return 3
+			}	
 		}
 	},
 	mounted (){
