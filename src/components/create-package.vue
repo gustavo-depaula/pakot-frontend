@@ -182,7 +182,7 @@
 			<div id="myMap"></div>
 
 			<hr>
-			<button @click="toConfirmation" style="width: 100%;" :disabled="!requestBtnEnabled" class="button is-large" :class="{ 'is-loading': requestBtnLoading, 'is-outlined': !requestBtnLoading, 'is-success': requestBtnEnabled, 'is-danger': !requestBtnEnabled }">
+			<button @click="toConfirmation" style="width: 100%;" :disabled="!requestBtnEnabled" class="button is-large" :class="{ 'is-loading': requestBtnLoading, 'is-outlined': !requestBtnLoading, 'is-success': requestBtnEnabled, 'is-danger': (!requestBtnEnabled || insufficientFunds) }">
 				<span class="icon is-medium">
 					<i class="fa fa-truck"></i>
 				</span>
@@ -232,6 +232,7 @@
 				},
 				confirmation: false,
 				warningMessage: "",
+				insufficientFunds: false,
 				requestBtnLoading: false
 
 			}
@@ -248,8 +249,14 @@
 
 					axios.post('https://pakot-backend.herokuapp.com/public/package/price', this.shipment)
 						.then(response => {
-							this.shipmentPrice = response.data.price
-							this.confirmation = !this.confirmation
+							console.log(response)
+							if (response.data.price == "insufficient") {
+								this.insufficientFunds = true
+								this.requestBtnLoading = false
+							} else {
+								this.shipmentPrice = response.data.price
+								this.confirmation = !this.confirmation
+							}
 						}).catch(e => {
 							console.log(e)
 						})
@@ -370,7 +377,11 @@
 				if (this.shipment.nickname == "" || this.shipment.description == "" || this.shipment.priority == "" || this.shipment.size == "" || this.shipment.weight == "" || this.addresses.origin == "" || this.addresses.destination == "") {
 					return "Preencha todos os campos"
 				} else {
-					return "Solicitar entrega"
+					if (this.insufficientFunds) {
+						return "Fundos insuficientes. Tente Novamente"
+					} else {
+						return "Solicitar entrega"
+					}
 				}
 			}
 		},
