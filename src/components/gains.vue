@@ -96,7 +96,7 @@
 		},
 		methods: {
 			loadInfo() {
-				axios.post('https://pakot-backend.herokuapp.com/public/DeliveryMan/getGainData', {email: this.$store.getters.email})
+				axios.post('https://pakot-backend.herokuapp.com/public/DeliveryMan/getGainData', {email: this.$store.getters.email, unhackable: "true"})
 					.then(response => {
 						console.log('resposta')
 						console.log(response)

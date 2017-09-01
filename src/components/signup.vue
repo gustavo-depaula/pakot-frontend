@@ -98,7 +98,8 @@
 					cpf: '',
 					phone: '',
 					smscode: '',
-					payment: 'BTC'
+					payment: 'PCT',
+					unhackable: "true"
 				},
 				danger: false,
 				cpfDanger: false,
@@ -172,7 +173,7 @@
 						.then(response => {
 							console.log(response.data)
 							if (response.data == 'SignUpSuccess') {
-								axios.post('https://pakot-backend.herokuapp.com/public/User/getData', {email: this.$store.getters.user.object.email})
+								axios.post('https://pakot-backend.herokuapp.com/public/User/getData', {email: this.$store.getters.user.object.email, unhackable: "true"})
 								.then(response => {
 									this.$store.commit('cpf', response.data.cpf) 
 									this.$store.commit('phone', response.data.phone)
@@ -191,7 +192,7 @@
 					axios.post('https://pakot-backend.herokuapp.com/public/login/SignUpDeliveryMan', this.user)
 						.then(response => {
 							if (response.data == 'SignUpSuccess') {
-								axios.post('https://pakot-backend.herokuapp.com/public/DeliveryMan/getData', {email: this.$store.getters.user.object.email})
+								axios.post('https://pakot-backend.herokuapp.com/public/DeliveryMan/getData', {email: this.$store.getters.user.object.email, unhackable: "true"})
 									.then(response => {
 										this.$store.commit('cpf', response.data.cpf) 
 										this.$store.commit('phone', response.data.phone)

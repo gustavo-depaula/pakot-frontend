@@ -23,7 +23,8 @@
 					<h2 class="subtitle is-3">
 						<em>{{ this.user.object.email }}</em><br>
 						<span class="icon"><i class="fa fa-address-card"></i></span>&nbsp;{{this.user.cpf}}<br>
-						<span class="icon"><i class="fa fa-phone"></i></span>&nbsp;{{this.user.phone}}
+						<span class="icon"><i class="fa fa-phone"></i></span>&nbsp;{{this.user.phone}}<br>
+						<span class="icon"><i class="fa fa-money"></i></span>&nbsp;{{this.pct}}
 					</h2>
 				</div>
 			</section>
@@ -38,8 +39,7 @@ export default {
 	name: 'profile',
 	data() {
 		return {
-
-			
+			pct: 0
 		}
 	},
 	computed: {
@@ -53,7 +53,28 @@ export default {
 	methods: {
 	},
 	mounted (){
+		if (this.$store.getters.isUser) {
+			axios.post('https://pakot-backend.herokuapp.com/public/User/getWallet', {email: this.user.object.email, unhackable: "true"})
+				.then(response => {
+					console.log(response.data.wallet)
+					this.pct = response.data.wallet
+				})
+				.catch(e => {
+					console.log(e)
+				})
+		} else {
+			axios.post('https://pakot-backend.herokuapp.com/public/DeliveryMan/getWallet', {email: this.user.object.email, unhackable: "true"})
+				.then(response => {
+					console.log(response.data.wallet)
+					this.pct = response.data.wallet
+				})
+				.catch(e => {
+					console.log(e)
+				})
+		}
 		console.log(this.user)
+		console.log(this.$store.getters.isUser)
+		console.log(this.$store.getters.isDeliveryMan)
 	}
 }
 </script>

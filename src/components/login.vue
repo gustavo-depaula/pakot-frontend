@@ -104,7 +104,7 @@
 				this.userBtnLoading = true
 				this.$store.commit('isUser')
 				var user = this.$store.getters.user
-				axios.post('https://pakot-backend.herokuapp.com/public/login/User', {email: user.object.email})
+				axios.post('https://pakot-backend.herokuapp.com/public/login/User', {email: user.object.email, unhackable: "true"})
 					.then(response => {
 						console.log(response.data)
 						if (response.data == 'requireSignUp') {
@@ -113,7 +113,7 @@
 						} else {
 							this.$store.commit('userLogIn', user.object)
 							this.$store.commit('userDontRequireSignUp')
-							axios.post('https://pakot-backend.herokuapp.com/public/DeliveryMan/getData', {email: this.$store.getters.user.object.email})
+							axios.post('https://pakot-backend.herokuapp.com/public/DeliveryMan/getData', {email: this.$store.getters.user.object.email, unhackable: "true"})
 							.then(response => {
 								console.log(response)
 								this.$store.commit('cpf', response.data.cpf) 
@@ -130,7 +130,7 @@
 				this.deliveryBtnLoading = true
 				this.$store.commit('isDeliveryMan')
 				var user = this.$store.getters.user
-				axios.post('https://pakot-backend.herokuapp.com/public/login/DeliveryMan', {email: user.object.email})
+				axios.post('https://pakot-backend.herokuapp.com/public/login/DeliveryMan', {email: user.object.email, unhackable: "true"})
 					.then(response => {
 						console.log(response.data)
 						if (response.data == 'requireSignUp') {
@@ -139,7 +139,7 @@
 						} else {
 							this.$store.commit('userLogIn', user.object)
 							this.$store.commit('userDontRequireSignUp')
-							axios.post('https://pakot-backend.herokuapp.com/public/User/getData', {email: this.$store.getters.user.object.email})
+							axios.post('https://pakot-backend.herokuapp.com/public/User/getData', {email: this.$store.getters.user.object.email, unhackable: "true"})
 							.then(response => {
 								console.log(response)
 								this.$store.commit('cpf', response.data.cpf) 

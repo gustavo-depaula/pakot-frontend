@@ -217,7 +217,8 @@
 					size: "",
 					weight: "",
 					email: this.$store.getters.user.object.email,
-					distance: 0
+					distance: 0,
+					unhackable: "true"
 				},
 				shipmentPrice: null,
 				blankShipment: {
@@ -226,7 +227,8 @@
 					priority: "",
 					size: "",
 					weight: "",
-					email: this.$store.getters.user.object.email
+					email: this.$store.getters.user.object.email,
+					unhackable: "true"
 				},
 				confirmation: false,
 				warningMessage: "",
