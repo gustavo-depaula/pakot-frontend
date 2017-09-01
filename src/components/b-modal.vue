@@ -37,8 +37,8 @@
 				<div id="mapModal"></div>
 				<div v-if="isDeliveryMan">
 					<button v-if="state == 0" disabled class="actionBtn button is-success is-medium"><span class="icon"><i class="fa fa-check"></i></span>&nbsp;&nbsp;{{btnMessage}}</button>
-					<button v-if="state == 1" @click="$emit('arrived')" class="actionBtn button is-primary is-medium"><span class="icon"><i class="fa fa-check"></i></span>&nbsp;&nbsp;{{btnMessage}}</button>
-					<button v-if="state == 2" @click="$emit('dispatch')" class="actionBtn button is-info is-medium"><span class="icon"><i class="fa fa-truck"></i></span>&nbsp;&nbsp;{{btnMessage}}sdads</button>
+					<button v-if="state == 1" @click="$emit('arrived')" class="actionBtn button is-primary is-medium"><span class="icon"><i class="fa fa-truck"></i></span>&nbsp;&nbsp;{{btnMessage}}</button>
+					<button v-if="state == 2" @click="$emit('dispatch')" class="actionBtn button is-info is-medium"><span class="icon"><i class="fa fa-road"></i></span>&nbsp;&nbsp;{{btnMessage}}</button>
 					<button v-if="state == 3" @click="$emit('accept')" class="actionBtn button is-warning is-medium"><span class="icon"><i class="fa fa-check"></i></span>&nbsp;&nbsp;{{btnMessage}}</button>
 					
 				</div>

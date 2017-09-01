@@ -100,8 +100,12 @@
 					priority: null,
 					origin:"",
 					destination:"",
-					distance:""
-				}
+					distance:"",
+					arrived: "",
+					dispatched: "",
+					assigned: "",
+				},
+
 			}
 		},
 		methods: {
@@ -133,18 +137,6 @@
 			hideModal: function() {
 				this.isModalVisible = false
 			},
-			cancelShipment (){
-				// console.log(this.shipmentModal.id)
-				// axios.post('https://pakot-backend.herokuapp.com/public/package/cancel', {
-				// 	email: this.$store.getters.user.object.email,
-				// 	id: this.shipmentModal.id
-				// })
-				// 	.then(response => {
-				// 		this.loadPackages()
-				// 		this.hideModal()
-				// 		console.log(response)
-				// 	})
-			},
 			dispatchShipment (){
 				axios.post('https://pakot-backend.herokuapp.com/public/package/update', {
 					status: 'dispatched',
@@ -153,8 +145,9 @@
 					unhackable: "true"
 				})
 					.then(response => {
-						this.loadPackages()
 						this.hideModal()
+						this.loadPackages()
+						this.$forceUpdate()
 						console.log(response)
 					})
 			},
@@ -165,8 +158,9 @@
 					unhackable: "true"
 				})
 					.then(response => {
-						this.loadPackages()
 						this.hideModal()
+						this.loadPackages()
+						this.$forceUpdate()
 						console.log(response)
 					})
 			}
