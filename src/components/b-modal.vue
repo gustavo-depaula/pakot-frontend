@@ -42,7 +42,7 @@
 					<button v-if="state == 3" @click="$emit('accept')" class="actionBtn button is-warning is-medium"><span class="icon"><i class="fa fa-check"></i></span>&nbsp;&nbsp;{{btnMessage}}</button>
 					
 				</div>
-				<button v-if="!isDeliveryMan" @click="$emit('cancel')" class="actionBtn button is-danger is-medium"><span class="icon"><i class="fa fa-times"></i></span>&nbsp;&nbsp;Cancelar esta entrega.</button>
+				<button v-if="!isDeliveryMan && !dispatched" @click="$emit('cancel')" class="actionBtn button is-danger is-medium"><span class="icon"><i class="fa fa-times"></i></span>&nbsp;&nbsp;Cancelar esta entrega.</button>
 			</div>
 		</div>
 		<button class="modal-close is-large" @click="$emit('close')"></button>
@@ -51,7 +51,7 @@
 <script>
 	export default {
 		name: 'b-modal',
-		props: ['nickname', 'description', 'price', 'priority', 'size', 'weight','origin','destination', 'user', 'state', 'btnMessage'],
+		props: ['nickname', 'description', 'price', 'priority', 'size', 'weight','origin','destination', 'user', 'state', 'btnMessage', 'dispatched'],
 		data() {
 			return {
 				itemsMap: {

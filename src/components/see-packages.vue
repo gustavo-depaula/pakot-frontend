@@ -81,7 +81,7 @@
 		enter-active-class="animated fadeIn"
 		leave-active-class="animated fadeOut"
 		>
-			<b-modal v-if="isModalVisible" @close="isModalVisible = !isModalVisible" @cancel="cancelShipment" :nickname="shipmentModal.nickname" :priority="shipmentModal.priority" :price="shipmentModal.price" :description="shipmentModal.description" :size="shipmentModal.size" :weight="shipmentModal.weight" :origin="shipmentModal.origin" :destination="shipmentModal.destination" user="user"/>
+			<b-modal v-if="isModalVisible" @close="isModalVisible = !isModalVisible" @cancel="cancelShipment" :nickname="shipmentModal.nickname" :priority="shipmentModal.priority" :price="shipmentModal.price" :description="shipmentModal.description" :size="shipmentModal.size" :weight="shipmentModal.weight" :origin="shipmentModal.origin" :destination="shipmentModal.destination" :dispatched="shipmentModal.dispatched" user="user"/>
 		</transition>
 	</div>
 </template>
@@ -127,6 +127,8 @@
 				this.shipmentModal.origin = item.origin;
 				this.shipmentModal.destination = item.destination;
 				this.shipmentModal.price = item.price
+
+				this.shipmentModal.dispatched = item.dispatched
 
 				this.isModalVisible = true
 			},
