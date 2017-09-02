@@ -41,6 +41,12 @@
 											<p class="control login">
 												<button @click="signDeliveryMan" class="button is-success is-large is-fullwidth" :class="{ 'is-loading': deliveryBtnLoading, 'is-outlined': !deliveryBtnLoading }"><span class="icon"><i class="fa fa-arrow-right"></i></span></button>
 											</p>
+											<hr>
+											<h3 class="title">Sair</h3>
+											<h2 class="subtitle">Deslogar do Pakot.</h2>
+											<p class="control login">
+												<button @click="signOut" class="button is-danger is-large is-fullwidth" :class="{ 'is-loading': deliveryBtnLoading, 'is-outlined': !deliveryBtnLoading }"><span class="icon"><i class="fa fa-hand-spock-o"></i></span></button>
+											</p>
 										</div>
 										<div class="section copyheart">
 											<p class="has-text-centered">
@@ -99,6 +105,13 @@
 		methods: {
 			signUserButtonHandling (){
 				// signUser()
+			},
+			signOut (){
+				firebase.auth().signOut().then(() => {
+					location.reload()
+				})
+				this.$store.commit('userSignOut')
+				this.$store.commit('toLanding')
 			},
 			signUser (){
 				this.userBtnLoading = true
