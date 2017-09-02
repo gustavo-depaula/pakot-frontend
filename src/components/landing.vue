@@ -51,7 +51,7 @@
 								<b>Bem-vindo ao Pakot!</b>
 							</h1>
 							<h2 class="subtitle is-3">
-								Insira seu e-mail abaixo para receber atualizações sobre a plataforma
+								Clique no botão abaixo para entrar na plataforma.
 							</h2>
 							<br>
 							<!-- <div class="column is-8 is-offset-2">
