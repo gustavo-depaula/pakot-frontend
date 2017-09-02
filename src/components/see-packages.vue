@@ -104,7 +104,8 @@
 					priority: null,
 					origin:"",
 					destination:"",
-					distance:""
+					distance:"",
+					dispatched: true,
 				}
 			}
 		},
@@ -128,7 +129,8 @@
 				this.shipmentModal.destination = item.destination;
 				this.shipmentModal.price = item.price
 
-				this.shipmentModal.dispatched = item.dispatched
+				this.shipmentModal.dispatched = item.dispatched == 'true' || item.assigned == 'true' ||  item.arrived == 'true' || item.canceled == 'true'
+				console.log(this.shipmentModal.dispatched)
 
 				this.isModalVisible = true
 			},

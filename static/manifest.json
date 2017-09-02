@@ -3,7 +3,7 @@
   "short_name": "Pakot",
   "icons": [
     {
-      "src": "/static/pakoticon.png",
+      "src": "/static/package.png",
       "sizes": "192x192",
       "type": "image/png"
     }
