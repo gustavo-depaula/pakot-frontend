@@ -17,7 +17,7 @@
 		<!-- profile space -->
 		<div id="profile-space">
 			<section class="section">
-				<img id="profile-pic" class="center" :src="this.photoURL" style="border-radius: 50%; ">
+				<img id="profile-pic" class="center" :src="this.photoURL">
 				<div id="info" class="has-text-centered">
 					<h1 class="title is-1">{{ this.user.object.displayName }}</h1>
 					<h2 class="subtitle is-3">
@@ -78,15 +78,4 @@ export default {
 	}
 }
 </script>
-<style scoped>
-#profile-pic {
-	display: block;
-	margin: auto !important;
-	height: 200px;
-	width: 200px;
-}
-#info {
-	margin-top: 20px !important;
-}
-</style>
-
+<style scoped src="../css/profile.css"/>

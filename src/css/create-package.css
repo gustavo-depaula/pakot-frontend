@@ -1,0 +1,24 @@
+#form-container {
+	margin: 10px !important;
+}
+
+#info-tile {
+	margin-left: 8% !important;
+}
+
+#myMap {
+	height:300px;
+	width: 100%;
+}
+
+#confirmation-container {
+	margin: 10px !important;
+}
+
+#confirmation-tile {
+	padding-right: 0 !important;
+}
+
+.width-max {
+	width: 100% !important;
+}

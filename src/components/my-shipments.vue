@@ -43,7 +43,7 @@
 					</div>
 					<div class="column">
 						<p class="title">R${{item.deliveryCut}},00</p>
-						<p class="subtitle">pago em BTC</p>
+						<p class="subtitle">pago em PCT</p>
 					</div>
 					<div class="column">
 						<span v-if="item.arrived == 'true'">
@@ -195,20 +195,4 @@
 		}
 	}
 </script>
-<style scoped>
-#shipments {
-	cursor: pointer;
-}
-.fadeIn {
-	-webkit-animation: fadeIn .3s; /* Safari 4+ */
-	-moz-animation:    fadeIn .3s; /* Fx 5+ */
-	-o-animation:      fadeIn .3s; /* Opera 12+ */
-	animation:         fadeIn .3s; /* IE 10+, Fx 29+ */
-}
-.fadeOut {
-	-webkit-animation: fadeOut .3s; /* Safari 4+ */
-	-moz-animation:    fadeOut .3s; /* Fx 5+ */
-	-o-animation:      fadeOut .3s; /* Opera 12+ */
-	animation:         fadeOut .3s; /* IE 10+, Fx 29+ */
-}
-</style>
+<style scoped src="../css/my-shipments.css"/>

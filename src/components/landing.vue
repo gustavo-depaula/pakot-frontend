@@ -66,7 +66,7 @@
 								
 							</div> -->
 							<div class="is-5 is-offset-2 has-text-centered">
-								<button style="width: 100%; margin: auto;" @click="$emit('toLogin')" class="button is-large is-primary is-outlined">
+								<button id="btnEnterNow" @click="$emit('toLogin')" class="button is-large is-primary is-outlined ">
 									Entre agora
 								</button>
 							</div>
@@ -144,17 +144,17 @@
 											<div class="level-left">
 												<a class="level-item">
 													<a href="https://www.facebook.com/gustavodepaula.real?ref=br_rs" class="icon-block">
-														<i style="font-size:24px" class="fa">&#xf082;</i>
+														<i class="font9 fa">&#xf082;</i>
 													</a>
 												</a>
 												<a class="level-item">
 													<a href="https://github.com/gustavo-depaula" class="icon-block">
-														<i style="font-size:24px" class="fa">&#xf092;</i>
+														<i class="font9 fa">&#xf092;</i>
 													</a>
 												</a>
 												<a class="level-item">
 													<a href="https://www.instagram.com/itsgustavodepaula/" class="icon-block">
-														<i style="font-size:24px" class="fa">&#xf16d;</i>
+														<i class="font9 fa">&#xf16d;</i>
 													</a>
 												</a>
 											</div>
@@ -181,17 +181,17 @@
 											<div class="level-left">
 												<a class="level-item">
 													<a href="https://www.facebook.com/raul.mansur.77" class="icon-block">
-														<i style="font-size:24px" class="fa">&#xf082;</i>
+														<i class="font9 fa">&#xf082;</i>
 													</a>
 												</a>
 												<a class="level-item">
 													<a href="https://github.com/raul4247" class="icon-block">
-														<i style="font-size:24px" class="fa">&#xf092;</i>
+														<i class="font9 fa">&#xf092;</i>
 													</a>
 												</a>
 												<a class="level-item">
 													<a href="/" class="icon-block">
-														<i style="font-size:24px" class="fa">&#xf16d;</i>
+														<i class="font9 fa">&#xf16d;</i>
 													</a>
 												</a>
 											</div>
@@ -218,17 +218,17 @@
 											<div class="level-left">
 												<a class="level-item">
 													<a href="https://www.facebook.com/theSilvaPaulo" class="icon-block">
-														<i style="font-size:24px" class="fa">&#xf082;</i>
+														<i class="font9 fa">&#xf082;</i>
 													</a>
 												</a>
 												<a class="level-item">
 													<a href="https://github.com/paulo99hsilva" class="icon-block">
-														<i style="font-size:24px" class="fa">&#xf092;</i>
+														<i class="font9 fa">&#xf092;</i>
 													</a>
 												</a>
 												<a class="level-item">
 													<a href="https://www.instagram.com/thesilvapaulo/" class="icon-block">
-														<i style="font-size:24px" class="fa">&#xf16d;</i>
+														<i class="font9 fa">&#xf16d;</i>
 													</a>
 												</a>
 											</div>
@@ -281,4 +281,4 @@
 		}
 	}
 </script>
-<style scoped src="../css/landing.css"></style>
+<style scoped src="../css/landing.css"/>

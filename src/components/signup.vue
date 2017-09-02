@@ -59,12 +59,21 @@
 										</p>
 										<p class="control login">
 											<div class="columns">
-												<div class="column is-one-quarter">
-													<button @click="this.location.reload()" class="button is-danger is-large is-fullwidth"><span class="icon"><i class="fa fa-arrow-left"></i></span></button>
+												<div class="is-hidden-desktop">
+													<div class="column">
+														<button @click="confirmCode" class="button is-success is-large is-fullwidth" :disabled="btnDisable" :class="{ 'is-loading': btnLoading, 'is-outlined': !btnLoading }"><span class="icon"><i class="fa fa-sign-in"></i></span></button>
+													</div>
+													<div class="column is-one-quarter">
+														<button @click="this.location.reload()" class="button is-danger is-large is-fullwidth"><span class="icon"><i class="fa fa-arrow-left"></i></span></button>
+													</div>
 												</div>
-												<div class="column">
-													<button @click="confirmCode" class="button is-success is-large is-fullwidth" :disabled="btnDisable" :class="{ 'is-loading': btnLoading, 'is-outlined': !btnLoading }"><span class="icon"><i class="fa fa-sign-in"></i></span></button>
-													
+												<div class="is-hidden-touch">
+													<div class="column is-one-quarter">
+														<button @click="this.location.reload()" class="button is-danger is-large is-fullwidth"><span class="icon"><i class="fa fa-arrow-left"></i></span></button>
+													</div>
+													<div class="column">
+														<button @click="confirmCode" class="button is-success is-large is-fullwidth" :disabled="btnDisable" :class="{ 'is-loading': btnLoading, 'is-outlined': !btnLoading }"><span class="icon"><i class="fa fa-sign-in"></i></span></button>
+													</div>
 												</div>
 											</div>
 										</p>

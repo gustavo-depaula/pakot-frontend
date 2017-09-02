@@ -51,13 +51,13 @@
 						Tamanho: <b>{{shipment.size}}</b>, Peso <b>{{shipment.weight}}</b> <br>
 						R$<b>{{shipmentPrice}},00</b>
 					</p>
-					<button style="width = 	100% !important;" @click="createPackage" class="button is-success is-large">
+					<button @click="createPackage" class="width-max button is-success is-large">
 						<span class="icon is-medium">
 							<i class="fa fa-check"></i>
 						</span>
 						<span>Confirmar solicitação.</span>
 					</button>
-					<button style="width =	100% !important;" @click="confirmation = !confirmation; requestBtnLoading = false" class="button is-danger is-large">
+					<button @click="confirmation = !confirmation; requestBtnLoading = false" class="width-max button is-danger is-large">
 						<span class="icon is-medium">
 							<i class="fa fa-times"></i>
 						</span>
@@ -182,7 +182,7 @@
 			<div id="myMap"></div>
 
 			<hr>
-			<button @click="toConfirmation" style="width: 100%;" :disabled="!requestBtnEnabled" class="button is-large" :class="{ 'is-loading': requestBtnLoading, 'is-outlined': !requestBtnLoading, 'is-success': requestBtnEnabled, 'is-danger': (!requestBtnEnabled || insufficientFunds) }">
+			<button @click="toConfirmation" :disabled="!requestBtnEnabled" class="width-max button is-large" :class="{ 'is-loading': requestBtnLoading, 'is-outlined': !requestBtnLoading, 'is-success': requestBtnEnabled, 'is-danger': (!requestBtnEnabled || insufficientFunds) }">
 				<span class="icon is-medium">
 					<i class="fa fa-truck"></i>
 				</span>
@@ -196,295 +196,278 @@
 </div>
 </template>
 <script>
-	import axios from 'axios';
+import axios from 'axios';
 
-	export default {
-		name: 'create-package',
-		data() {
-			return {
-				itemsMap: {
-					markers:[]
-				},
-				addresses: {
-					origin: '',
-					destination: '',
-					distance:''
-				},
-				shipment: {
-					nickname: "",
-					description: "",
-					priority: "",
-					size: "",
-					weight: "",
-					email: this.$store.getters.user.object.email,
-					distance: 0,
-					unhackable: "true"
-				},
-				shipmentPrice: null,
-				blankShipment: {
-					nickname: "",
-					description: "",
-					priority: "",
-					size: "",
-					weight: "",
-					email: this.$store.getters.user.object.email,
-					unhackable: "true"
-				},
-				confirmation: false,
-				warningMessage: "",
-				insufficientFunds: false,
-				requestBtnLoading: false
-
-			}
-		},
-		methods: {
-			toConfirmation (){
-				this.requestBtnLoading = true
-				if (this.shipment.nickname == "" || this.shipment.description == "" || this.shipment.priority == "" || this.shipment.size == "" || this.shipment.weight == "" || this.addresses.origin == "" || this.addresses.destination == "") {
-					this.warningMessage = "Você precisa preencher todos os campos para solicitar uma entrega"
-					this.requestBtnLoading = false
-				} else {
-					this.warningMessage = ''
-					this.shipment.distance = this.addresses.distance
-
-					console.log(this.shipment)
-					axios.post('https://pakot-backend.herokuapp.com/public/package/price', this.shipment)
-						.then(response => {
-							console.log(response)
-							if (response.data.price == "insufficient") {
-								this.insufficientFunds = true
-								this.requestBtnLoading = false
-							} else {
-								this.shipmentPrice = response.data.price
-								this.confirmation = !this.confirmation
-							}
-						}).catch(e => {
-							console.log(e)
-						})
-
-				}
+export default {
+	name: 'create-package',
+	data() {
+		return {
+			itemsMap: {
+				markers:[]
 			},
-			createPackage (){
-				this.shipment.origin = this.addresses.origin
-				this.shipment.destination = this.addresses.destination
+			addresses: {
+				origin: '',
+				destination: '',
+				distance:''
+			},
+			shipment: {
+				nickname: "",
+				description: "",
+				priority: "",
+				size: "",
+				weight: "",
+				email: this.$store.getters.user.object.email,
+				distance: 0,
+				unhackable: "true"
+			},
+			shipmentPrice: null,
+			blankShipment: {
+				nickname: "",
+				description: "",
+				priority: "",
+				size: "",
+				weight: "",
+				email: this.$store.getters.user.object.email,
+				unhackable: "true"
+			},
+			confirmation: false,
+			warningMessage: "",
+			insufficientFunds: false,
+			requestBtnLoading: false
+
+		}
+	},
+	methods: {
+		toConfirmation (){
+			this.requestBtnLoading = true
+			if (this.shipment.nickname == "" || this.shipment.description == "" || this.shipment.priority == "" || this.shipment.size == "" || this.shipment.weight == "" || this.addresses.origin == "" || this.addresses.destination == "") {
+				this.warningMessage = "Você precisa preencher todos os campos para solicitar uma entrega"
+				this.requestBtnLoading = false
+			} else {
+				this.warningMessage = ''
 				this.shipment.distance = this.addresses.distance
 
-				axios.post('https://pakot-backend.herokuapp.com/public/package/create', this.shipment)
+				console.log(this.shipment)
+				axios.post('https://pakot-backend.herokuapp.com/public/package/price', this.shipment)
 					.then(response => {
 						console.log(response)
-						this.confirmation = !this.confirmation
-						this.requestBtnLoading = false
-						this.shipment = this.blankShipment
-					})
-					.catch(e => {
+						if (response.data.price == "insufficient") {
+							this.insufficientFunds = true
+							this.requestBtnLoading = false
+						} else {
+							this.shipmentPrice = response.data.price
+							this.confirmation = !this.confirmation
+						}
+					}).catch(e => {
 						console.log(e)
 					})
-			},
-			//------------------------GOOGLE MAPS FUNCTIONS------------------------
-			removeOrigin (){
-				this.resetMap()
-				document.getElementById('originInput').value = ""
-				document.getElementById('destinationInput').value = ""
-			},
-			removeDestiny (){
-				document.getElementById('destinationInput').value = ""
 
-				this.itemsMap.markers[1].setMap(null);
-				this.addresses.destination = ""
-				this.itemsMap.markers.pop()
-				this.itemsMap.directionsDisplay.setMap(null);
-				if(typeof this.itemsMap.line !== 'undefined')
-					this.itemsMap.line.setMap(null)
-				this.itemsMap.directionsDisplay.setMap(null);
+			}
+		},
+		createPackage (){
+			this.shipment.origin = this.addresses.origin
+			this.shipment.destination = this.addresses.destination
+			this.shipment.distance = this.addresses.distance
 
-			},
-			resetMap(){
-				for (var i=0;i<this.itemsMap.markers.length;i++)
-					this.itemsMap.markers[i].setMap(null);
-				this.addresses.origin=''
-				this.addresses.destination=''	
-				this.addresses.distance=''	
-				this.itemsMap.markers = []
-				if(typeof this.itemsMap.line !== 'undefined')
-					this.itemsMap.line.setMap(null)
-				this.itemsMap.directionsDisplay.setMap(null);
-			},	
-			addMarker(itemsMap, location, infowindow){
-				var marker = new google.maps.Marker({
-					position: location,
-					map: itemsMap.map
-				});
-				itemsMap.markers.push(marker)
-				marker.addListener('click', function() {
-					infowindow.open(itemsMap.map, marker)
-				});
-				return marker
-			},
-			latLngToAddress(itemsMap, infowindow, latlng, addMarker, distanceLatLng, routeCalc, addr, flag){
-				itemsMap.geocoder.geocode({'location': latlng}, function(results, status){
-					if(status === 'OK'){
-						if(results[1]){
-							var marker = addMarker(itemsMap, latlng, infowindow)
-							infowindow.setContent(results[1].formatted_address)
-							infowindow.open(itemsMap.map, marker)
+			axios.post('https://pakot-backend.herokuapp.com/public/package/create', this.shipment)
+				.then(response => {
+					console.log(response)
+					this.confirmation = !this.confirmation
+					this.requestBtnLoading = false
+					this.shipment = this.blankShipment
+				})
+				.catch(e => {
+					console.log(e)
+				})
+		},
+		//------------------------GOOGLE MAPS FUNCTIONS------------------------
+		removeOrigin (){
+			this.resetMap()
+			document.getElementById('originInput').value = ""
+			document.getElementById('destinationInput').value = ""
+		},
+		removeDestiny (){
+			document.getElementById('destinationInput').value = ""
+
+			this.itemsMap.markers[1].setMap(null);
+			this.addresses.destination = ""
+			this.itemsMap.markers.pop()
+			this.itemsMap.directionsDisplay.setMap(null);
+			if(typeof this.itemsMap.line !== 'undefined')
+				this.itemsMap.line.setMap(null)
+			this.itemsMap.directionsDisplay.setMap(null);
+
+		},
+		resetMap(){
+			for (var i=0;i<this.itemsMap.markers.length;i++)
+				this.itemsMap.markers[i].setMap(null);
+			this.addresses.origin=''
+			this.addresses.destination=''	
+			this.addresses.distance=''	
+			this.itemsMap.markers = []
+			if(typeof this.itemsMap.line !== 'undefined')
+				this.itemsMap.line.setMap(null)
+			this.itemsMap.directionsDisplay.setMap(null);
+		},	
+		addMarker(itemsMap, location, infowindow){
+			var marker = new google.maps.Marker({
+				position: location,
+				map: itemsMap.map
+			});
+			itemsMap.markers.push(marker)
+			marker.addListener('click', function() {
+				infowindow.open(itemsMap.map, marker)
+			});
+			return marker
+		},
+		latLngToAddress(itemsMap, infowindow, latlng, addMarker, distanceLatLng, routeCalc, addr, flag){
+			itemsMap.geocoder.geocode({'location': latlng}, function(results, status){
+				if(status === 'OK'){
+					if(results[1]){
+						var marker = addMarker(itemsMap, latlng, infowindow)
+						infowindow.setContent(results[1].formatted_address)
+						infowindow.open(itemsMap.map, marker)
+						
+						if(!flag) addr.origin = results[1].formatted_address
+							else{
+								addr.destination = results[1].formatted_address
+								addr.distance = distanceLatLng(itemsMap.markers)
+								routeCalc(itemsMap.directionsService,itemsMap.directionsDisplay,addr);
+								itemsMap.directionsDisplay.setMap(itemsMap.map);
+							}	
 							
-							if(!flag) addr.origin = results[1].formatted_address
-								else{
-									addr.destination = results[1].formatted_address
-									addr.distance = distanceLatLng(itemsMap.markers)
-									routeCalc(itemsMap.directionsService,itemsMap.directionsDisplay,addr);
-									itemsMap.directionsDisplay.setMap(itemsMap.map);
-								}	
-								
-							} 
-							else
-								console.log('No results found')
 						} 
 						else
-							console.log('Geocoder failed due to: ' + status)
-					});
-			},
-			distanceLatLng(markers){
-				var A = markers[0].position
-				var B = markers[1].position
-				return google.maps.geometry.spherical.computeDistanceBetween(A,B)
-			},
-			calculateAndDisplayRoute(directionsService, directionsDisplay, addr){
-				directionsService.route({
-					origin: addr.origin,
-					destination: addr.destination,
-					travelMode: 'DRIVING'
-				}, function(response, status) {
-					if (status === 'OK') {
-						directionsDisplay.setDirections(response);
-					} else {
-						console.log('Directions request failed due to ' + status);
-					}
-				})
+							console.log('No results found')
+					} 
+					else
+						console.log('Geocoder failed due to: ' + status)
+				});
+		},
+		distanceLatLng(markers){
+			var A = markers[0].position
+			var B = markers[1].position
+			return google.maps.geometry.spherical.computeDistanceBetween(A,B)
+		},
+		calculateAndDisplayRoute(directionsService, directionsDisplay, addr){
+			directionsService.route({
+				origin: addr.origin,
+				destination: addr.destination,
+				travelMode: 'DRIVING'
+			}, function(response, status) {
+				if (status === 'OK') {
+					directionsDisplay.setDirections(response);
+				} else {
+					console.log('Directions request failed due to ' + status);
+				}
+			})
+		}
+	},
+	computed: {
+		isOriginFilled (){
+			return this.addresses.origin == "" ? false : true 
+		},
+		requestBtnEnabled: function(){
+			if (this.shipment.nickname == "" || this.shipment.description == "" || this.shipment.priority == "" || this.shipment.size == "" || this.shipment.weight == "" || this.addresses.origin == "" || this.addresses.destination == "") {
+				return false
+			} else {
+				return true
 			}
 		},
-		computed: {
-			isOriginFilled (){
-				return this.addresses.origin == "" ? false : true 
-			},
-			requestBtnEnabled: function(){
-				if (this.shipment.nickname == "" || this.shipment.description == "" || this.shipment.priority == "" || this.shipment.size == "" || this.shipment.weight == "" || this.addresses.origin == "" || this.addresses.destination == "") {
-					return false
+		requestBtnMessage: function(){
+			if (this.shipment.nickname == "" || this.shipment.description == "" || this.shipment.priority == "" || this.shipment.size == "" || this.shipment.weight == "" || this.addresses.origin == "" || this.addresses.destination == "") {
+				return "Preencha todos os campos"
+			} else {
+				if (this.insufficientFunds) {
+					return "Fundos insuficientes. Tente Novamente"
 				} else {
-					return true
-				}
-			},
-			requestBtnMessage: function(){
-				if (this.shipment.nickname == "" || this.shipment.description == "" || this.shipment.priority == "" || this.shipment.size == "" || this.shipment.weight == "" || this.addresses.origin == "" || this.addresses.destination == "") {
-					return "Preencha todos os campos"
-				} else {
-					if (this.insufficientFunds) {
-						return "Fundos insuficientes. Tente Novamente"
-					} else {
-						return "Solicitar entrega"
-					}
+					return "Solicitar entrega"
 				}
 			}
-		},
-		mounted: function() {
-			this.itemsMap.geocoder = new google.maps.Geocoder
-			this.itemsMap.originWin = new google.maps.InfoWindow
-			this.itemsMap.destinationWin = new google.maps.InfoWindow
-			this.itemsMap.directionsService = new google.maps.DirectionsService;
-			this.itemsMap.directionsDisplay = new google.maps.DirectionsRenderer({suppressMarkers: true});
+		}
+	},
+	mounted: function() {
+		this.itemsMap.geocoder = new google.maps.Geocoder
+		this.itemsMap.originWin = new google.maps.InfoWindow
+		this.itemsMap.destinationWin = new google.maps.InfoWindow
+		this.itemsMap.directionsService = new google.maps.DirectionsService;
+		this.itemsMap.directionsDisplay = new google.maps.DirectionsRenderer({suppressMarkers: true});
 
-			this.itemsMap.map = new google.maps.Map(document.getElementById('myMap'), {
-				zoom: 11,
-				center: {lat: -19.918667, lng: -43.936729},
-				mapTypeId: 'terrain'	
-			});
+		this.itemsMap.map = new google.maps.Map(document.getElementById('myMap'), {
+			zoom: 11,
+			center: {lat: -19.918667, lng: -43.936729},
+			mapTypeId: 'terrain'	
+		});
 
-			// case of map click
-			// this.itemsMap.map.addListener('click', mapClickEvent.bind(this), false)
-			// function mapClickEvent(event){
-			// 	if(this.itemsMap.markers.length<2){
-			// 		if(this.itemsMap.markers.length == 0)
-			// 			this.latLngToAddress(this.itemsMap, this.itemsMap.originWin, event.latLng, this.addMarker, this.distanceLatLng, this.calculateAndDisplayRoute, this.addresses, false);
-			// 		else if(this.itemsMap.markers.length == 1){
-			// 			this.latLngToAddress(this.itemsMap, this.itemsMap.destinationWin, event.latLng, this.addMarker, this.distanceLatLng, this.calculateAndDisplayRoute, this.addresses, true);
-			// 		}
-			// 	}
-			// }
+		// case of map click
+		// this.itemsMap.map.addListener('click', mapClickEvent.bind(this), false)
+		// function mapClickEvent(event){
+		// 	if(this.itemsMap.markers.length<2){
+		// 		if(this.itemsMap.markers.length == 0)
+		// 			this.latLngToAddress(this.itemsMap, this.itemsMap.originWin, event.latLng, this.addMarker, this.distanceLatLng, this.calculateAndDisplayRoute, this.addresses, false);
+		// 		else if(this.itemsMap.markers.length == 1){
+		// 			this.latLngToAddress(this.itemsMap, this.itemsMap.destinationWin, event.latLng, this.addMarker, this.distanceLatLng, this.calculateAndDisplayRoute, this.addresses, true);
+		// 		}
+		// 	}
+		// }
 
-			// case of texts inputs
-			var inputOrigin = document.getElementById('originInput')
-			var inputDestination = document.getElementById('destinationInput')
+		// case of texts inputs
+		var inputOrigin = document.getElementById('originInput')
+		var inputDestination = document.getElementById('destinationInput')
 
-			var autocompleteOrigin = new google.maps.places.Autocomplete(inputOrigin)
-			autocompleteOrigin.bindTo('bounds',this.itemsMap.map)
+		var autocompleteOrigin = new google.maps.places.Autocomplete(inputOrigin)
+		autocompleteOrigin.bindTo('bounds',this.itemsMap.map)
 
-			var autocompleteDestination = new google.maps.places.Autocomplete(inputDestination)
-			autocompleteDestination.bindTo('bounds',this.itemsMap.map)
+		var autocompleteDestination = new google.maps.places.Autocomplete(inputDestination)
+		autocompleteDestination.bindTo('bounds',this.itemsMap.map)
 
-			autocompleteOrigin.addListener('place_changed', mapCompleteEventOrigin.bind(this),false)
-			autocompleteDestination.addListener('place_changed', mapCompleteEventDestination.bind(this),false)
+		autocompleteOrigin.addListener('place_changed', mapCompleteEventOrigin.bind(this),false)
+		autocompleteDestination.addListener('place_changed', mapCompleteEventDestination.bind(this),false)
 
-			function mapCompleteEventOrigin() {
-				var place = autocompleteOrigin.getPlace()
-				if (!place.geometry || this.itemsMap.markers.length>1) 
-					return null
+		function mapCompleteEventOrigin() {
+			var place = autocompleteOrigin.getPlace()
+			if (!place.geometry || this.itemsMap.markers.length>1) 
+				return null
 
-				if (place.geometry.viewport) 
-					this.itemsMap.map.fitBounds(place.geometry.viewport)
-				else 
-					this.itemsMap.map.setCenter(place.geometry.location)
+			if (place.geometry.viewport) 
+				this.itemsMap.map.fitBounds(place.geometry.viewport)
+			else 
+				this.itemsMap.map.setCenter(place.geometry.location)
 
-				var marker = this.addMarker(this.itemsMap, place.geometry.location, this.itemsMap.originWin)
+			var marker = this.addMarker(this.itemsMap, place.geometry.location, this.itemsMap.originWin)
 
-				this.itemsMap.originWin.setContent(place.formatted_address)
-				this.addresses.origin = place.formatted_address
-				this.itemsMap.originWin.open(this.itemsMap.map, marker)
-				if(this.itemsMap.markers.length==2){
-					this.addresses.distance = this.distanceLatLng(this.itemsMap.markers)
-					this.calculateAndDisplayRoute(this.itemsMap.directionsService,this.itemsMap.directionsDisplay, this.addresses);
-					this.itemsMap.directionsDisplay.setMap(this.itemsMap.map)
-				}				
-			}
-			function mapCompleteEventDestination() {
-				var place = autocompleteDestination.getPlace()
-				if (!place.geometry || this.itemsMap.markers.length>1) 
-					return null
+			this.itemsMap.originWin.setContent(place.formatted_address)
+			this.addresses.origin = place.formatted_address
+			this.itemsMap.originWin.open(this.itemsMap.map, marker)
+			if(this.itemsMap.markers.length==2){
+				this.addresses.distance = this.distanceLatLng(this.itemsMap.markers)
+				this.calculateAndDisplayRoute(this.itemsMap.directionsService,this.itemsMap.directionsDisplay, this.addresses);
+				this.itemsMap.directionsDisplay.setMap(this.itemsMap.map)
+			}				
+		}
+		function mapCompleteEventDestination() {
+			var place = autocompleteDestination.getPlace()
+			if (!place.geometry || this.itemsMap.markers.length>1) 
+				return null
 
-				if (place.geometry.viewport) 
-					this.itemsMap.map.fitBounds(place.geometry.viewport)
-				else 
-					this.itemsMap.map.setCenter(place.geometry.location)
+			if (place.geometry.viewport) 
+				this.itemsMap.map.fitBounds(place.geometry.viewport)
+			else 
+				this.itemsMap.map.setCenter(place.geometry.location)
 
-				var marker = this.addMarker(this.itemsMap, place.geometry.location, this.itemsMap.destinationWin)
+			var marker = this.addMarker(this.itemsMap, place.geometry.location, this.itemsMap.destinationWin)
 
-				this.itemsMap.destinationWin.setContent(place.formatted_address)
-				this.addresses.destination = place.formatted_address
-				this.itemsMap.destinationWin.open(this.itemsMap.map, marker)
-				if(this.itemsMap.markers.length==2){
-					this.addresses.distance = this.distanceLatLng(this.itemsMap.markers)
-					this.calculateAndDisplayRoute(this.itemsMap.directionsService,this.itemsMap.directionsDisplay, this.addresses);
-					this.itemsMap.directionsDisplay.setMap(this.itemsMap.map)
-				}				
-			}
+			this.itemsMap.destinationWin.setContent(place.formatted_address)
+			this.addresses.destination = place.formatted_address
+			this.itemsMap.destinationWin.open(this.itemsMap.map, marker)
+			if(this.itemsMap.markers.length==2){
+				this.addresses.distance = this.distanceLatLng(this.itemsMap.markers)
+				this.calculateAndDisplayRoute(this.itemsMap.directionsService,this.itemsMap.directionsDisplay, this.addresses);
+				this.itemsMap.directionsDisplay.setMap(this.itemsMap.map)
+			}				
 		}
 	}
-	</script>
-	<style scoped>
-		#form-container {
-			margin: 10px !important;
-		}
-		#info-tile {
-			margin-left: 8% !important;
-		}
-		#myMap {
-			height:300px;
-			width: 100%;
-		}
-		#confirmation-container {
-			margin: 10px !important;
-		}
-		#confirmation-tile {
-			padding-right: 0 !important;
-		}
-	</style>
+}
+</script>
+<style scoped src="../css/create-package.css"/>
 

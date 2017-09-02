@@ -136,14 +136,4 @@
 		}	
 	}
 </script>
-<style scoped>
-	.actionBtn {
-		width: 100%;
-	}
-	#mapModal {
-		height:300px;
-		width: 100%;
-		margin-bottom:1%;
-	}
-
-</style>
+<style scoped src="../css/b-modal.css"/>

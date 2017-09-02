@@ -1,0 +1,10 @@
+#profile-pic {
+	display: block;
+	margin: auto !important;
+	height: 200px;
+	width: 200px;
+	border-radius: 50%;
+}
+#info {
+	margin-top: 20px !important;
+}

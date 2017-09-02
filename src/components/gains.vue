@@ -46,7 +46,7 @@
 									Ganho por entrega
 								</p>
 								<div class="panel-block">
-									<div id="chart-gains" style="height: 250px; width: 100%;"></div>
+									<div id="chart-gains"></div>
 								</div>
 								<!-- <div class="panel-block">
 									<button class="button is-default is-outlined is-fullwidth">
@@ -61,7 +61,7 @@
 									Status da suas entregas
 								</p>
 								<div class="panel-block">
-									<div id="chart-shipments" style="height: 280px; width: 100%;"></div>
+									<div id="chart-shipments"></div>
 								</div>
 								<!-- <div class="panel-block">
 									<button class="button is-default is-outlined is-fullwidth">
@@ -116,6 +116,7 @@
 					})
 			},
 			createCharts(){
+				console.log(this.gainsChartData)
 				window.c1 = new Morris.Line({
 					// ID of the element in which to draw the chart.
 					element: 'chart-gains',
@@ -131,6 +132,10 @@
 					// ],
 					// The name of the data record attribute that contains x-values.
 					xkey: 'id',
+					xLabelFormat: (x) => {
+						console.log(x)
+						return ''
+					},
 					// A list of names of data record attributes that contain y-values.
 					ykeys: ['value'],
 					// Labels for the ykeys -- will be displayed when you hover over the
@@ -162,7 +167,4 @@
 		}
 	}
 </script>
-<style scoped>
-
-
-</style>
+<style scoped src="../css/gains.css"/>
