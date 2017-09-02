@@ -146,8 +146,9 @@
 					unhackable: "true"
 				})
 					.then(response => {
-						this.loadPackages()
 						this.hideModal()
+						this.loadPackages()
+						this.$forceUpdate()
 						console.log(response)
 					})
 			}
