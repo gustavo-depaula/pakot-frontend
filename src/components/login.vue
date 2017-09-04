@@ -12,7 +12,8 @@
 							<div class="container section">
 								<div class="has-text-right">
 									<h1 class="title is-1">Login</h1> <br>
-									<p class="title is-3">Seja livre e eficiente. Use Pakot.</p>
+									<p v-if="this.$store.getters.user.object != null" class="title is-3">Seja bem-vindo, <em>{{this.$store.getters.user.object.displayName.split(' ')[0]}}</em>!</p>
+									<p v-else class="title is-3">Seja livre e eficiente. Use Pakot.</p>
 								</div>
 							</div>
 						</div>
@@ -31,7 +32,7 @@
 									<div class="column is-12">
 										<div class="login-form">
 											<h3 class="title">Cliente</h3>
-											<h2 class="subtitle">Seja independente dos correios.</h2>
+											<h2 class="subtitle">Seja independente.</h2>
 											<p class="control login">
 												<button @click="signUser" class="button is-success is-large is-fullwidth" :class="{ 'is-loading': userBtnLoading, 'is-outlined': !userBtnLoading }"><span class="icon"><i class="fa fa-arrow-right"></i></span></button>
 											</p>
