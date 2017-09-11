@@ -126,7 +126,7 @@
 				this.shipmentModal.id = item.id
 				this.shipmentModal.origin = item.origin;
 				this.shipmentModal.destination = item.destination;
-				this.shipmentModal.price = item.price
+				this.shipmentModal.price = item.deliveryCut
 
 				this.shipmentModal.arrived = item.arrived
 				this.shipmentModal.dispatched = item.dispatched

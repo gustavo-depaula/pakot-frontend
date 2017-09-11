@@ -233,6 +233,7 @@ export default {
 			confirmation: false,
 			warningMessage: "",
 			insufficientFunds: false,
+			insufficientPrice: null,
 			requestBtnLoading: false
 
 		}
@@ -253,6 +254,7 @@ export default {
 						console.log(response)
 						if (response.data.price == "insufficient") {
 							this.insufficientFunds = true
+							this.insufficientPrice = response.data.p
 							this.requestBtnLoading = false
 						} else {
 							this.shipmentPrice = response.data.price
@@ -379,7 +381,7 @@ export default {
 				return "Preencha todos os campos"
 			} else {
 				if (this.insufficientFunds) {
-					return "Fundos insuficientes. Tente Novamente"
+					return "Fundos insuficientes (R$" + this.insufficientPrice + ",00). Tente Novamente"
 				} else {
 					return "Solicitar entrega"
 				}
