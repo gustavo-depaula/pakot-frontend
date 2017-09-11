@@ -19,7 +19,7 @@
 							<div class="nav-right nav-menu">
 								<span @click="view = 2" class="nav-item">
 									<a class="link">
-										Sobre
+										Devs
 									</a>
 								</span>
 								<span @click="view = 1" class="nav-item">
@@ -118,7 +118,7 @@
 					<div class="columns is-vcentered">
 						<div class="column is-5">
 							<h1 class="title is-2">
-								Sobre
+								Devs
 							</h1>
 							<h2 class="subtitle is-4">
 								Saiba mais sobre os mantenedores do Pakot
