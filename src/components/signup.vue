@@ -58,24 +58,15 @@
 											<div class="control"><input v-model="user.smscode" type="number" class="input is-large" :class="{ 'is-danger': phoneDanger }" placeholder="Código de Confirmação"></div>
 										</p>
 										<p class="control login">
-											<div class="columns">
-												<div class="is-hidden-desktop">
-													<div class="column">
-														<button @click="confirmCode" class="button is-success is-large is-fullwidth" :disabled="btnDisable" :class="{ 'is-loading': btnLoading, 'is-outlined': !btnLoading }"><span class="icon"><i class="fa fa-sign-in"></i></span></button>
-													</div>
-													<div class="column is-one-quarter">
-														<button @click="this.location.reload()" class="button is-danger is-large is-fullwidth"><span class="icon"><i class="fa fa-arrow-left"></i></span></button>
-													</div>
-												</div>
-												<div class="is-hidden-touch">
-													<div class="column is-one-quarter">
-														<button @click="this.location.reload()" class="button is-danger is-large is-fullwidth"><span class="icon"><i class="fa fa-arrow-left"></i></span></button>
-													</div>
-													<div class="column">
-														<button @click="confirmCode" class="button is-success is-large is-fullwidth" :disabled="btnDisable" :class="{ 'is-loading': btnLoading, 'is-outlined': !btnLoading }"><span class="icon"><i class="fa fa-sign-in"></i></span></button>
-													</div>
-												</div>
+											<!-- <div class="column">
+												<button @click="confirmCode" class="button is-success is-large is-fullwidth" :disabled="btnDisable" :class="{ 'is-loading': btnLoading, 'is-outlined': !btnLoading }"><span class="icon"><i class="fa fa-sign-in"></i></span></button>
 											</div>
+											<div class="column is-one-quarter">
+												<button @click="this.location.reload()" class="button is-danger is-large is-fullwidth"><span class="icon"><i class="fa fa-arrow-left"></i></span></button>
+											</div> -->
+											<button @click="confirmCode" class="button is-success is-large is-fullwidth" :disabled="btnDisable" :class="{ 'is-loading': btnLoading, 'is-outlined': !btnLoading }"><span class="icon"><i class="fa fa-sign-in"></i></span></button>
+											<hr>
+											<button @click="this.location.reload()" class="button is-danger is-large is-fullwidth"><span class="icon"><i class="fa fa-arrow-left"></i></span></button>
 										</p>
 									</div>
 									<div class="section copyheart">

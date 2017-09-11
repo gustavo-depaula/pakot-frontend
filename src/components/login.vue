@@ -46,7 +46,7 @@
 											<h3 class="title">Sair</h3>
 											<h2 class="subtitle">Deslogar do Pakot.</h2>
 											<p class="control login">
-												<button @click="signOut" class="button is-danger is-large is-fullwidth" :class="{ 'is-loading': deliveryBtnLoading, 'is-outlined': !deliveryBtnLoading }"><span class="icon"><i class="fa fa-hand-spock-o"></i></span></button>
+												<button @click="signOut" class="button is-danger is-large is-fullwidth" :class="{ 'is-loading': byeBtnLoading, 'is-outlined': !byeBtnLoading }"><span class="icon"><i class="fa fa-hand-spock-o"></i></span></button>
 											</p>
 										</div>
 										<div class="section copyheart">
@@ -98,6 +98,7 @@
 				authBtnLoading: false,		
 				userBtnLoading: false,
 				deliveryBtnLoading: false,
+				byeBtnLoading: false,
 				user: this.$store.getters.user,
 				landing: true
 			}
@@ -108,11 +109,13 @@
 				// signUser()
 			},
 			signOut (){
+				this.deliveryBtnLoading = true
 				firebase.auth().signOut().then(() => {
 					location.reload()
 				})
 				this.$store.commit('userSignOut')
 				this.$store.commit('toLanding')
+				this.deliveryBtnLoading = false
 			},
 			signUser (){
 				this.userBtnLoading = true
