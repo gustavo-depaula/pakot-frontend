@@ -15,7 +15,7 @@
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs"
   },
   "dependencies": {
-    "axios": "^0.16.2",
+    "axios": "^1.6.4",
     "bulma": "^0.4.3",
     "vue": "^2.3.3",
     "vue-google-maps": "^0.1.21",
